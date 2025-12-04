@@ -181,9 +181,29 @@
         /* SPONSORZY (WYGLĄD) */
         .top-sponsors-container { display: flex; justify-content: center; align-items: flex-end; gap: 20px; flex-wrap: wrap; text-align: center; margin-bottom: 40px; }
         .sponsor-placeholder {
-            background: #111; border-radius: 8px; margin: 0 auto 10px auto;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 2em; color: #333; font-weight: bold;
+    background: #111; 
+    border-radius: 8px; 
+    margin: 0 auto 10px auto;
+    display: flex; 
+    align-items: center; 
+    justify-content: center;
+    font-size: 2em; 
+    color: #333; 
+    font-weight: bold;
+    
+    /* TO SĄ NOWE LINIJKI, KTÓRE NAPRAWIĄ WIELKIE LOGO: */
+    width: 180px;
+    height: 180px;
+    overflow: hidden; 
+}
+
+	.sponsor-placeholder img {
+    width: 95%;       /* Szerokość taka sama jak ramka */
+    height: 95%;      /* Wysokość taka sama jak ramka */
+    object-fit: contain; /* Obrazek się skaluje, ale nie ucina ani nie rozciąga */
+    display: block;    /* Usuwa zbędne odstępy */
+    border-radius: 6px; /* Lekko zaokrąglone rogi */
+}
         }
 
         .tier-1 .sponsor-placeholder { width: 180px; height: 180px; border: 3px solid #ffc107; }
@@ -231,8 +251,10 @@
     </header>
 
     <nav class="main-navbar">
-        <a href="https://www.pubgpolska.pl/" class="active">Strona Główna</a>
-        <a href="turniej-charytatywny.html">Turniej Charytatywny 2025</a>
+        <a href="https://www.pubgpolska.pl/">Strona Główna</a>
+        
+        <a href="turniej-charytatywny.html" class="active">Turniej Charytatywny 2025</a>
+        
         <a href="pubg-polska-cup.html">PUBG POLSKA CUP 2025</a>
         <a href="triumfator-v.html">Triumfator V</a>
     </nav>
@@ -285,8 +307,8 @@
                     </div>
                     <div class="tier-1">
                        <div class="sponsor-placeholder">
-    			<img src="https://i.imgur.com/lgirlaA.png" alt="Logo Sponsora">
-		    </div>
+    			<img src="https://i.imgur.com/lgirlaA.png" alt="SAY-10">
+		</div>
                         <span class="sponsor-name">SAY-10</span><br>
                         <span class="sponsor-amount">250 PLN</span>
                     </div>
