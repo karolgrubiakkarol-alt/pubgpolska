@@ -284,9 +284,11 @@
                         <span class="sponsor-amount">--- PLN</span>
                     </div>
                     <div class="tier-1">
-                        <div class="sponsor-placeholder">?</div>
-                        <span class="sponsor-name">Sponsor Złoty</span><br>
-                        <span class="sponsor-amount">--- PLN</span>
+                       <div class="sponsor-placeholder">
+    			<img src="https://i.imgur.com/lgirlaA.png" alt="Logo Sponsora">
+		    </div>
+                        <span class="sponsor-name">SAY-10</span><br>
+                        <span class="sponsor-amount">250 PLN</span>
                     </div>
                     <div class="tier-3">
                         <div class="sponsor-placeholder">?</div>
@@ -424,7 +426,51 @@ Zapisanie się do turnieju jest równoznaczne z akceptacją wszystkich punktów 
 </div>
 
 <script>
-    // 1. ROZWIJANIE SEKCJI
+    // ==========================================
+    // 1. OBLICZANIE SUMY WPŁAT (Z KODU HTML)
+    // ==========================================
+    function calculateTotalDonations() {
+        let total = 0;
+        
+        // Pobiera wszystkie elementy z klasą 'sponsor-amount'
+        const amountElements = document.querySelectorAll('.sponsor-amount');
+
+        amountElements.forEach(element => {
+            // Pobiera tekst, np. "100 PLN" lub "50,50 zł"
+            let text = element.textContent;
+            
+            // Usuwa "PLN", "zł", spacje i zamienia przecinek na kropkę
+            let cleanText = text.toLowerCase()
+                                .replace('pln', '')
+                                .replace('zł', '')
+                                .replace(/\s/g, '')
+                                .replace(',', '.');
+            
+            // Zamienia na liczbę
+            let val = parseFloat(cleanText);
+
+            // Jeśli to poprawna liczba, dodaj do sumy
+            if (!isNaN(val)) {
+                total += val;
+            }
+        });
+
+        // Znajdź miejsce, gdzie wyświetlić sumę (szukamy po kolorze w sekcji sponsorów)
+        // Jeśli masz ID dla tego elementu, byłoby bezpieczniej, ale to zadziała na obecnym kodzie
+        const totalDisplay = document.querySelector('.collapsible-content strong[style="color:#ffc107"]');
+        
+        if (totalDisplay) {
+            totalDisplay.textContent = total.toFixed(2) + ' PLN';
+        }
+    }
+
+    // Uruchom obliczanie od razu po załadowaniu strony
+    calculateTotalDonations();
+
+
+    // ==========================================
+    // 2. ROZWIJANIE SEKCJI (ACCORDION)
+    // ==========================================
     document.querySelectorAll('.collapsible-trigger').forEach(header => {
         header.addEventListener('click', () => {
             const content = header.nextElementSibling;
@@ -432,7 +478,10 @@ Zapisanie się do turnieju jest równoznaczne z akceptacją wszystkich punktów 
         });
     });
 
-    // 2. PARSOWANIE CSV I POBIERANIE DRUŻYN
+
+    // ==========================================
+    // 3. POBIERANIE DRUŻYN Z EXCELA (Google Sheets)
+    // ==========================================
     const SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vScvP0CCSXI2M-iz8wNoASNqPNFCWTUFrRBRzyqdQgjo8hPLdYha-rLV35rmAk3OUbzhnGKjVJpkIIK/pub?output=csv';
 
     function parseCSVRow(row) {
@@ -464,20 +513,17 @@ Zapisanie się do turnieju jest równoznaczne z akceptacją wszystkich punktów 
                 if(!row.trim()) return;
                 const cols = parseCSVRow(row);
 
-                // TUTAJ ZMIANA: Nazwa drużyny brana jest z kolumny M (indeks 12)
-                // A=0, B=1, ... M=12
                 
-                // UWAGA: Jeśli nazwa drużyny jest w M, to sprawdź, czy nicki graczy też się nie przesunęły!
-                // Poniżej zostawiłem stare indeksy dla graczy (3,5,7...). Jeśli ich nie widać, zmień te cyfry.
-                
-                const teamName = cols[12]; 
-                const cap = cols[2];
+                const teamName = cols[12]; // Kolumna M
+
+                if(!teamName) return; 
+
+                // Pobieranie graczy
+                const cap = cols[2]; 
                 const p2 = cols[4];
                 const p3 = cols[6];
                 const p4 = cols[8];
                 const rez = cols[10];
-
-                if(!teamName) return; // Pomiń jeśli nie ma nazwy
 
                 count++;
 
@@ -519,6 +565,10 @@ Zapisanie się do turnieju jest równoznaczne z akceptacją wszystkich punktów 
 
     loadTeams();
 
+
+    // ==========================================
+    // 4. OBSŁUGA ZAKŁADEK (TABS)
+    // ==========================================
     document.querySelectorAll('.tab-link').forEach(btn => {
         btn.addEventListener('click', () => {
             document.querySelectorAll('.tab-link').forEach(b => b.classList.remove('active'));
