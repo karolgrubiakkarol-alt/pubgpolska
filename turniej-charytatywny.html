@@ -464,13 +464,13 @@ Zapisanie się do turnieju jest równoznaczne z akceptacją wszystkich punktów 
                 if(!row.trim()) return;
                 const cols = parseCSVRow(row);
 
-                // TUTAJ ZMIENIŁEM INDEKSY KOLUMN (przesunąłem o 1), ABY OMINĄĆ KOLUMNĘ "TAK"
-                // cols[0] = Timestamp
-                // cols[1] = Czy akceptujesz regulamin? (To było "Tak")
-                // cols[2] = Nazwa Drużyny (Teraz powinno działać)
+                // TUTAJ ZMIANA: Nazwa drużyny brana jest z kolumny M (indeks 12)
+                // A=0, B=1, ... M=12
                 
-                // Jeśli nadal źle wyświetla, zmień cyferki w nawiasach []
-                const teamName = cols[2]; 
+                // UWAGA: Jeśli nazwa drużyny jest w M, to sprawdź, czy nicki graczy też się nie przesunęły!
+                // Poniżej zostawiłem stare indeksy dla graczy (3,5,7...). Jeśli ich nie widać, zmień te cyfry.
+                
+                const teamName = cols[12]; 
                 const cap = cols[3];
                 const p2 = cols[5];
                 const p3 = cols[7];
