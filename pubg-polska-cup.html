@@ -339,18 +339,18 @@ Regulamin Turnieju PUBG POLSKA CUP 2025
                 // === TUTAJ JEST TWOJA NOWA KONFIGURACJA KOLUMN ===
                 // Kolumna A [index 0] -> Miejsce
                 // Kolumna B [index 1] -> Nazwa Teamu
-                // Kolumna C [index 2] -> Placement Points
-                // Kolumna D [index 3] -> Kill Points
-                // Kolumna E [index 4] -> Suma
+                // Kolumna D [index 2] -> Placement Points
+                // Kolumna E [index 3] -> Kill Points
+                // Kolumna F [index 4] -> Suma
                 
                 const rank = cols[0];      // Kolumna A
                 const team = cols[1];      // Kolumna B
-                const placePts = cols[2];  // Kolumna C
-                const killPts = cols[3];   // Kolumna D
+                const placePts = cols[3];  // Kolumna C
+                const killPts = cols[4];   // Kolumna D
                 
                 // Pobieramy sumę z kolumny E (jeśli jest w excelu)
                 // LUB obliczamy ją sami, żeby mieć pewność
-                let total = cols[4];       // Kolumna E
+                let total = cols[5];       // Kolumna F
                 
                 // Opcjonalnie: Jeśli kolumna E w Excelu byłaby pusta, ten kod obliczy sumę sam:
                 if (!total) {
