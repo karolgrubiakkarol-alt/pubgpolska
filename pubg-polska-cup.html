@@ -177,12 +177,9 @@
                     <table class="results-table" id="table-generalna">
                         <thead>
                             <tr>
-                                <th>#</th>
+                                <th># (Miejsce)</th>
                                 <th>Team</th>
-                                <th>Pkt (Rank)</th>
-                                <th>Kills</th>
-                                <th>Suma</th>
-                            </tr>
+                                <th>Placement Pts</th> <th>Kill Pts</th>      <th>Suma (C+D)</th>    </tr>
                         </thead>
                         <tbody>
                             <tr><td colspan="5">Pobieranie wyników...</td></tr>
@@ -251,7 +248,7 @@ Regulamin Turnieju PUBG POLSKA CUP 2025
     }
 
     // ===========================================
-    // 3. POBIERANIE DRUŻYN (Z NOWEGO LINKU)
+    // 3. POBIERANIE DRUŻYN (Z LINKU ZAPISÓW)
     // ===========================================
     const TEAMS_SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTzAWriqhg0FLKBYp54Kc3ovG1lyusvD_mXyBm_9Qzi5MQuQ8zZ9bmxOX3xqU_7XJ7hR4O1kOlfYCfN/pub?output=csv';
 
@@ -267,25 +264,18 @@ Regulamin Turnieju PUBG POLSKA CUP 2025
             list.innerHTML = ''; 
             let count = 0;
 
-            // Pomijamy nagłówek (rows.slice(1))
             rows.slice(1).forEach(row => {
                 if(!row.trim()) return;
                 const cols = parseCSVRow(row);
 
-                // MAPOWANIE KOLUMN WEDŁUG TWOICH INSTRUKCJI:
-                // B -> index 1 (Nazwa Drużyny)
-                // C -> index 2 (Kapitan)
-                // E -> index 4 (Gracz 2)
-                // G -> index 6 (Gracz 3)
-                // I -> index 8 (Gracz 4)
-                // K -> index 10 (Gracz 5 / Rezerwowy)
-
+                // MAPOWANIE TEAMÓW (Zgodnie z poprzednią instrukcją):
+                // B (1) -> Nazwa, C (2) -> Kapitan, E (4) -> P2, G (6) -> P3, I (8) -> P4, K (10) -> Rez
                 const teamName = cols[1]; 
-                const cap = cols[2];
-                const p2 = cols[4];
-                const p3 = cols[6];
-                const p4 = cols[8];
-                const rez = cols[10];
+                const cap = cols[3];
+                const p2 = cols[5];
+                const p3 = cols[7];
+                const p4 = cols[9];
+                const rez = cols[11];
 
                 if(!teamName) return; 
 
@@ -326,7 +316,7 @@ Regulamin Turnieju PUBG POLSKA CUP 2025
     loadTeams();
 
     // ===========================================
-    // 4. POBIERANIE WYNIKÓW (Z NOWEGO LINKU)
+    // 4. POBIERANIE WYNIKÓW (Z LINKU WYNIKÓW)
     // ===========================================
     const RESULTS_SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTQHZt7zFrSww08YRkMTNn9V1Le7Qn0l1Eo50czIB294i4ompyBNBStPhiaqAMZ4gnwAZtvR6L8YSkC/pub?gid=0&single=true&output=csv';
 
@@ -341,38 +331,41 @@ Regulamin Turnieju PUBG POLSKA CUP 2025
             
             tbody.innerHTML = '';
             
-            // Zakładam, że w CSV pierwszy wiersz to nagłówki, więc biorę od 2 wiersza
-            // Jeśli Twój CSV nie ma nagłówków, usuń .slice(1)
+            // Pomijamy pierwszy wiersz (nagłówki w Excelu) -> rows.slice(1)
             rows.slice(1).forEach(row => {
                 if(!row.trim()) return;
                 const cols = parseCSVRow(row);
                 
-                // UWAGA: Nie podałeś, które kolumny w arkuszu wyników to Punkty, Kills itp.
-                // Przyjmuję standardowo kolejność: 
-                // Kolumna A (0): Miejsce (#)
-                // Kolumna B (1): Nazwa Teamu
-                // Kolumna C (2): Punkty za miejsce (Placement)
-                // Kolumna D (3): Kills
-                // Kolumna E (4): Suma
+                // === TUTAJ JEST TWOJA NOWA KONFIGURACJA KOLUMN ===
+                // Kolumna A [index 0] -> Miejsce
+                // Kolumna B [index 1] -> Nazwa Teamu
+                // Kolumna C [index 2] -> Placement Points
+                // Kolumna D [index 3] -> Kill Points
+                // Kolumna E [index 4] -> Suma
                 
-                // Jeśli w arkuszu jest inaczej, zmień cyfry w nawiasach []
+                const rank = cols[0];      // Kolumna A
+                const team = cols[1];      // Kolumna B
+                const placePts = cols[2];  // Kolumna C
+                const killPts = cols[3];   // Kolumna D
                 
-                const rank = cols[0];
-                const team = cols[1];
-                const placePts = cols[2];
-                const kills = cols[3];
-                const total = cols[4];
+                // Pobieramy sumę z kolumny E (jeśli jest w excelu)
+                // LUB obliczamy ją sami, żeby mieć pewność
+                let total = cols[4];       // Kolumna E
+                
+                // Opcjonalnie: Jeśli kolumna E w Excelu byłaby pusta, ten kod obliczy sumę sam:
+                if (!total) {
+                     total = (parseInt(placePts) || 0) + (parseInt(killPts) || 0);
+                }
 
-                // Prosta walidacja - jeśli nie ma nazwy teamu, pomiń
                 if(!team) return;
 
                 const tr = document.createElement('tr');
                 tr.innerHTML = `
                     <td>${rank}</td>
-                    <td>${team}</td>
+                    <td style="font-weight:bold; color:#fff;">${team}</td>
                     <td>${placePts}</td>
-                    <td>${kills}</td>
-                    <td>${total}</td>
+                    <td>${killPts}</td>
+                    <td style="color:#ffc107; font-weight:bold;">${total}</td>
                 `;
                 tbody.appendChild(tr);
             });
