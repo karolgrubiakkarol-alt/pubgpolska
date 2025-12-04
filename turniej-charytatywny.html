@@ -126,16 +126,57 @@
         .info-list strong { color: #fff; min-width: 150px; display: inline-block; }
         .info-list a { color: #ffc107; text-decoration: none; font-weight: bold; }
 
-        /* TEAMY */
-        .team-grid { display: flex; flex-wrap: wrap; gap: 15px; }
-        .team-card { background: #2a2a2a; flex: 1 1 250px; padding: 15px; border-left: 3px solid #ffc107; border-radius: 4px; }
-        .team-card-header { font-weight: bold; color: #ffc107; border-bottom: 1px solid #444; padding-bottom: 5px; cursor: pointer; display: flex; justify-content: space-between; }
-        .team-number { color: #fff; margin-right: 5px; }
+        /* TEAMY - POPRAWIONY GRID NA 3 KOLUMNY */
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr); /* Tu wymuszamy 3 kolumny */
+            gap: 20px;
+        }
+        
+        /* Responsywność: na tabletach 2 kolumny, na telefonach 1 */
+        @media (max-width: 900px) {
+            .team-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 600px) {
+            .team-grid { grid-template-columns: 1fr; }
+        }
+
+        .team-card { 
+            background: #2a2a2a; 
+            padding: 15px; 
+            border-left: 3px solid #ffc107; 
+            border-radius: 4px; 
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+        }
+        .team-card-header { 
+            font-weight: bold; 
+            color: #ffc107; 
+            border-bottom: 1px solid #444; 
+            padding-bottom: 10px; 
+            margin-bottom: 10px;
+            cursor: pointer; 
+            display: flex; 
+            justify-content: flex-start; /* Zmiana: wyrównanie do lewej */
+            align-items: center;
+            gap: 10px;
+        }
+        .team-number { 
+            background: #444; 
+            color: #fff; 
+            padding: 2px 8px; 
+            border-radius: 4px; 
+            font-size: 0.9em;
+        }
+        .team-name {
+            font-size: 1.1em;
+            color: #fff;
+        }
+        
         .player-sublist { display: none; list-style: none; padding-left: 0; margin-top: 10px; color: #ccc; font-size: 0.9em; }
         .player-sublist.expanded { display: block; }
-        .player-sublist li { border-bottom: 1px dotted #444; padding: 3px 0; }
+        .player-sublist li { border-bottom: 1px dotted #444; padding: 5px 0; }
         .player-sublist a { color: #fff; text-decoration: none; }
-        .captain { font-weight: bold; color: #fff; }
+        .captain { font-weight: bold; color: #ffc107; }
 
         /* SPONSORZY (WYGLĄD) */
         .top-sponsors-container { display: flex; justify-content: center; align-items: flex-end; gap: 20px; flex-wrap: wrap; text-align: center; margin-bottom: 40px; }
@@ -423,16 +464,22 @@ Zapisanie się do turnieju jest równoznaczne z akceptacją wszystkich punktów 
                 if(!row.trim()) return;
                 const cols = parseCSVRow(row);
 
-                if(!cols[1]) return;
+                // TUTAJ ZMIENIŁEM INDEKSY KOLUMN (przesunąłem o 1), ABY OMINĄĆ KOLUMNĘ "TAK"
+                // cols[0] = Timestamp
+                // cols[1] = Czy akceptujesz regulamin? (To było "Tak")
+                // cols[2] = Nazwa Drużyny (Teraz powinno działać)
+                
+                // Jeśli nadal źle wyświetla, zmień cyferki w nawiasach []
+                const teamName = cols[2]; 
+                const cap = cols[3];
+                const p2 = cols[5];
+                const p3 = cols[7];
+                const p4 = cols[9];
+                const rez = cols[11];
+
+                if(!teamName) return; // Pomiń jeśli nie ma nazwy
 
                 count++;
-
-                const teamName = cols[1];
-                const cap = cols[2];
-                const p2 = cols[4];
-                const p3 = cols[6];
-                const p4 = cols[8];
-                const rez = cols[10];
 
                 const card = document.createElement('div');
                 card.className = 'team-card';
