@@ -103,12 +103,30 @@
         .tabs-nav { display: flex; flex-wrap: wrap; border-bottom: 2px solid #444; margin-bottom: 0; }
         .tab-link { background: #333; color: #bbb; border: none; padding: 12px 20px; flex-grow: 1; cursor: pointer; font-weight: bold; margin-right: 2px; }
         .tab-link:hover { background: #444; color: #fff; }
-        .tab-link.active { background: #ffc107; color: #000; }
+        .tab-link.active {
+    background: #ffc107;
+    color: #000;
+    padding: 12px;
+    text-align: center;
+
+    /* TU DOPISUJESZ SWOJE ZMIANY: */
+    font-size: 34px;       /* Zwiększenie czcionki */
+    font-family: Arial;    /* Zmiana kroju czcionki */
+}
         .tab-content { display: none; padding: 15px; background: #2a2a2a; border: 1px solid #444; border-top: none; }
         .tab-content.active { display: block; }
         .results-table-container { overflow-x: auto; }
         .results-table { width: 100%; border-collapse: collapse; background: #222; min-width: 600px; font-size: 0.95em; }
-        .results-table th { background: #ffc107; color: #000; padding: 12px; text-align: center; }
+        .results-table th {
+    background: #ffc107;
+    color: #000;
+    padding: 12px;
+    text-align: center;
+
+    /* TU DOPISUJESZ SWOJE ZMIANY: */
+    font-size: 18px;       /* Zwiększenie czcionki */
+    font-family: Arial;    /* Zmiana kroju czcionki */
+}
         .results-table td { border: 1px solid #444; padding: 10px; text-align: center; color: #ccc; }
         .results-table td:nth-child(2) { text-align: left; font-weight: bold; color: #fff; }
         
@@ -181,7 +199,7 @@
         </section>
 
         <section id="sponsorzy">
-            <h3 class="collapsible-trigger">Sponsorzy (Kliknij, aby rozwinąć)</h3>
+            <h3 class="collapsible-trigger">Sponsorzy</h3>
             <div class="collapsible-content expanded">
                 <p style="text-align: center; color: #bbb; margin-bottom: 30px;">Wielkie podziękowania dla wszystkich wspierających!</p>
 
@@ -247,9 +265,7 @@
         <section id="wyniki">
             <h3>Wyniki Końcowe</h3>
             <div class="tabs-nav">
-                <button class="tab-link active" data-tab="generalna">Generalna</button>
-                <button class="tab-link" data-tab="gra1">Gra 1</button>
-                <button class="tab-link" data-tab="gra2">Gra 2</button>
+                <button class="tab-link active" data-tab="generalna">Tabela Generalna</button>
             </div>
 
             <div id="tab-generalna" class="tab-content active">
@@ -269,13 +285,6 @@
                         </tbody>
                     </table>
                 </div>
-            </div>
-            
-            <div id="tab-gra1" class="tab-content">
-                <p style="text-align:center; padding:20px;">Szczegółowe wyniki gier dostępne wkrótce.</p>
-            </div>
-            <div id="tab-gra2" class="tab-content">
-                <p style="text-align:center; padding:20px;">Szczegółowe wyniki gier dostępne wkrótce.</p>
             </div>
         </section>
 
@@ -373,7 +382,7 @@ Zapisanie się do turnieju jest równoznaczne z akceptacją wszystkich punktów 
             <p style="color:#ccc;">W razie pytań zapraszamy na Discord:</p>
             <ul class="info-list">
                 <li><strong>Organizator:</strong> <a href="https://discordapp.com/users/397785664373915659" target="_blank">Akerman88</a></li>
-                <li><strong>Technik:</strong> <a href="https://discordapp.com/users/605726001539973121" target="_blank">KAROL3K</a></li>
+                <li><strong>Dział techniczny:</strong> <a href="https://discordapp.com/users/605726001539973121" target="_blank">KAROL3K</a></li>
             </ul>
         </section>
 
