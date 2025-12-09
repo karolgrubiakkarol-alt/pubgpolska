@@ -217,6 +217,45 @@
         .tier-3 .sponsor-name { color: #cd7f32; font-weight: bold; display: block;}
 
         .sponsor-amount { background: #333; color: #ffc107; padding: 2px 8px; border-radius: 4px; font-weight: bold; font-size: 0.9em; display: inline-block; margin-top: 5px; }
+	
+	/* --- Wklej to wewnątrz znacznika <style>, w sekcji Sponsorów --- */
+
+.sponsor-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3 równe kolumny */
+    gap: 15px;
+    margin-top: 30px;
+}
+
+.sponsor-card {
+    background: #252525;
+    border: 1px solid #444;
+    border-radius: 6px;
+    padding: 15px;
+    display: flex;
+    justify-content: space-between; /* Rozsuwa nazwę i kwotę */
+    align-items: center;
+    transition: transform 0.2s, background 0.2s;
+}
+
+.sponsor-card:hover {
+    background: #333;
+    transform: translateY(-2px);
+    border-color: #ffc107;
+}
+
+.sponsor-name-small {
+    font-weight: bold;
+    color: #e0e0e0;
+}
+
+/* Responsywność dla sponsorów (tablet/telefon) */
+@media (max-width: 900px) {
+    .sponsor-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 600px) {
+    .sponsor-grid { grid-template-columns: 1fr; }
+}
 
         /* TABELA WYNIKÓW */
         .tabs-nav { display: flex; flex-wrap: wrap; border-bottom: 2px solid #444; margin-bottom: 0; }
@@ -285,7 +324,9 @@
             <ul class="info-list">
                 <li><strong>Data:</strong> 13 Grudnia 2025 (Sobota), godz. 18:00</li>
                 <li><strong>Format:</strong> SQUAD FPP (4 os.) | Max 25 Drużyn</li>
-                <li><strong>Cel:</strong> 100% Charytatywny (Cel zbiórki zostanie ogłoszony)</li>
+		<li><strong>Wpłaty:</strong> Chętnych do dołożenia się do szczytnego celu prosimy o skontaktowanie się ze  <a href="https://discordapp.com/users/610995594189864980" target="_blank">Złotym</a>, który po turnieju wpłaci całą zebraną kwotę na zbiórkę z linku poniżej w ramach wsparcia od naszej społeczności PUBG.</li>
+                <li><strong>Cel:</strong> 100% puli idzie na leczenie 4 letniego Borysa, który cierpi na zespół wad wrodzonych</li>
+		<li><strong>Link do zbiórki:</strong> <a href="https://sercadlamaluszka.pl/nasi-podopieczni/borys-mytko" target="_blank">https://sercadlamaluszka.pl/nasi-podopieczni/borys-mytko</a></li>
                 <li><strong>Mapy:</strong> 2x Miramar, Rondo, Taego, 2x Erangel</li>
                 <li><strong>Nagrody:</strong> Tytuł Mistrza Turnieju Charytatywnego + satysfakcja</li>
                 <li><strong>Transmisja:</strong> Ogłoszenie wkrótce</li>
@@ -296,7 +337,7 @@
             <h3 class="collapsible-trigger">Darczyńcy</h3>
             <div class="collapsible-content expanded">
                 <p style="text-align: center; color: #bbb; margin-bottom: 30px;">
-                    Lista darczyńców zostanie opublikowana tutaj. Dziękujemy że razem z nami wspierasz potrzebujących!
+                    Dziękujemy że razem z nami wspierasz potrzebujących!
                 </p>
 
                 <div class="top-sponsors-container">
@@ -321,8 +362,12 @@
                     </div>
                 </div>
 
-                <div style="text-align:center; padding: 20px; background:#2a2a2a; color:#777; border-radius:5px; margin-top:20px;">
-                    Miejsce na pozostałych darczyńców
+                
+                <div class="sponsor-grid">
+                    <div class="sponsor-card"><span class="sponsor-name-small">2IQ</span><span class="sponsor-amount">100 PLN</span></div>
+                    <div class="sponsor-card"><span class="sponsor-name-small">ARMIA</span><span class="sponsor-amount">100 PLN</span></div>
+                    <div class="sponsor-card"><span class="sponsor-name-small">FoodMarketAcademy </span><span class="sponsor-amount">100 PLN</span></div>
+                    
                 </div>
 
                 <div style="text-align:center; margin-top:30px; font-size:1.2em; border-top:1px solid #444; padding-top:20px; color:#fff;">
@@ -505,6 +550,38 @@ Zapisanie się do turnieju jest równoznaczne z akceptacją wszystkich punktów 
 
     // Uruchom obliczanie od razu po załadowaniu strony
     calculateTotalDonations();
+
+	// ==========================================
+    // 1b. SORTOWANIE SPONSORÓW (MALEJĄCO)
+    // ==========================================
+    function sortSponsors() {
+        const grid = document.querySelector('.sponsor-grid');
+        // Pobieramy wszystkie karty sponsorów jako tablicę
+        const cards = Array.from(grid.querySelectorAll('.sponsor-card'));
+
+        cards.sort((a, b) => {
+            // Funkcja pomocnicza do wyciągania liczby z tekstu "100 PLN"
+            const getAmount = (el) => {
+                const text = el.querySelector('.sponsor-amount').textContent;
+                // Usuwamy "PLN", spacje, zamieniamy przecinek na kropkę
+                const clean = text.toLowerCase().replace(/[^0-9.,]/g, '').replace(',', '.');
+                return parseFloat(clean) || 0;
+            };
+
+            const amountA = getAmount(a);
+            const amountB = getAmount(b);
+
+            // Sortowanie malejące (B - A)
+            return amountB - amountA;
+        });
+
+        // Wyczyść grid i wstaw posortowane karty
+        grid.innerHTML = '';
+        cards.forEach(card => grid.appendChild(card));
+    }
+
+    // Wywołaj funkcję sortowania
+    sortSponsors();
 
 
     // ==========================================
