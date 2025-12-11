@@ -6,135 +6,93 @@
     <title>PUBG POLSKA CUP 2025</title>
     <link rel="icon" href="https://i.imgur.com/HcTRskR.png" type="image/png">
     
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&family=Rajdhani:wght@500;600;700&family=Roboto:wght@400;500&family=Roboto+Mono&display=swap" rel="stylesheet">
+    
     <style>
-        /* ========================================= */
-        /* STYLE CSS                                 */
-        /* ========================================= */
-        body { background-color: #1e1e1e; color: #e0e0e0; font-family: 'Arial', sans-serif; margin: 0; padding: 0; line-height: 1.6; }
-        .page-wrapper { width: 95%; max-width: 1200px; margin: 30px auto; background-color: rgba(30, 30, 30, 0.95); border-radius: 10px; box-shadow: 0 0 25px rgba(0,0,0,0.8); overflow: hidden; min-height: 100vh; }
+        :root { --primary: #ffc107; --dark-bg: #0b0c10; --panel-bg: rgba(20, 22, 25, 0.95); --text-main: #c5c6c7; }
+        body { background-color: var(--dark-bg); background: radial-gradient(circle at center, #1a1a1d 0%, #000000 100%); color: var(--text-main); font-family: 'Roboto', sans-serif; margin: 0; padding: 0; line-height: 1.6; }
+        .page-wrapper { width: 95%; max-width: 1240px; margin: 40px auto; background-color: var(--panel-bg); border: 1px solid #333; border-top: 4px solid var(--primary); box-shadow: 0 0 50px rgba(0,0,0,0.9); min-height: 100vh; display: flex; flex-direction: column; backdrop-filter: blur(5px); }
         
-        /* HEADER & NAV */
-        .main-header { background-color: #252525; padding: 20px; text-align: center; border-bottom: 4px solid #ffc107; cursor: pointer; transition: background 0.3s; }
-        .main-header:hover { background-color: #2f2f2f; }
-        .header-logo { max-width: 100%; height: auto; display: block; margin: 0 auto; transition: transform 0.3s ease; }
-        .main-header:hover .header-logo { transform: scale(1.02); }
-        .main-navbar { background-color: #121212; padding: 0; text-align: center; border-bottom: 2px solid #444; display: flex; justify-content: center; flex-wrap: wrap; }
-        .main-navbar a { color: #b0b0b0; text-decoration: none; font-size: 1.1em; font-weight: bold; padding: 20px 30px; transition: 0.3s; border-bottom: 4px solid transparent; }
-        .main-navbar a:hover { background-color: #2a2a2a; color: #fff; }
-        .main-navbar a.active { background-color: #2a2a2a; color: #ffc107; border-bottom: 4px solid #ffc107; }
-        
-        /* LAYOUT */
-        .content-padding { padding: 30px; }
-        .video-container { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; background: #000; margin-bottom: 30px; border-radius: 8px; border: 1px solid #333; box-shadow: 0 4px 20px rgba(0,0,0,0.5); }
+        .main-header { background: linear-gradient(180deg, #181818 0%, #121212 100%); padding: 25px; text-align: center; border-bottom: 1px solid #333; position: relative; cursor: pointer; }
+        .main-header::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, var(--primary), transparent); }
+        .header-logo { max-width: 280px; height: auto; display: block; margin: 0 auto; transition: transform 0.3s; filter: drop-shadow(0 0 10px rgba(255,193,7,0.1)); }
+        .main-header:hover .header-logo { transform: scale(1.05); filter: drop-shadow(0 0 20px rgba(255,193,7,0.4)); }
+        .main-navbar { background-color: #0f0f0f; padding: 0; display: flex; justify-content: center; flex-wrap: wrap; border-bottom: 1px solid #333; position: sticky; top: 0; z-index: 1000; box-shadow: 0 10px 20px rgba(0,0,0,0.5); }
+        .main-navbar a { color: #888; text-decoration: none; font-family: 'Rajdhani', sans-serif; font-size: 1.2em; font-weight: 700; text-transform: uppercase; padding: 18px 25px; transition: 0.3s; position: relative; letter-spacing: 1px; }
+        .main-navbar a:hover, .main-navbar a.active { color: var(--primary); background: rgba(255, 193, 7, 0.05); text-shadow: 0 0 8px rgba(255, 193, 7, 0.6); }
+        .main-navbar a.active::after { content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 3px; background: var(--primary); box-shadow: 0 -2px 10px var(--primary); }
+
+        .content-padding { padding: 40px 20px; flex-grow: 1; }
+        .video-container { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; background: #000; margin-bottom: 30px; border-radius: 4px; border: 1px solid #333; box-shadow: 0 4px 20px rgba(0,0,0,0.5); }
         .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
-        .internal-navbar { background-color: #252525; padding: 10px; text-align: center; border-radius: 8px; margin-bottom: 30px; border-bottom: 2px solid #444; }
-        .internal-navbar a { color: #bbb; text-decoration: none; font-weight: bold; margin: 0 10px; padding: 5px 10px; display: inline-block; transition: 0.3s; }
-        .internal-navbar a:hover { color: #ffc107; background: rgba(255,255,255,0.05); border-radius: 4px;}
-        h3 { color: #ffc107; border-bottom: 2px solid #444; padding-bottom: 10px; margin-top: 40px; font-size: 1.8em;}
-        .cta-button { display: inline-block; background-color: #ffc107; color: #121212; padding: 15px 30px; font-weight: bold; text-decoration: none; text-transform: uppercase; border-radius: 5px; margin-top: 15px; text-align: center; transition: 0.2s; }
-        .cta-button:hover { background-color: #fff; transform: scale(1.05); }
+
+        .internal-navbar { background: rgba(255,255,255,0.03); padding: 15px; text-align: center; border: 1px solid #333; margin-bottom: 40px; display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; border-radius: 4px; }
+        .internal-navbar a { color: #ccc; text-decoration: none; font-family: 'Rajdhani', sans-serif; font-weight: 600; text-transform: uppercase; padding: 8px 16px; border: 1px solid transparent; transition: 0.3s; border-radius: 4px; }
+        .internal-navbar a:hover { border-color: var(--primary); color: var(--primary); background: rgba(255,193,7,0.1); transform: translateY(-2px); }
+
+        h3 { font-family: 'Oswald', sans-serif; font-size: 2em; color: var(--primary); border-bottom: 1px solid #444; padding-bottom: 15px; margin-top: 50px; text-transform: uppercase; letter-spacing: 1px; }
+
+        .cta-button { display: inline-block; background: var(--primary); color: #000; padding: 15px 40px; font-family: 'Rajdhani', sans-serif; font-weight: 700; font-size: 1.2em; text-decoration: none; text-transform: uppercase; clip-path: polygon(10% 0, 100% 0, 100% 80%, 90% 100%, 0 100%, 0 20%); transition: all 0.2s ease; border: none; cursor: pointer; box-shadow: 0 0 15px rgba(255,193,7,0.3); margin-top: 15px; }
+        .cta-button:hover { background: #fff; transform: scale(1.05); box-shadow: 0 0 25px rgba(255,193,7,0.6); }
+
         .info-list { list-style: none; padding: 0; }
-        .info-list li { background: #2a2a2a; padding: 12px; margin-bottom: 8px; border-left: 4px solid #ffc107; border-radius: 4px; color: #ccc; }
-        .info-list strong { color: #fff; min-width: 120px; display: inline-block; }
-        .info-list a { color: #ffc107; text-decoration: none; font-weight: bold; }
-        
-        /* SPONSORZY - POPRAWIONE STYLE */
-        .top-sponsors-container { display: flex; justify-content: center; align-items: flex-end; gap: 20px; flex-wrap: wrap; text-align: center; margin-bottom: 40px; }
-        
-        /* Styl ramki na logo */
-        .sponsor-placeholder {
-            background: #111; 
-            border-radius: 8px; 
-            margin: 0 auto 10px auto;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 2em; color: #333; font-weight: bold;
-            /* SZTYWNE WYMIARY ABY LOGO NIE BYŁO GIGANTYCZNE */
-            width: 180px;
-            height: 180px;
-            overflow: hidden;
-            border: 3px solid #444; /* Domyślna ramka */
-        }
-        
-        /* Styl obrazka wewnątrz ramki */
-        .sponsor-placeholder img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-            display: block;
-            border-radius: 6px;
-        }
+        .info-list li { background: rgba(255,255,255,0.03); padding: 15px; margin-bottom: 10px; border-left: 3px solid var(--primary); display: flex; align-items: center; transition: 0.3s; flex-wrap: wrap; }
+        .info-list li:hover { background: rgba(255,255,255,0.07); padding-left: 20px; }
+        .info-list strong { color: var(--primary); min-width: 140px; font-family: 'Rajdhani', sans-serif; font-size: 1.1em; text-transform: uppercase; margin-right: 10px; }
+        .info-list a { color: #fff; text-decoration: underline; }
 
-        /* Kolory ramek dla Tierów */
-        .tier-1 .sponsor-placeholder { border-color: #ffc107; width: 200px; height: 200px; } /* Złoty większy */
-        .tier-2 .sponsor-placeholder { border-color: #c0c0c0; width: 150px; height: 150px; }
-        .tier-3 .sponsor-placeholder { border-color: #cd7f32; width: 150px; height: 150px; }
+        .top-sponsors-container { display: flex; justify-content: center; align-items: flex-end; gap: 30px; flex-wrap: wrap; margin-bottom: 50px; text-align: center; }
+        .sponsor-placeholder { background: #000; display: flex; align-items: center; justify-content: center; overflow: hidden; position: relative; box-shadow: 0 10px 20px rgba(0,0,0,0.5); margin: 0 auto 10px auto; border-radius: 6px; }
+        .sponsor-placeholder img { width: 100%; height: 100%; object-fit: contain; }
+        
+        .tier-1 .sponsor-placeholder { width: 220px; height: 220px; border: 2px solid var(--primary); box-shadow: 0 0 30px rgba(255,193,7,0.2); }
+        .tier-1 .sponsor-name { font-size: 1.8em; color: var(--primary); font-family: 'Oswald'; text-shadow: 0 0 10px rgba(255,193,7,0.5); display:block; }
+        .tier-2 .sponsor-placeholder { width: 160px; height: 160px; border: 2px solid #c0c0c0; }
+        .tier-2 .sponsor-name { font-size: 1.2em; color: #e0e0e0; font-family: 'Oswald'; display:block; }
+        .tier-3 .sponsor-placeholder { width: 140px; height: 140px; border: 2px solid #cd7f32; }
+        .tier-3 .sponsor-name { font-size: 1.1em; color: #cd7f32; font-family: 'Oswald'; display:block; }
+        .sponsor-amount { background: var(--primary); color: #000; padding: 2px 8px; font-weight: bold; font-size: 0.85em; border-radius: 2px; font-family: 'Rajdhani', sans-serif; }
+        
+        .sponsor-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 15px; margin-top: 30px; }
+        .sponsor-card { background: rgba(30, 30, 30, 0.6); border: 1px solid #333; padding: 15px; display: flex; justify-content: space-between; align-items: center; transition: 0.3s; position: relative; overflow: hidden; border-radius: 4px; }
+        .sponsor-card::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: var(--primary); }
+        .sponsor-card:hover { background: #252525; transform: translateY(-3px); box-shadow: 0 5px 15px rgba(0,0,0,0.5); border-color: #555; }
+        .sponsor-name-small { color: #fff; font-weight: bold; }
 
-        .tier-1 .sponsor-name { font-size: 1.4em; color: #fff; font-weight: bold; text-shadow: 0 0 10px rgba(255, 193, 7, 0.4); display: block;}
-        .tier-2 .sponsor-name { color: #e0e0e0; font-weight: bold; display: block;}
-        .tier-3 .sponsor-name { color: #cd7f32; font-weight: bold; display: block;}
-        .sponsor-amount { background: #333; color: #ffc107; padding: 2px 8px; border-radius: 4px; font-weight: bold; font-size: 0.9em; display: inline-block; margin-top: 5px; }
-        
-        .sponsor-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 15px; margin-top: 20px; }
-        .sponsor-card { background: #2a2a2a; padding: 15px; border-left: 3px solid #ffc107; text-align: center; border-radius: 4px; transition: 0.2s; }
-        .sponsor-card:hover { background: #333; }
-        .sponsor-card span { display: block; }
-        .sponsor-name-small { color: #fff; font-weight: bold; margin-bottom: 5px; }
-        
-        /* TEAMY - GRID 3 KOLUMNY */
-        .team-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
-        }
+        .team-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
         @media (max-width: 900px) { .team-grid { grid-template-columns: repeat(2, 1fr); } }
         @media (max-width: 600px) { .team-grid { grid-template-columns: 1fr; } }
+        .team-card { background: linear-gradient(135deg, #222 0%, #1a1a1a 100%); padding: 0; border: 1px solid #333; border-left: 4px solid var(--primary); box-shadow: 0 4px 10px rgba(0,0,0,0.3); transition: 0.3s; border-radius: 4px; }
+        .team-card:hover { transform: translateY(-5px); border-color: #555; box-shadow: 0 10px 25px rgba(0,0,0,0.6); }
+        .team-card-header { padding: 15px; background: rgba(255,255,255,0.02); font-family: 'Rajdhani', sans-serif; font-weight: 700; font-size: 1.1em; color: var(--primary); cursor: pointer; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #333; }
+        .team-number { background: #333; color: #aaa; padding: 2px 8px; font-size: 0.7em; border-radius: 2px; }
+        .player-sublist { padding: 15px; margin: 0; list-style: none; display: none; background: #151515; }
+        .player-sublist.expanded { display: block; animation: fadeIn 0.3s ease; }
+        .player-sublist li { border-bottom: 1px solid #222; padding: 8px 0; color: #bbb; font-size: 0.95em; }
+        .captain { color: var(--primary); font-weight: bold; }
 
-        .team-card { background: #2a2a2a; padding: 15px; border-left: 3px solid #ffc107; border-radius: 4px; }
-        .team-card-header { font-weight: bold; color: #ffc107; border-bottom: 1px solid #444; padding-bottom: 5px; cursor: pointer; display: flex; justify-content: space-between; }
-        .team-number { color: #fff; margin-right: 5px; }
-        .player-sublist { display: none; list-style: none; padding-left: 0; margin-top: 10px; color: #ccc; font-size: 0.9em; }
-        .player-sublist.expanded { display: block; }
-        .player-sublist li { border-bottom: 1px dotted #444; padding: 3px 0; }
-        .player-sublist a { color: #fff; text-decoration: none; }
-        .player-sublist a:hover { color: #ffc107; }
-        .captain { font-weight: bold; color: #fff; }
-        
-        /* TABELE */
-        .tabs-nav { display: flex; flex-wrap: wrap; border-bottom: 2px solid #444; margin-bottom: 0; }
-        .tab-link { background: #333; color: #bbb; border: none; padding: 12px 20px; flex-grow: 1; cursor: pointer; font-weight: bold; margin-right: 2px; }
-        .tab-link:hover { background: #444; color: #fff; }
-        .tab-link.active {
-    background: #ffc107;
-    color: #000;
-    padding: 12px;
-    text-align: center;
-
-    /* TU DOPISUJESZ SWOJE ZMIANY: */
-    font-size: 34px;       /* Zwiększenie czcionki */
-    font-family: Arial;    /* Zmiana kroju czcionki */
-}
-        .tab-content { display: none; padding: 15px; background: #2a2a2a; border: 1px solid #444; border-top: none; }
+        .tabs-nav { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 20px; border: none; }
+        .tab-link { background: #222; color: #888; border: 1px solid #333; padding: 10px 25px; flex-grow: 1; cursor: pointer; font-family: 'Rajdhani', sans-serif; font-weight: 700; font-size: 1.2em; text-transform: uppercase; transition: 0.3s; }
+        .tab-link:hover { background: #333; color: #fff; }
+        .tab-link.active { background: var(--primary); color: #000; border-color: var(--primary); box-shadow: 0 0 15px rgba(255,193,7,0.4); }
+        .tab-content { display: none; padding: 15px; background: #1a1a1a; border: 1px solid #333; border-top: none; }
         .tab-content.active { display: block; }
-        .results-table-container { overflow-x: auto; }
-        .results-table { width: 100%; border-collapse: collapse; background: #222; min-width: 600px; font-size: 0.95em; }
-        .results-table th {
-    background: #ffc107;
-    color: #000;
-    padding: 12px;
-    text-align: center;
 
-    /* TU DOPISUJESZ SWOJE ZMIANY: */
-    font-size: 18px;       /* Zwiększenie czcionki */
-    font-family: Arial;    /* Zmiana kroju czcionki */
-}
-        .results-table td { border: 1px solid #444; padding: 10px; text-align: center; color: #ccc; }
-        .results-table td:nth-child(2) { text-align: left; font-weight: bold; color: #fff; }
-        
-        .rules-container { background: #2a2a2a; padding: 20px; border-radius: 8px; border: 1px solid #444; max-height: 400px; overflow-y: auto; font-family: monospace; color: #ccc; white-space: pre-wrap; }
-        footer { text-align: center; padding: 20px; border-top: 2px solid #333; margin-top: 40px; color: #777; }
+        .results-table-container { overflow-x: auto; }
+        .results-table { width: 100%; border-collapse: collapse; background: #1a1a1a; min-width: 600px; }
+        .results-table th { background: #2a2a2a; color: var(--primary); padding: 15px; text-align: center; font-family: 'Rajdhani', sans-serif; font-size: 1.1em; text-transform: uppercase; border-bottom: 2px solid var(--primary); }
+        .results-table td { border: 1px solid #333; padding: 12px; text-align: center; color: #ccc; font-family: 'Roboto Mono', monospace; }
+        .results-table td:nth-child(2) { text-align: left; font-weight: bold; color: #fff; font-family: 'Roboto', sans-serif; }
+
+        .rules-container { background: #111; padding: 25px; border: 1px solid #333; max-height: 400px; overflow-y: auto; font-family: 'Roboto Mono', monospace; color: #aaa; font-size: 0.9em; white-space: pre-wrap; }
         .collapsible-trigger { cursor: pointer; }
         .collapsible-content { max-height: 0; overflow: hidden; transition: max-height 0.4s ease-out; }
         .collapsible-content.expanded { max-height: 5000px; }
+        
+        footer { text-align: center; padding: 30px; margin-top: 60px; color: #555; border-top: 1px solid #333; font-size: 0.9em; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
@@ -176,8 +134,8 @@
             <a href="#kontakt">Kontakt</a>
         </nav>
 
-        <section id="zapisy" style="text-align: center; background: #2a2a2a; padding: 30px; border-radius: 8px; margin-bottom: 40px;">
-            <h3 style="margin-top: 0;">Aplikacja Fantasy Coach</h3>
+        <section id="zapisy" style="text-align: center; background: rgba(30,30,30,0.5); padding: 30px; border: 1px solid #333; border-radius: 4px; margin-bottom: 40px;">
+            <h3 style="margin-top: 0; border:none;">Aplikacja Fantasy Coach</h3>
             <p style="color: #ccc;">Stwórz swój dream team, wybierz zawodników i walcz o najlepszy wynik!</p>
             <a href="https://fantasycoach.web.app/fantasy.html" target="_blank" class="cta-button">
                 ZOBACZ WYNIKI FANTASY
@@ -199,7 +157,7 @@
         </section>
 
         <section id="sponsorzy">
-            <h3 class="collapsible-trigger">Sponsorzy</h3>
+            <h3 class="collapsible-trigger">Sponsorzy (Kliknij)</h3>
             <div class="collapsible-content expanded">
                 <p style="text-align: center; color: #bbb; margin-bottom: 30px;">Wielkie podziękowania dla wszystkich wspierających!</p>
 
@@ -253,7 +211,7 @@
         </section>
 
         <section id="teamy">
-            <h3 class="collapsible-trigger">Zapisane Teamy</h3>
+            <h3 class="collapsible-trigger">Zapisane Teamy (Kliknij)</h3>
             <div class="collapsible-content expanded">
                 <p style="color:#bbb; margin-bottom:20px;">Lista pobierana na żywo z arkusza Google.</p>
                 <div id="team-list-dynamic" class="team-grid">
@@ -291,7 +249,6 @@
         <section id="regulamin">
             <h3>Regulamin Turnieju</h3>
             <div class="rules-container">
-</pre>
 Regulamin Turnieju PUBG POLSKA CUP 2025 (29.11)
 
 I. Informacje Ogólne
@@ -373,7 +330,6 @@ IX. Postanowienia Końcowe
 Administracja turnieju (PUBG POLSKA) ma pełne prawo do podejmowania ostatecznych decyzji we wszystkich sprawach spornych.
 Organizator zastrzega sobie prawo do zmiany niniejszego regulaminu w dowolnym momencie, jeśli uzna to za konieczne dla zapewnienia uczciwej i płynnej rozgrywki.
 Zapisanie się do turnieju jest równoznaczne z akceptacją wszystkich punktów niniejszego regulaminu.
-</pre>
             </div>
         </section>
 
@@ -440,15 +396,6 @@ Zapisanie się do turnieju jest równoznaczne z akceptacją wszystkich punktów 
             rows.slice(1).forEach(row => {
                 if(!row.trim()) return;
                 const cols = parseCSVRow(row);
-
-                // MAPOWANIE TEAMÓW:
-                // B [1] -> Nazwa
-                // C [2] -> Kapitan
-                // E [4] -> Gracz 2
-                // G [6] -> Gracz 3
-                // I [8] -> Gracz 4
-                // K [10] -> Rezerwowy
-
                 const teamName = cols[1]; 
                 const cap = cols[2];
                 const p2 = cols[4];

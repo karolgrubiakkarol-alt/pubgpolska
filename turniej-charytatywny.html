@@ -6,277 +6,98 @@
     <title>Turniej Charytatywny 2025</title>
     <link rel="icon" href="https://i.imgur.com/HcTRskR.png" type="image/png">
     
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&family=Rajdhani:wght@500;600;700&family=Roboto:wght@400;500&family=Roboto+Mono&display=swap" rel="stylesheet">
+    
     <style>
-        /* ========================================= */
-        /* GLOBALNE USTAWIENIA (Dark Mode)           */
-        /* ========================================= */
-        body {
-            background-color: #1e1e1e;
-            color: #e0e0e0;
-            font-family: 'Arial', sans-serif;
-            margin: 0;
-            padding: 0;
-            line-height: 1.6;
-        }
+        :root { --primary: #ffc107; --dark-bg: #0b0c10; --panel-bg: rgba(20, 22, 25, 0.95); --text-main: #c5c6c7; }
+        body { background-color: var(--dark-bg); background: radial-gradient(circle at center, #1a1a1d 0%, #000000 100%); color: var(--text-main); font-family: 'Roboto', sans-serif; margin: 0; padding: 0; line-height: 1.6; }
+        .page-wrapper { width: 95%; max-width: 1240px; margin: 40px auto; background-color: var(--panel-bg); border: 1px solid #333; border-top: 4px solid var(--primary); box-shadow: 0 0 50px rgba(0,0,0,0.9); min-height: 100vh; display: flex; flex-direction: column; backdrop-filter: blur(5px); }
+        
+        /* HEADER & NAV */
+        .main-header { background: linear-gradient(180deg, #181818 0%, #121212 100%); padding: 25px; text-align: center; border-bottom: 1px solid #333; position: relative; cursor: pointer; }
+        .main-header::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, var(--primary), transparent); }
+        .header-logo { max-width: 280px; height: auto; display: block; margin: 0 auto; transition: transform 0.3s; filter: drop-shadow(0 0 10px rgba(255,193,7,0.1)); }
+        .main-header:hover .header-logo { transform: scale(1.05); filter: drop-shadow(0 0 20px rgba(255,193,7,0.4)); }
+        .main-navbar { background-color: #0f0f0f; padding: 0; display: flex; justify-content: center; flex-wrap: wrap; border-bottom: 1px solid #333; position: sticky; top: 0; z-index: 1000; box-shadow: 0 10px 20px rgba(0,0,0,0.5); }
+        .main-navbar a { color: #888; text-decoration: none; font-family: 'Rajdhani', sans-serif; font-size: 1.2em; font-weight: 700; text-transform: uppercase; padding: 18px 25px; transition: 0.3s; position: relative; letter-spacing: 1px; }
+        .main-navbar a:hover, .main-navbar a.active { color: var(--primary); background: rgba(255, 193, 7, 0.05); text-shadow: 0 0 8px rgba(255, 193, 7, 0.6); }
+        .main-navbar a.active::after { content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 3px; background: var(--primary); box-shadow: 0 -2px 10px var(--primary); }
 
-        .page-wrapper {
-            width: 95%;
-            max-width: 1200px;
-            margin: 30px auto;
-            background-color: rgba(30, 30, 30, 0.95);
-            border-radius: 10px;
-            box-shadow: 0 0 25px rgba(0,0,0,0.8);
-            overflow: hidden;
-            min-height: 100vh;
-        }
+        .content-padding { padding: 40px 20px; flex-grow: 1; }
+        h3 { font-family: 'Oswald', sans-serif; font-size: 2em; color: var(--primary); border-bottom: 1px solid #444; padding-bottom: 15px; margin-top: 50px; text-transform: uppercase; letter-spacing: 1px; }
 
-        /* NAGŁÓWEK Z LOGO */
-        .main-header {
-            background-color: #252525;
-            padding: 20px;
-            text-align: center;
-            border-bottom: 4px solid #ffc107;
-            cursor: pointer;
-            transition: background 0.3s;
-        }
-        .main-header:hover { background-color: #2f2f2f; }
-        .header-logo {
-            max-width: 100%;
-            height: auto;
-            display: block;
-            margin: 0 auto;
-            transition: transform 0.3s ease;
-        }
-        .main-header:hover .header-logo { transform: scale(1.02); }
+        .internal-navbar { background: rgba(255,255,255,0.03); padding: 15px; text-align: center; border: 1px solid #333; margin-bottom: 40px; display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; border-radius: 4px; }
+        .internal-navbar a { color: #ccc; text-decoration: none; font-family: 'Rajdhani', sans-serif; font-weight: 600; text-transform: uppercase; padding: 8px 16px; border: 1px solid transparent; transition: 0.3s; border-radius: 4px; }
+        .internal-navbar a:hover { border-color: var(--primary); color: var(--primary); background: rgba(255,193,7,0.1); transform: translateY(-2px); }
 
-        /* MENU GŁÓWNE */
-        .main-navbar {
-            background-color: #121212;
-            padding: 0;
-            text-align: center;
-            border-bottom: 2px solid #444;
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-        .main-navbar a {
-            color: #b0b0b0;
-            text-decoration: none;
-            font-size: 1.1em;
-            font-weight: bold;
-            padding: 20px 30px;
-            transition: 0.3s;
-            border-bottom: 4px solid transparent;
-        }
-        .main-navbar a:hover { background-color: #2a2a2a; color: #fff; }
-        .main-navbar a.active {
-            background-color: #2a2a2a;
-            color: #ffc107;
-            border-bottom: 4px solid #ffc107;
-        }
-
-        /* TREŚĆ */
-        .content-padding { padding: 30px; }
-
-        /* WEWNĘTRZNE MENU */
-        .internal-navbar {
-            background-color: #252525;
-            padding: 10px;
-            text-align: center;
-            border-radius: 8px;
-            margin-bottom: 30px;
-            border-bottom: 2px solid #444;
-        }
-        .internal-navbar a {
-            color: #bbb;
-            text-decoration: none;
-            font-weight: bold;
-            margin: 0 10px;
-            padding: 5px 10px;
-            display: inline-block;
-            transition: 0.3s;
-        }
-        .internal-navbar a:hover {
-            color: #ffc107;
-            background: rgba(255,255,255,0.05);
-            border-radius: 4px;
-        }
-
-        h3 { color: #ffc107; border-bottom: 2px solid #444; padding-bottom: 10px; margin-top: 40px; font-size: 1.8em; }
-
-        .cta-button {
-            display: inline-block;
-            background-color: #ffc107;
-            color: #121212;
-            padding: 15px 30px;
-            font-weight: bold;
-            text-decoration: none;
-            text-transform: uppercase;
-            border-radius: 5px;
-            margin-top: 15px;
-            text-align: center;
-            transition: 0.2s;
-        }
-        .cta-button:hover { background-color: #fff; transform: scale(1.05); }
+        .cta-button { display: inline-block; background: var(--primary); color: #000; padding: 15px 40px; font-family: 'Rajdhani', sans-serif; font-weight: 700; font-size: 1.2em; text-decoration: none; text-transform: uppercase; clip-path: polygon(10% 0, 100% 0, 100% 80%, 90% 100%, 0 100%, 0 20%); transition: all 0.2s ease; border: none; cursor: pointer; box-shadow: 0 0 15px rgba(255,193,7,0.3); margin-top: 15px; }
+        .cta-button:hover { background: #fff; transform: scale(1.05); box-shadow: 0 0 25px rgba(255,193,7,0.6); }
 
         .info-list { list-style: none; padding: 0; }
-        .info-list li {
-            background: #2a2a2a; padding: 12px; margin-bottom: 8px; border-left: 4px solid #ffc107; border-radius: 4px; color: #ccc;
-        }
-        .info-list strong { color: #fff; min-width: 150px; display: inline-block; }
-        .info-list a { color: #ffc107; text-decoration: none; font-weight: bold; }
+        .info-list li { background: rgba(255,255,255,0.03); padding: 15px; margin-bottom: 10px; border-left: 3px solid var(--primary); display: flex; align-items: center; transition: 0.3s; flex-wrap: wrap; }
+        .info-list li:hover { background: rgba(255,255,255,0.07); padding-left: 20px; }
+        .info-list strong { color: var(--primary); min-width: 150px; font-family: 'Rajdhani', sans-serif; font-size: 1.1em; text-transform: uppercase; }
+        .info-list a { color: #fff; text-decoration: underline; }
 
-        /* TEAMY - POPRAWIONY GRID NA 3 KOLUMNY */
-        .team-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr); /* Tu wymuszamy 3 kolumny */
-            gap: 20px;
-        }
+        /* SPONSORZY */
+        .top-sponsors-container { display: flex; justify-content: center; align-items: flex-end; gap: 30px; flex-wrap: wrap; margin-bottom: 50px; text-align: center; }
+        .sponsor-placeholder { background: #000; display: flex; align-items: center; justify-content: center; overflow: hidden; position: relative; box-shadow: 0 10px 20px rgba(0,0,0,0.5); margin: 0 auto 10px auto; border-radius: 6px; }
+        .sponsor-placeholder img { width: 100%; height: 100%; object-fit: contain; }
         
-        /* Responsywność: na tabletach 2 kolumny, na telefonach 1 */
-        @media (max-width: 900px) {
-            .team-grid { grid-template-columns: repeat(2, 1fr); }
-        }
-        @media (max-width: 600px) {
-            .team-grid { grid-template-columns: 1fr; }
-        }
-
-        .team-card { 
-            background: #2a2a2a; 
-            padding: 15px; 
-            border-left: 3px solid #ffc107; 
-            border-radius: 4px; 
-            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
-        }
-        .team-card-header { 
-            font-weight: bold; 
-            color: #ffc107; 
-            border-bottom: 1px solid #444; 
-            padding-bottom: 10px; 
-            margin-bottom: 10px;
-            cursor: pointer; 
-            display: flex; 
-            justify-content: flex-start; /* Zmiana: wyrównanie do lewej */
-            align-items: center;
-            gap: 10px;
-        }
-        .team-number { 
-            background: #444; 
-            color: #fff; 
-            padding: 2px 8px; 
-            border-radius: 4px; 
-            font-size: 0.9em;
-        }
-        .team-name {
-            font-size: 1.1em;
-            color: #fff;
-        }
+        .tier-1 .sponsor-placeholder { width: 220px; height: 220px; border: 2px solid var(--primary); box-shadow: 0 0 30px rgba(255,193,7,0.2); }
+        .tier-1 .sponsor-name { font-size: 1.8em; color: var(--primary); font-family: 'Oswald'; text-shadow: 0 0 10px rgba(255,193,7,0.5); display:block; }
         
-        .player-sublist { display: none; list-style: none; padding-left: 0; margin-top: 10px; color: #ccc; font-size: 0.9em; }
-        .player-sublist.expanded { display: block; }
-        .player-sublist li { border-bottom: 1px dotted #444; padding: 5px 0; }
-        .player-sublist a { color: #fff; text-decoration: none; }
-        .captain { font-weight: bold; color: #ffc107; }
+        .tier-2 .sponsor-placeholder { width: 160px; height: 160px; border: 2px solid #c0c0c0; }
+        .tier-2 .sponsor-name { font-size: 1.2em; color: #e0e0e0; font-family: 'Oswald'; display:block; }
+        
+        .tier-3 .sponsor-placeholder { width: 140px; height: 140px; border: 2px solid #cd7f32; }
+        .tier-3 .sponsor-name { font-size: 1.1em; color: #cd7f32; font-family: 'Oswald'; display:block; }
 
-        /* SPONSORZY (WYGLĄD) */
-        .top-sponsors-container { display: flex; justify-content: center; align-items: flex-end; gap: 20px; flex-wrap: wrap; text-align: center; margin-bottom: 40px; }
-        .sponsor-placeholder {
-    background: #111; 
-    border-radius: 8px; 
-    margin: 0 auto 10px auto;
-    display: flex; 
-    align-items: center; 
-    justify-content: center;
-    font-size: 2em; 
-    color: #333; 
-    font-weight: bold;
-    
-    /* TO SĄ NOWE LINIJKI, KTÓRE NAPRAWIĄ WIELKIE LOGO: */
-    width: 180px;
-    height: 180px;
-    overflow: hidden; 
-}
+        .sponsor-amount { background: var(--primary); color: #000; padding: 2px 8px; font-weight: bold; font-size: 0.85em; border-radius: 2px; font-family: 'Rajdhani', sans-serif; }
+        
+        .sponsor-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 15px; margin-top: 30px; }
+        .sponsor-card { background: rgba(30, 30, 30, 0.6); border: 1px solid #333; padding: 15px; display: flex; justify-content: space-between; align-items: center; transition: 0.3s; position: relative; overflow: hidden; border-radius: 4px; }
+        .sponsor-card::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: var(--primary); }
+        .sponsor-card:hover { background: #252525; transform: translateY(-3px); box-shadow: 0 5px 15px rgba(0,0,0,0.5); border-color: #555; }
+        .sponsor-name-small { color: #fff; font-weight: bold; }
 
-	.sponsor-placeholder img {
-    width: 95%;       /* Szerokość taka sama jak ramka */
-    height: 95%;      /* Wysokość taka sama jak ramka */
-    object-fit: contain; /* Obrazek się skaluje, ale nie ucina ani nie rozciąga */
-    display: block;    /* Usuwa zbędne odstępy */
-    border-radius: 6px; /* Lekko zaokrąglone rogi */
-}
-        {}
+        /* TEAMY */
+        .team-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+        @media (max-width: 900px) { .team-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 600px) { .team-grid { grid-template-columns: 1fr; } }
+        
+        .team-card { background: linear-gradient(135deg, #222 0%, #1a1a1a 100%); padding: 0; border: 1px solid #333; border-left: 4px solid var(--primary); box-shadow: 0 4px 10px rgba(0,0,0,0.3); transition: 0.3s; border-radius: 4px; }
+        .team-card:hover { transform: translateY(-5px); border-color: #555; box-shadow: 0 10px 25px rgba(0,0,0,0.6); }
+        .team-card-header { padding: 15px; background: rgba(255,255,255,0.02); font-family: 'Rajdhani', sans-serif; font-weight: 700; font-size: 1.1em; color: var(--primary); cursor: pointer; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid #333; }
+        .team-number { background: #333; color: #aaa; padding: 2px 8px; font-size: 0.7em; border-radius: 2px; }
+        .player-sublist { padding: 15px; margin: 0; list-style: none; display: none; background: #151515; }
+        .player-sublist.expanded { display: block; animation: fadeIn 0.3s ease; }
+        .player-sublist li { border-bottom: 1px solid #222; padding: 8px 0; color: #bbb; font-size: 0.95em; }
+        .captain { color: var(--primary); font-weight: bold; }
 
-        .tier-1 .sponsor-placeholder { width: 180px; height: 180px; border: 3px solid #ffc107; }
-        .tier-1 .sponsor-name { font-size: 1.4em; color: #fff; font-weight: bold; text-shadow: 0 0 10px rgba(255, 193, 7, 0.4); display: block;}
-
-        .tier-2 .sponsor-placeholder, .tier-3 .sponsor-placeholder { width: 130px; height: 130px; }
-        .tier-2 .sponsor-placeholder { border: 3px solid #c0c0c0; }
-        .tier-3 .sponsor-placeholder { border: 3px solid #cd7f32; }
-
-        .tier-2 .sponsor-name { color: #e0e0e0; font-weight: bold; display: block;}
-        .tier-3 .sponsor-name { color: #cd7f32; font-weight: bold; display: block;}
-
-        .sponsor-amount { background: #333; color: #ffc107; padding: 2px 8px; border-radius: 4px; font-weight: bold; font-size: 0.9em; display: inline-block; margin-top: 5px; }
-	
-	/* --- Wklej to wewnątrz znacznika <style>, w sekcji Sponsorów --- */
-
-.sponsor-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr); /* 3 równe kolumny */
-    gap: 15px;
-    margin-top: 30px;
-}
-
-.sponsor-card {
-    background: #252525;
-    border: 1px solid #444;
-    border-radius: 6px;
-    padding: 15px;
-    display: flex;
-    justify-content: space-between; /* Rozsuwa nazwę i kwotę */
-    align-items: center;
-    transition: transform 0.2s, background 0.2s;
-}
-
-.sponsor-card:hover {
-    background: #333;
-    transform: translateY(-2px);
-    border-color: #ffc107;
-}
-
-.sponsor-name-small {
-    font-weight: bold;
-    color: #e0e0e0;
-}
-
-/* Responsywność dla sponsorów (tablet/telefon) */
-@media (max-width: 900px) {
-    .sponsor-grid { grid-template-columns: repeat(2, 1fr); }
-}
-@media (max-width: 600px) {
-    .sponsor-grid { grid-template-columns: 1fr; }
-}
-
-        /* TABELA WYNIKÓW */
-        .tabs-nav { display: flex; flex-wrap: wrap; border-bottom: 2px solid #444; margin-bottom: 0; }
-        .tab-link { background: #333; color: #bbb; border: none; padding: 12px 20px; flex-grow: 1; cursor: pointer; font-weight: bold; margin-right: 2px; }
-        .tab-link:hover { background: #444; color: #fff; }
-        .tab-link.active { background: #ffc107; color: #000; }
-        .tab-content { display: none; padding: 15px; background: #2a2a2a; border: 1px solid #444; border-top: none; }
+        /* TABELE */
+        .tabs-nav { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 20px; border: none; }
+        .tab-link { background: #222; color: #888; border: 1px solid #333; padding: 10px 25px; flex-grow: 1; cursor: pointer; font-family: 'Rajdhani', sans-serif; font-weight: 700; font-size: 1.2em; text-transform: uppercase; transition: 0.3s; }
+        .tab-link:hover { background: #333; color: #fff; }
+        .tab-link.active { background: var(--primary); color: #000; border-color: var(--primary); box-shadow: 0 0 15px rgba(255,193,7,0.4); }
+        .tab-content { display: none; padding: 15px; background: #1a1a1a; border: 1px solid #333; border-top: none; }
         .tab-content.active { display: block; }
-
+        
         .results-table-container { overflow-x: auto; }
-        .results-table { width: 100%; border-collapse: collapse; background: #222; min-width: 600px; font-size: 0.95em; }
-        .results-table th { background: #ffc107; color: #000; padding: 12px; text-align: center; }
-        .results-table td { border: 1px solid #444; padding: 10px; text-align: center; color: #ccc; }
-        .results-table td:nth-child(2) { text-align: left; font-weight: bold; color: #fff; }
+        .results-table { width: 100%; border-collapse: collapse; background: #1a1a1a; min-width: 600px; }
+        .results-table th { background: #2a2a2a; color: var(--primary); padding: 15px; text-align: center; font-family: 'Rajdhani', sans-serif; font-size: 1.1em; text-transform: uppercase; border-bottom: 2px solid var(--primary); }
+        .results-table td { border: 1px solid #333; padding: 12px; text-align: center; color: #ccc; font-family: 'Roboto Mono', monospace; }
+        .results-table td:nth-child(2) { text-align: left; font-weight: bold; color: #fff; font-family: 'Roboto', sans-serif; }
 
-        .rules-container { background: #2a2a2a; padding: 20px; border-radius: 8px; border: 1px solid #444; max-height: 500px; overflow-y: auto; font-family: monospace; color: #ccc; white-space: pre-wrap; }
-
-        footer { text-align: center; padding: 20px; border-top: 2px solid #333; margin-top: 40px; color: #777; }
+        .rules-container { background: #111; padding: 25px; border: 1px solid #333; max-height: 500px; overflow-y: auto; font-family: 'Roboto Mono', monospace; color: #aaa; font-size: 0.9em; white-space: pre-wrap; }
         .collapsible-trigger { cursor: pointer; }
         .collapsible-content { max-height: 0; overflow: hidden; transition: max-height 0.4s ease-out; }
         .collapsible-content.expanded { max-height: 5000px; }
+
+        footer { text-align: center; padding: 30px; margin-top: 60px; color: #555; border-top: 1px solid #333; font-size: 0.9em; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
@@ -307,10 +128,10 @@
             <a href="#regulamin">Regulamin</a>
         </nav>
 
-        <section id="zapisy" style="text-align: center; background: #2a2a2a; padding: 30px; border-radius: 8px; margin-bottom: 40px;">
-            <h3 style="margin-top: 0;">Zapisy na Turniej Charytatywny</h3>
+        <section id="zapisy" style="text-align: center; background: rgba(30,30,30,0.5); padding: 30px; border:1px solid #333; border-radius: 4px; margin-bottom: 40px;">
+            <h3 style="margin-top: 0; border:none;">Zapisy na Turniej Charytatywny</h3>
             <p style="color: #ccc;">Zagraj dla szczytnego celu! Liczba miejsc ograniczona do 25 drużyn.</p>
-            <p style="font-size: 0.9em; color: #ffc107; margin-bottom: 15px;">Wpłata 100 zł gwarantuje slot (priorytet).</p>
+            <p style="font-size: 0.9em; color: #ffc107; margin-bottom: 15px; font-weight:bold;">Wpłata 100 zł gwarantuje slot (priorytet).</p>
 
             <a href="https://docs.google.com/forms/d/e/1FAIpQLSfGB21E8OwUtvnRO8lMQIuxgU2anyB7JHFuBXMoqbIbBP_TpA/viewform?usp=header"
                target="_blank"
@@ -324,17 +145,17 @@
             <ul class="info-list">
                 <li><strong>Data:</strong> 13 Grudnia 2025 (Sobota), godz. 18:00</li>
                 <li><strong>Format:</strong> SQUAD FPP (4 os.) | Max 25 Drużyn</li>
-		<li><strong>Wpłaty:</strong> Chętnych do dołożenia się do szczytnego celu prosimy o skontaktowanie się ze  <a href="https://discordapp.com/users/610995594189864980" target="_blank">Złotym</a>, który po turnieju wpłaci całą zebraną kwotę na zbiórkę z linku poniżej w ramach wsparcia od naszej społeczności PUBG.</li>
+		<li><strong>Wpłaty:</strong> Chętnych do dołożenia się do szczytnego celu prosimy o skontaktowanie się ze  <a href="https://discordapp.com/users/610995594189864980" target="_blank" style="margin-left:5px;">Złotym</a>, który po turnieju wpłaci całą zebraną kwotę na zbiórkę.</li>
                 <li><strong>Cel:</strong> 100% puli idzie na leczenie 4 letniego Borysa, który cierpi na zespół wad wrodzonych</li>
-		<li><strong>Link do zbiórki:</strong> <a href="https://sercadlamaluszka.pl/nasi-podopieczni/borys-mytko" target="_blank">https://sercadlamaluszka.pl/nasi-podopieczni/borys-mytko</a></li>
+		<li><strong>Link do zbiórki:</strong> <a href="https://sercadlamaluszka.pl/nasi-podopieczni/borys-mytko" target="_blank" style="margin-left:5px;">sercadlamaluszka.pl/nasi-podopieczni/borys-mytko</a></li>
                 <li><strong>Mapy:</strong> 2x Miramar, Rondo, Taego, 2x Erangel</li>
                 <li><strong>Nagrody:</strong> Tytuł Mistrza Turnieju Charytatywnego + satysfakcja</li>
-                <li><strong>Transmisja:</strong> <a href="https://www.twitch.tv/rych_jj" target="_blank">twitch.tv/rych_jj</a></li>
+                <li><strong>Transmisja:</strong> <a href="https://www.twitch.tv/rych_jj" target="_blank" style="margin-left:5px;">twitch.tv/rych_jj</a></li>
             </ul>
         </section>
 
         <section id="sponsorzy">
-            <h3 class="collapsible-trigger">Darczyńcy</h3>
+            <h3 class="collapsible-trigger">Darczyńcy (Kliknij)</h3>
             <div class="collapsible-content expanded">
                 <p style="text-align: center; color: #bbb; margin-bottom: 30px;">
                     Dziękujemy że razem z nami wspierasz potrzebujących!
@@ -342,23 +163,23 @@
 
                 <div class="top-sponsors-container">
                     <div class="tier-2">
-                        <div    class="sponsor-placeholder">
-    			<img src="https://i.imgur.com/2MRwBfA.png" alt="CPN">
-        </div>
-                            <span class="sponsor-name">CPN</span><br>
+                        <div class="sponsor-placeholder">
+    			            <img src="https://i.imgur.com/2MRwBfA.png" alt="CPN">
+                        </div>
+                        <span class="sponsor-name">CPN</span><br>
                         <span class="sponsor-amount">250 PLN</span>
                     </div>
                     <div class="tier-1">
                        <div class="sponsor-placeholder">
-    			<img src="https://i.imgur.com/lgirlaA.png" alt="SAY-10">
-		</div>
+    			            <img src="https://i.imgur.com/lgirlaA.png" alt="SAY-10">
+		               </div>
                         <span class="sponsor-name">SAY-10</span><br>
                         <span class="sponsor-amount">450 PLN</span>
                     </div>
                     <div class="tier-3">
                         <div class="sponsor-placeholder">
-			<img src="https://i.imgur.com/VTVD0OA.png" alt="YBK">
-</div>
+			                <img src="https://i.imgur.com/VTVD0OA.png" alt="YBK">
+                        </div>
                         <span class="sponsor-name">ICC</span><br>
                         <span class="sponsor-amount">150 PLN</span>
                     </div>
@@ -372,18 +193,18 @@
                     <div class="sponsor-card"><span class="sponsor-name-small">2IQ</span><span class="sponsor-amount">100 PLN</span></div>
                     <div class="sponsor-card"><span class="sponsor-name-small">ARMIA</span><span class="sponsor-amount">100 PLN</span></div>
                     <div class="sponsor-card"><span class="sponsor-name-small">FoodMarketAcademy </span><span class="sponsor-amount">100 PLN</span></div>
-		    <div class="sponsor-card"><span class="sponsor-name-small">John Abruzzi</span><span class="sponsor-amount">50 PLN</span></div>                    
+		    <div class="sponsor-card"><span class="sponsor-name-small">John Abruzzi</span><span class="sponsor-amount">100 PLN</span></div>                    
 
                 </div>
 
-                <div style="text-align:center; margin-top:30px; font-size:1.2em; border-top:1px solid #444; padding-top:20px; color:#fff;">
+                <div style="text-align:center; margin-top:30px; font-size:1.5em; border-top:1px solid #444; padding-top:20px; color:#fff; font-family:'Oswald';">
                     Łączna suma zebrana: <strong style="color:#ffc107">0 PLN</strong>
                 </div>
             </div>
         </section>
 
         <section id="teamy">
-            <h3 class="collapsible-trigger">Zapisane Teamy</h3>
+            <h3 class="collapsible-trigger">Zapisane Teamy (Kliknij)</h3>
             <div class="collapsible-content expanded">
                 <p style="color:#bbb; margin-bottom:20px;">Lista pobierana na żywo z arkusza zapisów. Pierwszeństwo mają drużyny z wpłatą.</p>
                 <div id="team-list-dynamic" class="team-grid">
@@ -399,9 +220,9 @@
                 <button class="tab-link" data-tab="gra1">Gra 1</button>
                 <button class="tab-link" data-tab="gra2">Gra 2</button>
                 <button class="tab-link" data-tab="gra3">Gra 3</button>
-                <button class="tab-link" data-tab="gra1">Gra 4</button>
-                <button class="tab-link" data-tab="gra2">Gra 5</button>
-                <button class="tab-link" data-tab="gra3">Gra 6</button>
+                <button class="tab-link" data-tab="gra4">Gra 4</button>
+                <button class="tab-link" data-tab="gra5">Gra 5</button>
+                <button class="tab-link" data-tab="gra6">Gra 6</button>
             </div>
 
             <div id="tab-generalna" class="tab-content active">
@@ -521,40 +342,18 @@ Zapisanie się do turnieju jest równoznaczne z akceptacją wszystkich punktów 
     // ==========================================
     function calculateTotalDonations() {
         let total = 0;
-        
-        // Pobiera wszystkie elementy z klasą 'sponsor-amount'
         const amountElements = document.querySelectorAll('.sponsor-amount');
-
         amountElements.forEach(element => {
-            // Pobiera tekst, np. "100 PLN" lub "50,50 zł"
             let text = element.textContent;
-            
-            // Usuwa "PLN", "zł", spacje i zamienia przecinek na kropkę
-            let cleanText = text.toLowerCase()
-                                .replace('pln', '')
-                                .replace('zł', '')
-                                .replace(/\s/g, '')
-                                .replace(',', '.');
-            
-            // Zamienia na liczbę
+            let cleanText = text.toLowerCase().replace('pln', '').replace('zł', '').replace(/\s/g, '').replace(',', '.');
             let val = parseFloat(cleanText);
-
-            // Jeśli to poprawna liczba, dodaj do sumy
-            if (!isNaN(val)) {
-                total += val;
-            }
+            if (!isNaN(val)) total += val;
         });
-
-        // Znajdź miejsce, gdzie wyświetlić sumę (szukamy po kolorze w sekcji sponsorów)
-        // Jeśli masz ID dla tego elementu, byłoby bezpieczniej, ale to zadziała na obecnym kodzie
         const totalDisplay = document.querySelector('.collapsible-content strong[style="color:#ffc107"]');
-        
         if (totalDisplay) {
             totalDisplay.textContent = total.toFixed(2) + ' PLN';
         }
     }
-
-    // Uruchom obliczanie od razu po załadowaniu strony
     calculateTotalDonations();
 
 	// ==========================================
@@ -562,33 +361,20 @@ Zapisanie się do turnieju jest równoznaczne z akceptacją wszystkich punktów 
     // ==========================================
     function sortSponsors() {
         const grid = document.querySelector('.sponsor-grid');
-        // Pobieramy wszystkie karty sponsorów jako tablicę
+        if(!grid) return;
         const cards = Array.from(grid.querySelectorAll('.sponsor-card'));
-
         cards.sort((a, b) => {
-            // Funkcja pomocnicza do wyciągania liczby z tekstu "100 PLN"
             const getAmount = (el) => {
                 const text = el.querySelector('.sponsor-amount').textContent;
-                // Usuwamy "PLN", spacje, zamieniamy przecinek na kropkę
                 const clean = text.toLowerCase().replace(/[^0-9.,]/g, '').replace(',', '.');
                 return parseFloat(clean) || 0;
             };
-
-            const amountA = getAmount(a);
-            const amountB = getAmount(b);
-
-            // Sortowanie malejące (B - A)
-            return amountB - amountA;
+            return getAmount(b) - getAmount(a);
         });
-
-        // Wyczyść grid i wstaw posortowane karty
         grid.innerHTML = '';
         cards.forEach(card => grid.appendChild(card));
     }
-
-    // Wywołaj funkcję sortowania
     sortSponsors();
-
 
     // ==========================================
     // 2. ROZWIJANIE SEKCJI (ACCORDION)
@@ -599,7 +385,6 @@ Zapisanie się do turnieju jest równoznaczne z akceptacją wszystkich punktów 
             if (content) content.classList.toggle('expanded');
         });
     });
-
 
     // ==========================================
     // 3. POBIERANIE DRUŻYN Z EXCELA (Google Sheets)
@@ -634,10 +419,7 @@ Zapisanie się do turnieju jest równoznaczne z akceptacją wszystkich punktów 
             rows.slice(1).forEach(row => {
                 if(!row.trim()) return;
                 const cols = parseCSVRow(row);
-
-                
                 const teamName = cols[12]; // Kolumna M
-
                 if(!teamName) return; 
 
                 // Pobieranie graczy
@@ -646,7 +428,6 @@ Zapisanie się do turnieju jest równoznaczne z akceptacją wszystkich punktów 
                 const p3 = cols[6];
                 const p4 = cols[8];
                 const rez = cols[10];
-
                 count++;
 
                 const card = document.createElement('div');
@@ -684,9 +465,7 @@ Zapisanie się do turnieju jest równoznaczne z akceptacją wszystkich punktów 
             list.innerHTML = '<p style="padding:10px; color:#bbb;">Nie udało się załadować listy drużyn (Sprawdź połączenie).</p>';
         }
     }
-
     loadTeams();
-
 
     // ==========================================
     // 4. OBSŁUGA ZAKŁADEK (TABS)

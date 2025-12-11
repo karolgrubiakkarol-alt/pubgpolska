@@ -5,22 +5,107 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PUBG POLSKA - Strona Główna</title>
     <link rel="icon" href="https://i.imgur.com/HcTRskR.png" type="image/png">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&family=Rajdhani:wght@500;600;700&family=Roboto:wght@400;500&family=Roboto+Mono&display=swap" rel="stylesheet">
+
     <style>
-        body { background-color: #1e1e1e; color: #e0e0e0; font-family: 'Arial', sans-serif; margin: 0; padding: 0; line-height: 1.6; }
-        .page-wrapper { width: 95%; max-width: 1200px; margin: 30px auto; background: rgba(30, 30, 30, 0.95); border-radius: 10px; box-shadow: 0 0 25px rgba(0,0,0,0.8); overflow: hidden; min-height: 100vh; display: flex; flex-direction: column; }
-        .main-header { background: #252525; padding: 20px; text-align: center; border-bottom: 4px solid #ffc107; transition: background 0.3s; cursor: pointer; }
-        .main-header:hover { background: #2f2f2f; }
-        .header-logo { max-width: 100%; height: auto; display: block; margin: 0 auto; transition: transform 0.3s; }
-        .main-header:hover .header-logo { transform: scale(1.02); }
-        .main-navbar { background: #121212; padding: 0; text-align: center; border-bottom: 2px solid #444; display: flex; justify-content: center; flex-wrap: wrap; }
-        .main-navbar a { color: #b0b0b0; text-decoration: none; font-size: 1.1em; font-weight: bold; padding: 20px 30px; transition: 0.3s; border-bottom: 4px solid transparent; }
-        .main-navbar a:hover { background: #2a2a2a; color: #fff; }
-        .main-navbar a.active { background: #2a2a2a; color: #ffc107; border-bottom: 4px solid #ffc107; }
-        .content-padding { padding: 50px 20px; text-align: center; flex-grow: 1; }
-        h1 { color: #ffc107; margin-bottom: 20px; font-size: 2.5em; text-transform: uppercase; }
+        /* ========================================= */
+        /* PUBG POLSKA - GAMING THEME 2025      */
+        /* ========================================= */
+
+        :root {
+            --primary: #ffc107;       /* PUBG Gold */
+            --dark-bg: #0b0c10;       /* Głęboka czerń */
+            --panel-bg: rgba(20, 22, 25, 0.95); /* Ciemny panel */
+            --text-main: #c5c6c7;     /* Szary tekst */
+            --text-white: #ffffff;
+        }
+
+        body {
+            background-color: var(--dark-bg);
+            background: radial-gradient(circle at center, #1a1a1d 0%, #000000 100%);
+            color: var(--text-main);
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+
+        .page-wrapper {
+            width: 95%;
+            max-width: 1240px;
+            margin: 40px auto;
+            background-color: var(--panel-bg);
+            border: 1px solid #333;
+            border-top: 4px solid var(--primary);
+            box-shadow: 0 0 50px rgba(0,0,0,0.9);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            backdrop-filter: blur(5px);
+        }
+
+        .main-header {
+            background: linear-gradient(180deg, #181818 0%, #121212 100%);
+            padding: 25px;
+            text-align: center;
+            border-bottom: 1px solid #333;
+            position: relative;
+            cursor: pointer;
+        }
+        .main-header::after {
+            content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 1px;
+            background: linear-gradient(90deg, transparent, var(--primary), transparent);
+        }
+        .header-logo {
+            max-width: 280px; height: auto; display: block; margin: 0 auto;
+            transition: transform 0.3s; filter: drop-shadow(0 0 10px rgba(255,193,7,0.1));
+        }
+        .main-header:hover .header-logo { transform: scale(1.05); filter: drop-shadow(0 0 20px rgba(255,193,7,0.4)); }
+
+        .main-navbar {
+            background-color: #0f0f0f; padding: 0; display: flex; justify-content: center; flex-wrap: wrap;
+            border-bottom: 1px solid #333; position: sticky; top: 0; z-index: 1000;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+        }
+        .main-navbar a {
+            color: #888; text-decoration: none; font-family: 'Rajdhani', sans-serif;
+            font-size: 1.2em; font-weight: 700; text-transform: uppercase; padding: 18px 25px;
+            transition: 0.3s; position: relative; letter-spacing: 1px;
+        }
+        .main-navbar a:hover, .main-navbar a.active {
+            color: var(--primary); background: rgba(255, 193, 7, 0.05);
+            text-shadow: 0 0 8px rgba(255, 193, 7, 0.6);
+        }
+        .main-navbar a.active::after {
+            content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 3px;
+            background: var(--primary); box-shadow: 0 -2px 10px var(--primary);
+        }
+
+        .content-padding { padding: 60px 20px; flex-grow: 1; text-align: center; }
+        
+        h1 { font-family: 'Oswald', sans-serif; color: var(--primary); font-size: 2.5em; text-transform: uppercase; margin-bottom: 20px; }
         p { font-size: 1.2em; color: #ccc; max-width: 800px; margin: 0 auto 20px auto; }
-        .welcome-box { background: #252525; padding: 30px; border-radius: 8px; display: inline-block; margin-top: 30px; border: 1px solid #444; }
-        footer { text-align: center; padding: 20px; border-top: 2px solid #333; margin-top: auto; color: #777; }
+
+        /* Welcome Box stylizowany na kartę teamu */
+        .welcome-box { 
+            background: linear-gradient(135deg, #222 0%, #1a1a1a 100%);
+            padding: 30px; 
+            border: 1px solid #333;
+            border-left: 4px solid var(--primary); 
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            display: inline-block; 
+            margin-top: 40px; 
+            border-radius: 4px;
+            min-width: 300px;
+        }
+        .welcome-box h3 {
+            font-family: 'Rajdhani', sans-serif; font-size: 1.5em; margin-top: 0; color: var(--primary); text-transform: uppercase;
+        }
+
+        footer { text-align: center; padding: 30px; border-top: 1px solid #333; margin-top: auto; color: #555; font-size: 0.9em; }
     </style>
 </head>
 <body>
@@ -42,9 +127,9 @@
         <p>Centrum polskich turniejów PUBG. Wybierz interesujące Cię wydarzenie z menu powyżej, aby sprawdzić szczegóły, wyniki oraz składy drużyn.</p>
         
         <div class="welcome-box">
-            <h3 style="color:#ffc107; margin-top:0;">AKTUALNE WYDARZENIA</h3>
-            <p style="margin-bottom:0;">Trwają zapisy do: <strong>Turnieju Charytatywnego 2025</strong></p>
-            <p style="margin-top:5px;">Zobacz wyniki: <strong>PUBG POLSKA CUP 2025</strong></p>
+            <h3>AKTUALNE WYDARZENIA</h3>
+            <p style="margin-bottom:5px; color:#fff;">Trwają zapisy do: <strong style="color:var(--primary)">Turnieju Charytatywnego 2025</strong></p>
+            <p style="margin-top:5px; color:#aaa;">Zobacz wyniki: <strong>PUBG POLSKA CUP 2025</strong></p>
         </div>
     </div>
 
