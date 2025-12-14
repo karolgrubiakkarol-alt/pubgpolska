@@ -363,7 +363,8 @@
             rows.slice(1).forEach(row => {
                 if(!row.trim()) return;
                 const cols = parseCSVRow(row);
-                const teamName = cols[12]; // Kolumna M
+                // Kolumna M to indeks 12 (A=0, ..., M=12)
+                const teamName = cols[12]; 
                 if(!teamName) return; 
 
                 const cap = cols[2]; 
@@ -409,7 +410,7 @@
     loadTeams();
 
     // ==========================================
-    // 4. NOWA FUNKCJA: POBIERANIE WYNIKÓW MECZÓW
+    // 4. NOWA FUNKCJA: POBIERANIE WYNIKÓW (WERSJA SMART)
     // ==========================================
     const RESULTS_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTJI2BqSXSxXyCvWvXEwgHC-kaH7ijYdTY30IDcdYa-JA_YlBL8NoIblDmOFduSwWAr3CrJ4MvNStRD/pub?gid=0&single=true&output=csv';
 
@@ -421,37 +422,48 @@
             const text = await response.text();
             const rows = text.split(/\r?\n/);
 
-            // Przechowywanie danych dla poszczególnych gier (1-6)
-            const matchesData = {
-                1: [], 2: [], 3: [], 4: [], 5: [], 6: []
-            };
-            
-            // Przechowywanie sumy dla tabeli generalnej: klucz to nazwa drużyny
+            const matchesData = { 1: [], 2: [], 3: [], 4: [], 5: [], 6: [] };
             const generalStandings = {};
+            
+            // Zmienna śledząca, który mecz aktualnie czytamy
+            let currentMatch = 0;
 
-            // Parsowanie wierszy (pomijamy nagłówek, index 0)
-            rows.slice(1).forEach(row => {
+            rows.forEach(row => {
                 if(!row.trim()) return;
                 const cols = parseCSVRow(row);
+                
+                // 1. Sprawdzamy czy w kolumnie A jest informacja o nowym meczu (np. "MECZ 1")
+                const colA = cols[0] ? cols[0].toUpperCase() : "";
+                if (colA.includes("MECZ")) {
+                    // Wyciągamy numer meczu z tekstu "MECZ 1" -> 1
+                    const matchNumFound = colA.match(/\d+/);
+                    if (matchNumFound) {
+                        currentMatch = parseInt(matchNumFound[0]);
+                    }
+                    return; // Przechodzimy do następnego wiersza
+                }
 
-                // Mapowanie kolumn zgodnie z instrukcją:
-                // A [0] -> Nr Meczu
+                // 2. Jeśli nie mamy ustalonego meczu lub wiersz to nagłówek tabeli -> pomiń
+                if (currentMatch === 0 || (cols[1] && cols[1].includes("Miejsce"))) return;
+
+                // 3. Pobieranie danych właściwych
+                // Zgodnie z Twoim screenem:
                 // C [2] -> Nazwa Drużyny
-                // E [4] -> Pkt za Kill
+                // E [4] -> Pkt za Kille
                 // F [5] -> Pkt za Miejsce
-                // G [6] -> Suma Punktów
+                // G [6] -> ŁĄCZNIE (Total)
 
-                const matchNum = parseInt(cols[0]);
                 const teamName = cols[2];
-                const killPts = parseFloat(cols[4].replace(',', '.')) || 0;
-                const rankPts = parseFloat(cols[5].replace(',', '.')) || 0;
-                const totalPts = parseFloat(cols[6].replace(',', '.')) || 0;
+                // Jeśli brak nazwy drużyny, to pewnie pusty wiersz
+                if (!teamName) return; 
 
-                if (!matchNum || !teamName) return;
+                const killPts = parseFloat((cols[4] || "0").replace(',', '.')) || 0;
+                const rankPts = parseFloat((cols[5] || "0").replace(',', '.')) || 0;
+                const totalPts = parseFloat((cols[6] || "0").replace(',', '.')) || 0;
 
-                // Dodaj do konkretnego meczu
-                if (matchesData[matchNum]) {
-                    matchesData[matchNum].push({
+                // Zapisz do konkretnego meczu
+                if (matchesData[currentMatch]) {
+                    matchesData[currentMatch].push({
                         team: teamName,
                         killPts: killPts,
                         rankPts: rankPts,
@@ -459,7 +471,7 @@
                     });
                 }
 
-                // Dodaj do tabeli generalnej (sumowanie)
+                // Sumowanie do tabeli generalnej
                 if (!generalStandings[teamName]) {
                     generalStandings[teamName] = { 
                         team: teamName, 
@@ -475,18 +487,17 @@
 
             // --- Renderowanie Tabeli Generalnej ---
             const generalArray = Object.values(generalStandings);
-            // Sortowanie malejąco po sumie punktów
             generalArray.sort((a, b) => b.totalPts - a.totalPts);
             renderTable('tab-generalna', generalArray);
 
             // --- Renderowanie Tabeli Meczów 1-6 ---
             for (let i = 1; i <= 6; i++) {
                 if (matchesData[i].length > 0) {
-                    // Sortowanie malejąco po sumie punktów w danym meczu
                     matchesData[i].sort((a, b) => b.totalPts - a.totalPts);
                     renderTable(`tab-gra${i}`, matchesData[i]);
                 } else {
-                    document.querySelector(`#tab-gra${i} tbody`).innerHTML = '<tr><td colspan="5" style="padding:20px; color:#777;">Brak wyników dla tego meczu.</td></tr>';
+                    const tbody = document.querySelector(`#tab-gra${i} tbody`);
+                    if(tbody) tbody.innerHTML = '<tr><td colspan="5" style="padding:20px; color:#777;">Brak wyników dla tego meczu.</td></tr>';
                 }
             }
 
@@ -495,7 +506,6 @@
         }
     }
 
-    // Funkcja pomocnicza do generowania HTML tabeli
     function renderTable(tabId, data) {
         const tbody = document.querySelector(`#${tabId} tbody`);
         if (!tbody) return;
@@ -505,18 +515,19 @@
         data.forEach((row, index) => {
             const tr = document.createElement('tr');
             
-            // Wyróżnienie podium (Top 3)
             let rankColor = '#ccc';
-            if(index === 0) rankColor = '#ffd700'; // Złoto
-            if(index === 1) rankColor = '#c0c0c0'; // Srebro
-            if(index === 2) rankColor = '#cd7f32'; // Brąz
+            if(index === 0) rankColor = '#ffd700'; 
+            if(index === 1) rankColor = '#c0c0c0'; 
+            if(index === 2) rankColor = '#cd7f32'; 
+
+            const formatNum = (num) => num % 1 === 0 ? num : num.toFixed(1);
 
             tr.innerHTML = `
                 <td style="color:${rankColor}; font-weight:bold;">${index + 1}.</td>
-                <td style="color:${index < 3 ? '#fff' : '#ccc'}">${row.team}</td>
-                <td>${row.rankPts}</td>
-                <td>${row.killPts}</td>
-                <td style="color:var(--primary); font-weight:bold;">${row.totalPts % 1 === 0 ? row.totalPts : row.totalPts.toFixed(1)}</td>
+                <td style="color:${index < 3 ? '#fff' : '#ccc'}; font-weight:${index < 3 ? 'bold' : 'normal'}">${row.team}</td>
+                <td>${formatNum(row.rankPts)}</td>
+                <td>${formatNum(row.killPts)}</td>
+                <td style="color:var(--primary); font-weight:bold; font-size:1.1em;">${formatNum(row.totalPts)}</td>
             `;
             tbody.appendChild(tr);
         });
