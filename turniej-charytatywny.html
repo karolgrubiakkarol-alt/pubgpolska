@@ -279,7 +279,7 @@
 
 <script>
     // ==========================================
-    // 1. OBLICZANIE SUMY WPŁAT (Z KODU HTML)
+    // 1. OBLICZANIE SUMY WPŁAT (BEZ ZMIAN)
     // ==========================================
     function calculateTotalDonations() {
         let total = 0;
@@ -297,8 +297,8 @@
     }
     calculateTotalDonations();
 
-	// ==========================================
-    // 1b. SORTOWANIE SPONSORÓW (MALEJĄCO)
+    // ==========================================
+    // 1b. SORTOWANIE SPONSORÓW (BEZ ZMIAN)
     // ==========================================
     function sortSponsors() {
         const grid = document.querySelector('.sponsor-grid');
@@ -318,7 +318,7 @@
     sortSponsors();
 
     // ==========================================
-    // 2. ROZWIJANIE SEKCJI (ACCORDION)
+    // 2. ROZWIJANIE SEKCJI (BEZ ZMIAN)
     // ==========================================
     document.querySelectorAll('.collapsible-trigger').forEach(header => {
         header.addEventListener('click', () => {
@@ -328,10 +328,8 @@
     });
 
     // ==========================================
-    // 3. POBIERANIE DRUŻYN Z EXCELA (Google Sheets)
+    // POMOCNICZA FUNKCJA DO PARSOWANIA CSV
     // ==========================================
-    const SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vScvP0CCSXI2M-iz8wNoASNqPNFCWTUFrRBRzyqdQgjo8hPLdYha-rLV35rmAk3OUbzhnGKjVJpkIIK/pub?output=csv';
-
     function parseCSVRow(row) {
         const columns = [];
         let current = '';
@@ -345,10 +343,15 @@
         return columns.map(c => c.trim().replace(/^"|"$/g, ''));
     }
 
+    // ==========================================
+    // 3. POBIERANIE SKŁADÓW (TEAMS ROSTER) - BEZ ZMIAN
+    // ==========================================
+    const TEAMS_SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vScvP0CCSXI2M-iz8wNoASNqPNFCWTUFrRBRzyqdQgjo8hPLdYha-rLV35rmAk3OUbzhnGKjVJpkIIK/pub?output=csv';
+
     async function loadTeams() {
         const list = document.getElementById('team-list-dynamic');
         try {
-            const response = await fetch(SHEET_URL);
+            const response = await fetch(TEAMS_SHEET_URL);
             if(!response.ok) throw new Error("Błąd pobierania danych");
 
             const text = await response.text();
@@ -363,7 +366,6 @@
                 const teamName = cols[12]; // Kolumna M
                 if(!teamName) return; 
 
-                // Pobieranie graczy
                 const cap = cols[2]; 
                 const p2 = cols[4];
                 const p3 = cols[6];
@@ -397,19 +399,134 @@
                 list.appendChild(card);
             });
 
-            if(count === 0) {
-                list.innerHTML = '<p style="padding:10px; color:#bbb;">Brak zapisanych drużyn.</p>';
-            }
+            if(count === 0) list.innerHTML = '<p style="padding:10px; color:#bbb;">Brak zapisanych drużyn.</p>';
 
         } catch(e) {
-            console.log("Błąd:", e);
-            list.innerHTML = '<p style="padding:10px; color:#bbb;">Nie udało się załadować listy drużyn (Sprawdź połączenie).</p>';
+            console.log("Błąd teamy:", e);
+            list.innerHTML = '<p style="padding:10px; color:#bbb;">Nie udało się załadować listy drużyn.</p>';
         }
     }
     loadTeams();
 
     // ==========================================
-    // 4. OBSŁUGA ZAKŁADEK (TABS)
+    // 4. NOWA FUNKCJA: POBIERANIE WYNIKÓW MECZÓW
+    // ==========================================
+    const RESULTS_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTJI2BqSXSxXyCvWvXEwgHC-kaH7ijYdTY30IDcdYa-JA_YlBL8NoIblDmOFduSwWAr3CrJ4MvNStRD/pub?gid=0&single=true&output=csv';
+
+    async function loadTournamentResults() {
+        try {
+            const response = await fetch(RESULTS_CSV_URL);
+            if(!response.ok) throw new Error("Błąd pobierania wyników");
+
+            const text = await response.text();
+            const rows = text.split(/\r?\n/);
+
+            // Przechowywanie danych dla poszczególnych gier (1-6)
+            const matchesData = {
+                1: [], 2: [], 3: [], 4: [], 5: [], 6: []
+            };
+            
+            // Przechowywanie sumy dla tabeli generalnej: klucz to nazwa drużyny
+            const generalStandings = {};
+
+            // Parsowanie wierszy (pomijamy nagłówek, index 0)
+            rows.slice(1).forEach(row => {
+                if(!row.trim()) return;
+                const cols = parseCSVRow(row);
+
+                // Mapowanie kolumn zgodnie z instrukcją:
+                // A [0] -> Nr Meczu
+                // C [2] -> Nazwa Drużyny
+                // E [4] -> Pkt za Kill
+                // F [5] -> Pkt za Miejsce
+                // G [6] -> Suma Punktów
+
+                const matchNum = parseInt(cols[0]);
+                const teamName = cols[2];
+                const killPts = parseFloat(cols[4].replace(',', '.')) || 0;
+                const rankPts = parseFloat(cols[5].replace(',', '.')) || 0;
+                const totalPts = parseFloat(cols[6].replace(',', '.')) || 0;
+
+                if (!matchNum || !teamName) return;
+
+                // Dodaj do konkretnego meczu
+                if (matchesData[matchNum]) {
+                    matchesData[matchNum].push({
+                        team: teamName,
+                        killPts: killPts,
+                        rankPts: rankPts,
+                        totalPts: totalPts
+                    });
+                }
+
+                // Dodaj do tabeli generalnej (sumowanie)
+                if (!generalStandings[teamName]) {
+                    generalStandings[teamName] = { 
+                        team: teamName, 
+                        killPts: 0, 
+                        rankPts: 0, 
+                        totalPts: 0 
+                    };
+                }
+                generalStandings[teamName].killPts += killPts;
+                generalStandings[teamName].rankPts += rankPts;
+                generalStandings[teamName].totalPts += totalPts;
+            });
+
+            // --- Renderowanie Tabeli Generalnej ---
+            const generalArray = Object.values(generalStandings);
+            // Sortowanie malejąco po sumie punktów
+            generalArray.sort((a, b) => b.totalPts - a.totalPts);
+            renderTable('tab-generalna', generalArray);
+
+            // --- Renderowanie Tabeli Meczów 1-6 ---
+            for (let i = 1; i <= 6; i++) {
+                if (matchesData[i].length > 0) {
+                    // Sortowanie malejąco po sumie punktów w danym meczu
+                    matchesData[i].sort((a, b) => b.totalPts - a.totalPts);
+                    renderTable(`tab-gra${i}`, matchesData[i]);
+                } else {
+                    document.querySelector(`#tab-gra${i} tbody`).innerHTML = '<tr><td colspan="5" style="padding:20px; color:#777;">Brak wyników dla tego meczu.</td></tr>';
+                }
+            }
+
+        } catch (e) {
+            console.error("Błąd wyników:", e);
+        }
+    }
+
+    // Funkcja pomocnicza do generowania HTML tabeli
+    function renderTable(tabId, data) {
+        const tbody = document.querySelector(`#${tabId} tbody`);
+        if (!tbody) return;
+        
+        tbody.innerHTML = '';
+        
+        data.forEach((row, index) => {
+            const tr = document.createElement('tr');
+            
+            // Wyróżnienie podium (Top 3)
+            let rankColor = '#ccc';
+            if(index === 0) rankColor = '#ffd700'; // Złoto
+            if(index === 1) rankColor = '#c0c0c0'; // Srebro
+            if(index === 2) rankColor = '#cd7f32'; // Brąz
+
+            tr.innerHTML = `
+                <td style="color:${rankColor}; font-weight:bold;">${index + 1}.</td>
+                <td style="color:${index < 3 ? '#fff' : '#ccc'}">${row.team}</td>
+                <td>${row.rankPts}</td>
+                <td>${row.killPts}</td>
+                <td style="color:var(--primary); font-weight:bold;">${row.totalPts % 1 === 0 ? row.totalPts : row.totalPts.toFixed(1)}</td>
+            `;
+            tbody.appendChild(tr);
+        });
+    }
+
+    // Uruchomienie pobierania wyników
+    loadTournamentResults();
+
+    // ==========================================
+    // 5. OBSŁUGA ZAKŁADEK (BEZ ZMIAN)
     // ==========================================
     document.querySelectorAll('.tab-link').forEach(btn => {
         btn.addEventListener('click', () => {
