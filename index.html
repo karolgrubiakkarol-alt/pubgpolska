@@ -95,6 +95,10 @@
             transition: 0.3s;
             /* ZERO RADIUS - STYL ZE ZDJĘCIA */
             border-radius: 0; 
+            /* Flexbox dla wycentrowania tekstu w linku */
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
         }
         .btn-cta:hover { background-color: var(--accent-dark); }
 
@@ -291,7 +295,9 @@
                 <a href="ranking.html">RANKINGI</a>
                 <a href="partnerzy.html">PARTNERZY</a>
             </div>
-            <button class="btn-cta">ZALOGUJ SIĘ</button>
+            <a href="https://docs.google.com/forms/d/e/1FAIpQLSfQv1NARHmy47DnscbLggwhuh068zkxZErJu_lIM3-WMXD0Xw/viewform?usp=dialog" class="btn-cta" target="_blank">
+                ZAPISZ SIĘ
+            </a>
         </nav>
 
         <header class="hero">
