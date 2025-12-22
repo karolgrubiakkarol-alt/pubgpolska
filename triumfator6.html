@@ -41,10 +41,18 @@
 
         .container { max-width: 1600px; margin: 0 auto; padding: 0 40px; }
 
-        /* === NAV === */
+        /* === NAV (ZMIANA: STICKY) === */
         .top-nav {
             display: flex; justify-content: space-between; align-items: center;
-            padding: 30px 0; border-bottom: 1px solid var(--border-color); margin-bottom: 40px;
+            padding: 20px 0; /* Zmniejszony padding dla estetyki przy scrollowaniu */
+            border-bottom: 1px solid var(--border-color); 
+            margin-bottom: 40px;
+            
+            /* Sticky settings */
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background-color: var(--bg-body); /* Tło, żeby treść nie prześwitywała */
         }
         .logo img { height: 50px; filter: grayscale(1) brightness(2); transition: 0.3s; }
         .logo:hover img { filter: none; }
@@ -102,14 +110,18 @@
         .points-table td { padding: 8px; border-bottom: 1px solid #222; font-family: 'Roboto Mono'; }
         .points-table tr:first-child { color: var(--accent); font-weight: bold; }
 
-        /* === DRUŻYNY GRID === */
-        .teams-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
+        /* === DRUŻYNY GRID (ZMIANA: 3 KOLUMNY) === */
+        .teams-grid { 
+            display: grid; 
+            grid-template-columns: repeat(3, 1fr); /* Zmieniono z 2 na 3 */
+            gap: 15px; 
+        }
         .team-card {
             background: #111; border: 1px solid var(--border-color); padding: 20px;
             display: flex; flex-direction: column; gap: 10px; transition: 0.3s;
         }
         .team-card:hover { border-color: var(--accent); transform: translateY(-3px); }
-        .tc-name { font-family: 'Oswald'; font-size: 1.2em; color: #fff; border-bottom: 1px solid #222; padding-bottom: 10px; margin-bottom: 5px; }
+        .tc-name { font-family: 'Oswald'; font-size: 1.2em; color: #fff; border-bottom: 1px solid #222; padding-bottom: 10px; margin-bottom: 5px; word-break: break-word; }
         .tc-players { color: var(--text-gray); font-size: 0.9em; display: flex; flex-direction: column; gap: 5px; }
         .tc-players span i { color: var(--accent); width: 20px; text-align: center; }
 
@@ -132,11 +144,18 @@
         .btn-big-action.primary { background: var(--accent); border: none; }
         .btn-big-action.primary:hover { background: var(--accent-dark); color: #fff; }
 
+        @media (max-width: 1200px) {
+            .teams-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+
         @media (max-width: 1000px) {
             .tournament-layout { grid-template-columns: 1fr; }
             .t-header h1 { font-size: 3em; }
             .teams-grid { grid-template-columns: 1fr; }
-            .top-nav { flex-direction: column; gap: 20px; text-align: center; }
+            .top-nav { 
+                flex-direction: column; gap: 20px; text-align: center; 
+                position: relative; /* Na mobilkach sticky czasem przeszkadza, można zostawić lub usunąć */
+            }
             .nav-links { flex-direction: column; gap: 15px; }
         }
 
@@ -175,21 +194,19 @@
         <div class="tournament-layout">
             
             <main>
-                <div style="width:100%; height:300px; background: radial-gradient(circle, #1a1a1a 0%, #050505 100%); display:flex; align-items:center; justify-content:center; border:1px solid var(--border-color); margin-bottom:40px;">
-                    <h2 style="color:#222; font-size:3em; text-align:center;">
-                        <i class="fab fa-twitch"></i> LIVE: ZlotyKat<br>
-                        <span style="font-size:0.4em; color:var(--text-gray)">27.12.2025 GODZ: 18:00</span>
-                    </h2>
-                </div>
-
                 <section class="section-box">
                     <h2 class="section-title">DOŁĄCZ DO GRY</h2>
                     <p style="margin-bottom:20px; color:var(--text-gray);">
                         Zapisy trwają do piątku <strong>26.12.2025 (18:00)</strong>. Priorytet dla drużyn z dobrowolną wpłatą oraz pełnych składów DUO.
                     </p>
-                    <a href="https://docs.google.com/forms/d/e/1FAIpQLSfQv1NARHmy47DnscbLggwhuh068zkxZErJu_lIM3-WMXD0Xw/viewform?usp=publish-editor" target="_blank" class="btn-big-action primary">
+                    
+                    <a href="https://docs.google.com/forms/d/e/1FAIpQLSfQv1NARHmy47DnscbLggwhuh068zkxZErJu_lIM3-WMXD0Xw/viewform?usp=publish-editor" target="_blank" class="btn-big-action primary" style="margin-bottom: 40px;">
                         <i class="fas fa-pen-square"></i> FORMULARZ ZGŁOSZENIOWY
                     </a>
+
+                    <div style="width:100%; border:1px solid var(--border-color); background: #0f0f0f; text-align:center;">
+                        <img src="https://i.imgur.com/gDkaJ4B.png" alt="Plakat Turniejowy" style="max-width:100%; height:auto; display:block; margin:0 auto;">
+                    </div>
                 </section>
 
                 <section class="section-box" id="info-hub">
