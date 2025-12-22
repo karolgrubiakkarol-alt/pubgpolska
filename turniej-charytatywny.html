@@ -3,514 +3,627 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Turniej Charytatywny 2025</title>
+    <title>Turniej Charytatywny - GRAMY DLA BORYSA</title>
     <link rel="icon" href="https://i.imgur.com/HcTRskR.png" type="image/png">
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&family=Rajdhani:wght@500;600;700&family=Roboto:wght@400;500&family=Roboto+Mono&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;700&family=Rajdhani:wght@500;600;700&family=Roboto+Mono&display=swap" rel="stylesheet">
     
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
     <style>
-        :root { --primary: #ffc107; --dark-bg: #0b0c10; --panel-bg: rgba(20, 22, 25, 0.95); --text-main: #c5c6c7; }
-        body { background-color: var(--dark-bg); background: radial-gradient(circle at center, #1a1a1d 0%, #000000 100%); color: var(--text-main); font-family: 'Roboto', sans-serif; margin: 0; padding: 0; line-height: 1.6; }
-        .page-wrapper { width: 95%; max-width: 1240px; margin: 40px auto; background-color: var(--panel-bg); border: 1px solid #333; border-top: 4px solid var(--primary); box-shadow: 0 0 50px rgba(0,0,0,0.9); min-height: 100vh; display: flex; flex-direction: column; backdrop-filter: blur(5px); }
+        /* === RESET & VARIABLES === */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --bg-body: #050505;
+            --bg-card: #0f0f0f;
+            --bg-card-hover: #141414;
+            --accent: #ff0019;
+            --accent-dark: #cc0014;
+            --text-main: #ffffff;
+            --text-gray: #888888;
+            --border-color: #1f1f1f;
+            --success: #22c55e; /* Specjalny kolor dla charytatywnych elementów */
+        }
+
+        body {
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            font-family: 'Rajdhani', sans-serif;
+            line-height: 1.5;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, .btn { font-family: 'Oswald', sans-serif; text-transform: uppercase; }
+        a { text-decoration: none; color: inherit; transition: 0.3s; }
+
+        .container { max-width: 1600px; margin: 0 auto; padding: 0 40px; }
+
+        /* === NAV === */
+        .top-nav {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 30px 0; border-bottom: 1px solid var(--border-color); margin-bottom: 40px;
+        }
+        .logo img { height: 50px; filter: grayscale(1) brightness(2); transition: 0.3s; }
+        .logo:hover img { filter: none; }
+        .nav-links { display: flex; gap: 40px; }
+        .nav-links a {
+            color: var(--text-main); font-family: 'Oswald'; font-size: 14px;
+            font-weight: 700; letter-spacing: 2px;
+        }
+        .nav-links a:hover, .nav-links a.active { color: var(--accent); }
+        .btn-cta {
+            background-color: var(--accent); color: #fff; padding: 12px 30px;
+            font-weight: bold; font-size: 14px; letter-spacing: 1px; border: none; cursor: pointer;
+            border-radius: 0; 
+        }
+        .btn-cta:hover { background-color: var(--accent-dark); }
+
+        /* === HEADER TURNIEJU === */
+        .t-header { margin-bottom: 50px; border-bottom: 1px solid var(--border-color); padding-bottom: 30px; }
+        .t-header h1 { font-size: 4em; margin-bottom: 10px; line-height: 1; }
+        .t-breadcrumbs { color: var(--text-gray); font-size: 0.9em; text-transform: uppercase; letter-spacing: 1px; }
+        .t-breadcrumbs span { color: var(--accent); }
+
+        /* === LAYOUT GRID === */
+        .tournament-layout {
+            display: grid;
+            grid-template-columns: 2fr 1fr; /* 66% Treść / 33% Sidebar */
+            gap: 50px;
+            padding-bottom: 100px;
+        }
+
+        /* === WIDEO === */
+        .video-wrapper {
+            position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;
+            background: #000; border: 1px solid var(--border-color); margin-bottom: 40px;
+        }
+        .video-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+
+        /* === SEKCJE === */
+        .section-box { margin-bottom: 50px; }
+        .section-title {
+            font-size: 1.8em; margin-bottom: 25px; border-left: 4px solid var(--accent); padding-left: 15px;
+        }
+
+        /* === WYNIKI I TABELA === */
+        .tabs-nav { margin-bottom: 20px; display: flex; flex-wrap: wrap; gap: 5px; }
+        .tab-btn {
+            background: var(--bg-card); border: 1px solid var(--border-color); color: var(--text-gray);
+            padding: 10px 20px; font-family: 'Oswald'; cursor: pointer; text-transform: uppercase;
+            font-weight: bold; letter-spacing: 1px; flex-grow: 1; text-align: center; transition: 0.3s;
+        }
+        .tab-btn.active, .tab-btn:hover { background: var(--accent); color: #fff; border-color: var(--accent); }
         
-        /* HEADER & NAV */
-        .main-header { background: linear-gradient(180deg, #181818 0%, #121212 100%); padding: 25px; text-align: center; border-bottom: 1px solid #333; position: relative; cursor: pointer; }
-        .main-header::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, var(--primary), transparent); }
-        .header-logo { max-width: 280px; height: auto; display: block; margin: 0 auto; transition: transform 0.3s; filter: drop-shadow(0 0 10px rgba(255,193,7,0.1)); }
-        .main-header:hover .header-logo { transform: scale(1.05); filter: drop-shadow(0 0 20px rgba(255,193,7,0.4)); }
-        .main-navbar { background-color: #0f0f0f; padding: 0; display: flex; justify-content: center; flex-wrap: wrap; border-bottom: 1px solid #333; position: sticky; top: 0; z-index: 1000; box-shadow: 0 10px 20px rgba(0,0,0,0.5); }
-        .main-navbar a { color: #888; text-decoration: none; font-family: 'Rajdhani', sans-serif; font-size: 1.2em; font-weight: 700; text-transform: uppercase; padding: 18px 25px; transition: 0.3s; position: relative; letter-spacing: 1px; }
-        .main-navbar a:hover, .main-navbar a.active { color: var(--primary); background: rgba(255, 193, 7, 0.05); text-shadow: 0 0 8px rgba(255, 193, 7, 0.6); }
-        .main-navbar a.active::after { content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 3px; background: var(--primary); box-shadow: 0 -2px 10px var(--primary); }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; animation: fadeIn 0.3s; }
 
-        .content-padding { padding: 40px 20px; flex-grow: 1; }
-        h3 { font-family: 'Oswald', sans-serif; font-size: 2em; color: var(--primary); border-bottom: 1px solid #444; padding-bottom: 15px; margin-top: 50px; text-transform: uppercase; letter-spacing: 1px; }
+        .results-table-wrapper { overflow-x: auto; border: 1px solid var(--border-color); }
+        .results-table { width: 100%; border-collapse: collapse; min-width: 600px; }
+        .results-table th {
+            background: #111; color: var(--accent); padding: 15px; text-align: center;
+            font-family: 'Oswald'; font-weight: 500; letter-spacing: 1px; border-bottom: 2px solid #222;
+        }
+        .results-table td {
+            background: var(--bg-card); padding: 12px; text-align: center; border-bottom: 1px solid #222;
+            font-family: 'Roboto Mono', monospace; font-size: 0.9em;
+        }
+        .results-table tr:hover td { background: var(--bg-card-hover); }
+        .results-table td:nth-child(2) { text-align: left; font-weight: bold; color: #fff; font-family: 'Rajdhani'; font-size: 1.1em; }
 
-        .internal-navbar { background: rgba(255,255,255,0.03); padding: 15px; text-align: center; border: 1px solid #333; margin-bottom: 40px; display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; border-radius: 4px; }
-        .internal-navbar a { color: #ccc; text-decoration: none; font-family: 'Rajdhani', sans-serif; font-weight: 600; text-transform: uppercase; padding: 8px 16px; border: 1px solid transparent; transition: 0.3s; border-radius: 4px; }
-        .internal-navbar a:hover { border-color: var(--primary); color: var(--primary); background: rgba(255,193,7,0.1); transform: translateY(-2px); }
-
-        .cta-button { display: inline-block; background: var(--primary); color: #000; padding: 15px 40px; font-family: 'Rajdhani', sans-serif; font-weight: 700; font-size: 1.2em; text-decoration: none; text-transform: uppercase; clip-path: polygon(10% 0, 100% 0, 100% 80%, 90% 100%, 0 100%, 0 20%); transition: all 0.2s ease; border: none; cursor: pointer; box-shadow: 0 0 15px rgba(255,193,7,0.3); margin-top: 15px; }
-        .cta-button:hover { background: #fff; transform: scale(1.05); box-shadow: 0 0 25px rgba(255,193,7,0.6); }
-
-        .info-list { list-style: none; padding: 0; }
-        .info-list li { background: rgba(255,255,255,0.03); padding: 15px; margin-bottom: 10px; border-left: 3px solid var(--primary); display: flex; align-items: center; transition: 0.3s; flex-wrap: wrap; }
-        .info-list li:hover { background: rgba(255,255,255,0.07); padding-left: 20px; }
-        .info-list strong { color: var(--primary); min-width: 150px; font-family: 'Rajdhani', sans-serif; font-size: 1.1em; text-transform: uppercase; }
-        .info-list a { color: #fff; text-decoration: underline; }
-
-        /* SPONSORZY */
-        .top-sponsors-container { display: flex; justify-content: center; align-items: flex-end; gap: 30px; flex-wrap: wrap; margin-bottom: 50px; text-align: center; }
-        .sponsor-placeholder { background: #000; display: flex; align-items: center; justify-content: center; overflow: hidden; position: relative; box-shadow: 0 10px 20px rgba(0,0,0,0.5); margin: 0 auto 10px auto; border-radius: 6px; }
-        .sponsor-placeholder img { width: 100%; height: 100%; object-fit: contain; }
+        /* === DRUŻYNY === */
+        .teams-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
+        .team-card {
+            background: var(--bg-card); border: 1px solid var(--border-color); transition: 0.3s;
+        }
+        .team-card:hover { border-color: var(--accent); transform: translateY(-3px); }
         
-        .tier-1 .sponsor-placeholder { width: 220px; height: 220px; border: 2px solid var(--primary); box-shadow: 0 0 30px rgba(255,193,7,0.2); }
-        .tier-1 .sponsor-name { font-size: 1.8em; color: var(--primary); font-family: 'Oswald'; text-shadow: 0 0 10px rgba(255,193,7,0.5); display:block; }
+        .team-header {
+            padding: 15px; display: flex; justify-content: space-between; align-items: center;
+            cursor: pointer; font-family: 'Oswald'; font-size: 1.1em;
+        }
+        .team-rank { color: var(--text-gray); font-size: 0.8em; margin-right: 10px; }
+        .team-players {
+            display: none; padding: 15px; background: #0a0a0a; border-top: 1px solid #222;
+            list-style: none; font-size: 0.9em; color: var(--text-gray);
+        }
+        .team-players.expanded { display: block; }
+        .team-players li { margin-bottom: 5px; border-bottom: 1px solid #1a1a1a; padding-bottom: 5px; }
+        .captain { color: var(--accent); font-weight: bold; }
+
+        /* === SIDEBAR (Info, Sponsorzy) === */
+        .info-grid { display: grid; grid-template-columns: 1fr; gap: 1px; background: #222; border: 1px solid var(--border-color); }
+        .info-item { background: var(--bg-card); padding: 20px; display: flex; flex-direction: column; }
+        .info-label { font-size: 0.8em; color: var(--text-gray); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; }
+        .info-val { font-family: 'Oswald'; font-size: 1.2em; font-weight: 500; }
+        .info-val a { color: var(--accent); border-bottom: 1px solid var(--accent); }
+        .charity-sum { color: var(--success); font-size: 1.5em; font-weight: bold; } /* Zielony kolor dla sumy */
+
+        /* SPONSORZY LOGO */
+        .sponsors-top { display: flex; flex-direction: column; gap: 15px; margin-bottom: 20px; }
+        .sp-card-img {
+            background: var(--bg-card); border: 1px solid var(--border-color); padding: 20px;
+            text-align: center; transition: 0.3s; position: relative;
+        }
+        .sp-card-img:hover { border-color: var(--accent); transform: translateY(-3px); }
+        .sp-card-img img { max-width: 100%; height: auto; max-height: 80px; margin-bottom: 10px; }
+        .sp-tier-1 { border: 2px solid var(--accent); } /* Wyróżnienie 1 miejsca */
         
-        .tier-2 .sponsor-placeholder { width: 160px; height: 160px; border: 2px solid #c0c0c0; }
-        .tier-2 .sponsor-name { font-size: 1.2em; color: #e0e0e0; font-family: 'Oswald'; display:block; }
-        
-        .tier-3 .sponsor-placeholder { width: 140px; height: 140px; border: 2px solid #cd7f32; }
-        .tier-3 .sponsor-name { font-size: 1.1em; color: #cd7f32; font-family: 'Oswald'; display:block; }
+        /* SPONSORZY LISTA */
+        .sponsors-list { display: flex; flex-direction: column; gap: 10px; }
+        .sponsor-item {
+            display: flex; justify-content: space-between; align-items: center;
+            background: var(--bg-card); padding: 15px; border-left: 3px solid #333;
+        }
+        .sponsor-item:hover { border-left-color: var(--accent); background: var(--bg-card-hover); }
+        .sp-name { font-weight: bold; font-family: 'Oswald'; display: block; }
+        .sp-val { color: var(--accent); font-weight: bold; font-family: 'Roboto Mono'; }
 
-        .sponsor-amount { background: var(--primary); color: #000; padding: 2px 8px; font-weight: bold; font-size: 0.85em; border-radius: 2px; font-family: 'Rajdhani', sans-serif; }
-        
-        .sponsor-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 15px; margin-top: 30px; }
-        .sponsor-card { background: rgba(30, 30, 30, 0.6); border: 1px solid #333; padding: 15px; display: flex; justify-content: space-between; align-items: center; transition: 0.3s; position: relative; overflow: hidden; border-radius: 4px; }
-        .sponsor-card::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: var(--primary); }
-        .sponsor-card:hover { background: #252525; transform: translateY(-3px); box-shadow: 0 5px 15px rgba(0,0,0,0.5); border-color: #555; }
-        .sponsor-name-small { color: #fff; font-weight: bold; }
+        /* PRZYCISK PDF */
+        .btn-pdf {
+            display: flex; align-items: center; justify-content: center; gap: 15px;
+            background: #1a1a1a; border: 1px solid var(--border-color); color: #fff;
+            padding: 30px; text-align: center; font-size: 1.2em; font-weight: bold;
+            transition: 0.3s;
+        }
+        .btn-pdf:hover { border-color: var(--accent); color: var(--accent); background: #0f0f0f; }
+        .btn-pdf i { font-size: 1.5em; }
 
+        @media (max-width: 1000px) {
+            .tournament-layout { grid-template-columns: 1fr; }
+            .t-header h1 { font-size: 3em; }
+            .top-nav { flex-direction: column; gap: 20px; text-align: center; }
+            .nav-links { flex-direction: column; gap: 15px; }
+        }
+        @media (max-width: 600px) {
+            .teams-grid { grid-template-columns: 1fr; }
+        }
 
+        footer {
+            border-top: 1px solid var(--border-color); padding: 40px; text-align: center;
+            color: var(--text-gray); font-size: 0.8em; text-transform: uppercase; letter-spacing: 1px; margin-top: 50px;
+        }
 
-        /* TEAMY */
-        .team-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-        @media (max-width: 900px) { .team-grid { grid-template-columns: repeat(2, 1fr); } }
-        @media (max-width: 600px) { .team-grid { grid-template-columns: 1fr; } }
-        
-        .team-card { background: linear-gradient(135deg, #222 0%, #1a1a1a 100%); padding: 0; border: 1px solid #333; border-left: 4px solid var(--primary); box-shadow: 0 4px 10px rgba(0,0,0,0.3); transition: 0.3s; border-radius: 4px; }
-        .team-card:hover { transform: translateY(-5px); border-color: #555; box-shadow: 0 10px 25px rgba(0,0,0,0.6); }
-        .team-card-header { padding: 15px; background: rgba(255,255,255,0.02); font-family: 'Rajdhani', sans-serif; font-weight: 700; font-size: 1.1em; color: var(--primary); cursor: pointer; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid #333; }
-        .team-number { background: #333; color: #aaa; padding: 2px 8px; font-size: 0.7em; border-radius: 2px; }
-        .player-sublist { padding: 15px; margin: 0; list-style: none; display: none; background: #151515; }
-        .player-sublist.expanded { display: block; animation: fadeIn 0.3s ease; }
-        .player-sublist li { border-bottom: 1px solid #222; padding: 8px 0; color: #bbb; font-size: 0.95em; }
-        .captain { color: var(--primary); font-weight: bold; }
-
-        /* TABELE */
-        .tabs-nav { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 20px; border: none; }
-        .tab-link { background: #222; color: #888; border: 1px solid #333; padding: 10px 25px; flex-grow: 1; cursor: pointer; font-family: 'Rajdhani', sans-serif; font-weight: 700; font-size: 1.2em; text-transform: uppercase; transition: 0.3s; }
-        .tab-link:hover { background: #333; color: #fff; }
-        .tab-link.active { background: var(--primary); color: #000; border-color: var(--primary); box-shadow: 0 0 15px rgba(255,193,7,0.4); }
-        .tab-content { display: none; padding: 15px; background: #1a1a1a; border: 1px solid #333; border-top: none; }
-        .tab-content.active { display: block; }
-        
-        .results-table-container { overflow-x: auto; }
-        .results-table { width: 100%; border-collapse: collapse; background: #1a1a1a; min-width: 600px; }
-        .results-table th { background: #2a2a2a; color: var(--primary); padding: 15px; text-align: center; font-family: 'Rajdhani', sans-serif; font-size: 1.1em; text-transform: uppercase; border-bottom: 2px solid var(--primary); }
-        .results-table td { border: 1px solid #333; padding: 12px; text-align: center; color: #ccc; font-family: 'Roboto Mono', monospace; }
-        .results-table td:nth-child(2) { text-align: left; font-weight: bold; color: #fff; font-family: 'Roboto', sans-serif; }
-
-        .rules-container { background: #111; padding: 25px; border: 1px solid #333; max-height: 500px; overflow-y: auto; font-family: 'Roboto Mono', monospace; color: #aaa; font-size: 0.9em; white-space: pre-wrap; }
-        .collapsible-trigger { cursor: pointer; }
-        .collapsible-content { max-height: 0; overflow: hidden; transition: max-height 0.4s ease-out; }
-        .collapsible-content.expanded { max-height: 5000px; }
-
-        footer { text-align: center; padding: 30px; margin-top: 60px; color: #555; border-top: 1px solid #333; font-size: 0.9em; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     </style>
 </head>
 <body>
 
-<div class="page-wrapper">
-
-    <header class="main-header">
-        <a href="https://www.pubgpolska.pl/">
-            <img src="https://i.imgur.com/O50RI1X.png" alt="PUBG POLSKA" class="header-logo">
-        </a>
-    </header>
-
-    <nav class="main-navbar">
-        <a href="https://www.pubgpolska.pl/">Strona Główna</a>
-        
-        <a href="turniej-charytatywny.html" class="active">Turniej Charytatywny 2025</a>
-        
-        <a href="pubg-polska-cup.html">PUBG POLSKA CUP 2025</a>
-        <a href="fantasycoach.html">Fantasy Coach</a>
-    </nav>
-    <div class="content-padding">
-
-        <nav class="internal-navbar">
-            <a href="#szczegoly">Szczegóły</a>
-            <a href="#sponsorzy">Sponsorzy</a>
-            <a href="#teamy">Zapisane Teamy</a>
-            <a href="#wyniki">Wyniki</a>
-            <a href="#regulamin">Regulamin</a>
+    <div class="container">
+        <nav class="top-nav">
+            <a href="https://www.pubgpolska.pl" class="logo">
+                <img src="https://i.imgur.com/O50RI1X.png" alt="PUBG POLSKA">
+            </a>
+            <div class="nav-links">
+                <a href="https://www.pubgpolska.pl">HOME</a>
+                <a href="turnieje.html" class="active">TURNIEJE</a>
+                <a href="ranking.html">RANKINGI</a>
+                <a href="partnerzy.html">PARTNERZY</a>
+            </div>
+            <button class="btn-cta">ZALOGUJ SIĘ</button>
         </nav>
 
-        <section id="media" style="text-align: center; background: rgba(30,30,30,0.5); padding: 30px; border:1px solid #333; border-radius: 4px; margin-bottom: 40px;">
-            <h3 style="margin-top: 0; border:none; margin-bottom: 20px;">Video z Turnieju</h3>
-            <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; box-shadow: 0 0 20px rgba(0,0,0,0.5);">
-                <iframe src="https://www.youtube.com/embed/n1KcHC1Mtpg" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe>
-            </div>
-        </section>
-
-        <section id="szczegoly">
-            <h3>Szczegóły Turnieju</h3>
-            <ul class="info-list">
-                <li><strong>Data:</strong> 13 Grudnia 2025 (Sobota), godz. 18:00</li>
-                <li><strong>Format:</strong> SQUAD FPP (4 os.) | Max 25 Drużyn</li>
-		<li><strong>Wpłaty:</strong> Chętnych do dołożenia się do szczytnego celu prosimy o skontaktowanie się ze  <a href="https://discordapp.com/users/610995594189864980" target="_blank" style="margin-left:5px;">Złotym</a> który po turnieju wpłaci całą zebraną kwotę na zbiórkę w ramach wsparcia od naszej społeczności PUBG.</li>
-                <li><strong>Cel:</strong> 100% puli idzie na leczenie 4 letniego Borysa, który cierpi na zespół wad wrodzonych</li>
-		<li><strong>Link do zbiórki:</strong> <a href="https://sercadlamaluszka.pl/nasi-podopieczni/borys-mytko" target="_blank" style="margin-left:5px;">sercadlamaluszka.pl/nasi-podopieczni/borys-mytko</a></li>
-                <li><strong>Mapy:</strong> 2x Miramar, Rondo, Taego, 2x Erangel</li>
-                <li><strong>Nagrody:</strong> Tytuł Mistrza Turnieju Charytatywnego + satysfakcja</li>
-                <li><strong>Transmisja:</strong> <a href="https://www.twitch.tv/rych_jj" target="_blank" style="margin-left:5px;">twitch.tv/rych_jj</a></li>
-            </ul>
-        </section>
-
-        <section id="sponsorzy">
-            <h3 class="collapsible-trigger">Darczyńcy</h3>
-            <div class="collapsible-content expanded">
-                <p style="text-align: center; color: #bbb; margin-bottom: 30px;">
-                    Dziękujemy że razem z nami wspierasz potrzebujących!
-                </p>
-
-                <div class="top-sponsors-container">
-                    <div class="tier-2">
-                        <div class="sponsor-placeholder">
-    			            <img src="https://i.imgur.com/2MRwBfA.png" alt="CPN">
-                        </div>
-                        <span class="sponsor-name">CPN</span><br>
-                        <span class="sponsor-amount">300 PLN</span>
-                    </div>
-                    <div class="tier-1">
-                       <div class="sponsor-placeholder">
-    			            <img src="https://i.imgur.com/lgirlaA.png" alt="SAY-10">
-		               </div>
-                        <span class="sponsor-name">SAY-10</span><br>
-                        <span class="sponsor-amount">450 PLN</span>
-                    </div>
-                    <div class="tier-3">
-                        <div class="sponsor-placeholder">
-			                <img src="https://zrpat.pl/images/pytajnik.jpg" alt="Arfakianka">
-                        </div>
-                        <span class="sponsor-name">Arfakianka</span><br>
-                        <span class="sponsor-amount">200 PLN</span>
-                    </div>
-                </div>
-
-                
-                <div class="sponsor-grid">
-		    <div class="sponsor-card"><span class="sponsor-name-small">6games6points</span><span class="sponsor-amount">160 PLN</span></div>
-		    <div class="sponsor-card"><span class="sponsor-name-small">YBK</span><span class="sponsor-amount">150 PLN</span></div>
-		    <div class="sponsor-card"><span class="sponsor-name-small">Perła Gaming</span><span class="sponsor-amount">125 PLN</span></div> 
-		    <div class="sponsor-card"><span class="sponsor-name-small">Noob Busters</span><span class="sponsor-amount">100 PLN</span></div>
-		    <div class="sponsor-card"><span class="sponsor-name-small">Hot sukkubus</span><span class="sponsor-amount">100 PLN</span></div>
-		    <div class="sponsor-card"><span class="sponsor-name-small">ICC</span><span class="sponsor-amount">100 PLN</span></div>
-                    <div class="sponsor-card"><span class="sponsor-name-small">MorderczeJajo</span><span class="sponsor-amount">100 PLN</span></div>
-		    <div class="sponsor-card"><span class="sponsor-name-small">B-Unit</span><span class="sponsor-amount">100 PLN</span></div>
-                    <div class="sponsor-card"><span class="sponsor-name-small">2IQ</span><span class="sponsor-amount">100 PLN</span></div>
-                    <div class="sponsor-card"><span class="sponsor-name-small">UFO Porno</span><span class="sponsor-amount">100 PLN</span></div>
-		    <div class="sponsor-card"><span class="sponsor-name-small">ARMIA</span><span class="sponsor-amount">100 PLN</span></div>
-                    <div class="sponsor-card"><span class="sponsor-name-small">FoodMarketAcademy </span><span class="sponsor-amount">100 PLN</span></div>
-		    <div class="sponsor-card"><span class="sponsor-name-small">John Abruzzi</span><span class="sponsor-amount">50 PLN</span></div>
-		    <div class="sponsor-card"><span class="sponsor-name-small">Najcik</span><span class="sponsor-amount">50 PLN</span></div>                                       
-		    <div class="sponsor-card"><span class="sponsor-name-small">Pufax</span><span class="sponsor-amount">50 PLN</span></div>                                       
-		    <div class="sponsor-card"><span class="sponsor-name-small">Cykusss</span><span class="sponsor-amount">30 PLN</span></div>                                       
-
-                </div>
-
-                <div style="text-align:center; margin-top:30px; font-size:1.5em; border-top:1px solid #444; padding-top:20px; color:#fff; font-family:'Oswald';">
-                    Łączna suma zebrana: <strong style="color:#ffc107">0 PLN</strong>
-                </div>
-            </div>
-        </section>
-
-        <section id="teamy">
-            <h3 class="collapsible-trigger">Zapisane Teamy</h3>
-            <div class="collapsible-content expanded">
-                <p style="color:#bbb; margin-bottom:20px;">Lista pobierana na żywo z arkusza zapisów. Pierwszeństwo mają drużyny z wpłatą.</p>
-                <div id="team-list-dynamic" class="team-grid">
-                    <p>Ładowanie listy drużyn...</p>
-                </div>
-            </div>
-        </section>
-
-        <section id="wyniki">
-            <h3>Wyniki Końcowe</h3>
-            <div class="tabs-nav">
-                <button class="tab-link active" data-tab="generalna">Generalna</button>
-                <button class="tab-link" data-tab="gra1">Gra 1</button>
-                <button class="tab-link" data-tab="gra2">Gra 2</button>
-                <button class="tab-link" data-tab="gra3">Gra 3</button>
-                <button class="tab-link" data-tab="gra4">Gra 4</button>
-                <button class="tab-link" data-tab="gra5">Gra 5</button>
-                <button class="tab-link" data-tab="gra6">Gra 6</button>
-            </div>
-
-            <div id="tab-generalna" class="tab-content active">
-                <div class="results-table-container">
-                    <table class="results-table"><thead><tr><th>#</th><th>Team</th><th>Pkt (Rank)</th><th>Kills</th><th>Suma</th></tr></thead><tbody></tbody></table>
-                </div>
-            </div>
-            <div id="tab-gra1" class="tab-content"><div class="results-table-container"><table class="results-table"><thead><tr><th>#</th><th>Team</th><th>Pkt</th><th>Kills</th><th>Suma</th></tr></thead><tbody></tbody></table></div></div>
-            <div id="tab-gra2" class="tab-content"><div class="results-table-container"><table class="results-table"><thead><tr><th>#</th><th>Team</th><th>Pkt</th><th>Kills</th><th>Suma</th></tr></thead><tbody></tbody></table></div></div>
-            <div id="tab-gra3" class="tab-content"><div class="results-table-container"><table class="results-table"><thead><tr><th>#</th><th>Team</th><th>Pkt</th><th>Kills</th><th>Suma</th></tr></thead><tbody></tbody></table></div></div>
-            <div id="tab-gra4" class="tab-content"><div class="results-table-container"><table class="results-table"><thead><tr><th>#</th><th>Team</th><th>Pkt</th><th>Kills</th><th>Suma</th></tr></thead><tbody></tbody></table></div></div>
-            <div id="tab-gra5" class="tab-content"><div class="results-table-container"><table class="results-table"><thead><tr><th>#</th><th>Team</th><th>Pkt</th><th>Kills</th><th>Suma</th></tr></thead><tbody></tbody></table></div></div>
-            <div id="tab-gra6" class="tab-content"><div class="results-table-container"><table class="results-table"><thead><tr><th>#</th><th>Team</th><th>Pkt</th><th>Kills</th><th>Suma</th></tr></thead><tbody></tbody></table></div></div>
-        </section>
-
-        <section id="regulamin" style="text-align: center; padding-bottom: 50px;">
-            <h3>Regulamin Turnieju</h3>
-            <p style="color: #ccc; margin-bottom: 30px; max-width: 800px; margin-left: auto; margin-right: auto;">
-                Pełny regulamin wydarzenia, zasady punktacji oraz wymogi techniczne znajdują się w dokumencie PDF.
-                Kliknij przycisk poniżej, aby go pobrać lub otworzyć.
+        <header class="t-header">
+            <div class="t-breadcrumbs">TURNIEJE / ZAKOŃCZONE</div>
+            <h1>GRAMY DLA <span style="color:var(--accent)">BORYSA</span></h1>
+            <p style="color:var(--text-gray); max-width: 600px;">
+                Turniej Charytatywny 2025. Całkowity dochód przeznaczony na leczenie 4-letniego Borysa.
             </p>
+        </header>
+
+        <div class="tournament-layout">
             
-            <a href="Regulamin TURNIEJU CHARYTATYWNEGO 2025.pdf" target="_blank" class="cta-button">
-                POBIERZ REGULAMIN (PDF)
-            </a>
-        </section>
+            <main>
+                <div class="video-wrapper">
+                    <iframe 
+                        src="https://www.youtube.com/embed/n1KcHC1Mtpg" 
+                        title="Turniej Charytatywny Video" 
+                        frameborder="0" 
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                        allowfullscreen>
+                    </iframe>
+                </div>
 
-        <section id="kontakt">
-            <h3>Kontakt</h3>
-            <p style="color:#ccc;">W razie pytań zapraszamy na Discord:</p>
-            <ul class="info-list">
-                <li><strong>Organizator:</strong> <a href="https://discordapp.com/users/610995594189864980" target="_blank">Złoty</a></li>
-                <li><strong>Dział techniczny:</strong> <a href="https://discordapp.com/users/605726001539973121" target="_blank">KAROL3K</a></li>
-            </ul>
-        </section>
+                <section class="section-box" id="wyniki">
+                    <h2 class="section-title">WYNIKI TURNIEJU</h2>
+                    
+                    <div class="tabs-nav">
+                        <button class="tab-btn active" onclick="openTab('generalna')">GENERALNA</button>
+                        <button class="tab-btn" onclick="openTab('gra1')">GRA 1</button>
+                        <button class="tab-btn" onclick="openTab('gra2')">GRA 2</button>
+                        <button class="tab-btn" onclick="openTab('gra3')">GRA 3</button>
+                        <button class="tab-btn" onclick="openTab('gra4')">GRA 4</button>
+                        <button class="tab-btn" onclick="openTab('gra5')">GRA 5</button>
+                        <button class="tab-btn" onclick="openTab('gra6')">GRA 6</button>
+                    </div>
 
+                    <div id="tab-generalna" class="tab-content active">
+                        <div class="results-table-wrapper">
+                            <table class="results-table" id="table-generalna">
+                                <thead><tr><th>#</th><th>DRUŻYNA</th><th>RANK PTS</th><th>KILLS</th><th>SUMA</th></tr></thead>
+                                <tbody><tr><td colspan="5" style="padding:30px;">Ładowanie wyników...</td></tr></tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div id="tab-gra1" class="tab-content"><div class="results-table-wrapper"><table class="results-table"><thead><tr><th>#</th><th>DRUŻYNA</th><th>RANK PTS</th><th>KILLS</th><th>SUMA</th></tr></thead><tbody></tbody></table></div></div>
+                    <div id="tab-gra2" class="tab-content"><div class="results-table-wrapper"><table class="results-table"><thead><tr><th>#</th><th>DRUŻYNA</th><th>RANK PTS</th><th>KILLS</th><th>SUMA</th></tr></thead><tbody></tbody></table></div></div>
+                    <div id="tab-gra3" class="tab-content"><div class="results-table-wrapper"><table class="results-table"><thead><tr><th>#</th><th>DRUŻYNA</th><th>RANK PTS</th><th>KILLS</th><th>SUMA</th></tr></thead><tbody></tbody></table></div></div>
+                    <div id="tab-gra4" class="tab-content"><div class="results-table-wrapper"><table class="results-table"><thead><tr><th>#</th><th>DRUŻYNA</th><th>RANK PTS</th><th>KILLS</th><th>SUMA</th></tr></thead><tbody></tbody></table></div></div>
+                    <div id="tab-gra5" class="tab-content"><div class="results-table-wrapper"><table class="results-table"><thead><tr><th>#</th><th>DRUŻYNA</th><th>RANK PTS</th><th>KILLS</th><th>SUMA</th></tr></thead><tbody></tbody></table></div></div>
+                    <div id="tab-gra6" class="tab-content"><div class="results-table-wrapper"><table class="results-table"><thead><tr><th>#</th><th>DRUŻYNA</th><th>RANK PTS</th><th>KILLS</th><th>SUMA</th></tr></thead><tbody></tbody></table></div></div>
+                </section>
+
+                <section class="section-box" id="teamy">
+                    <h2 class="section-title">UCZESTNICY</h2>
+                    <p style="color:var(--text-gray); margin-bottom:20px;">Kliknij na nazwę drużyny, aby zobaczyć skład.</p>
+                    <div id="team-list-dynamic" class="teams-grid">
+                        <p>Ładowanie listy drużyn...</p>
+                    </div>
+                </section>
+
+                <section class="section-box" id="regulamin">
+                    <h2 class="section-title">REGULAMIN</h2>
+                    <a href="Regulamin TURNIEJU CHARYTATYWNEGO 2025.pdf" target="_blank" class="btn-pdf">
+                        <i class="fas fa-file-pdf"></i>
+                        POBIERZ REGULAMIN TURNIEJU CHARYTATYWNEGO (PDF)
+                    </a>
+                </section>
+            </main>
+
+            <aside>
+                
+                <div class="section-box">
+                    <h3 style="margin-bottom:20px;">INFORMACJE</h3>
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <span class="info-label">Data</span>
+                            <span class="info-val">13.12.2025</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Tryb</span>
+                            <span class="info-val">SQUAD FPP</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Zebrano dla Borysa</span>
+                            <span class="info-val charity-sum" id="total-sum">0.00 PLN</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Mapy</span>
+                            <span class="info-val" style="font-size:1em;">2x Miramar, Rondo, Taego, 2x Erangel</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Stream</span>
+                            <span class="info-val"><a href="https://www.twitch.tv/majsterzz" target="_blank">Twitch.tv/majsterzz</a></span>
+                        </div>
+                         <div class="info-item">
+                            <span class="info-label">Zbiórka</span>
+                            <span class="info-val"><a href="https://sercadlamaluszka.pl/nasi-podopieczni/borys-mytko" target="_blank">SercaDlaMaluszka.pl</a></span>
+                        </div>
+                    </div>
+                    
+                    <a href="https://fantasycoach.web.app/fantasy.html" class="btn-cta" 
+                       style="display:block; text-align:center; margin-top:20px; font-size: 1.3em; padding: 20px 10px; box-shadow: 0 0 15px rgba(255, 0, 25, 0.4);">
+                        <i class="fas fa-gamepad"></i> WYNIKI FANTASY
+                    </a>
+                </div>
+
+                <div class="section-box">
+                    <h3 style="margin-bottom:20px;">DARCZYŃCY</h3>
+                    
+                    <div class="sponsors-top">
+                        <div class="sp-card-img sp-tier-1">
+                            <img src="https://i.imgur.com/lgirlaA.png" alt="SAY-10">
+                            <span class="sp-name">SAY-10</span>
+                            <span class="sp-val" data-val="450">450 PLN</span>
+                        </div>
+                        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:15px;">
+                            <div class="sp-card-img">
+                                <img src="https://i.imgur.com/2MRwBfA.png" alt="CPN">
+                                <span class="sp-name">CPN</span>
+                                <span class="sp-val" data-val="300">300 PLN</span>
+                            </div>
+                            <div class="sp-card-img">
+                                <img src="https://zrpat.pl/images/pytajnik.jpg" alt="Arfakianka">
+                                <span class="sp-name">Arfakianka</span>
+                                <span class="sp-val" data-val="200">200 PLN</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="sponsors-list" id="sponsor-list-text">
+                        <div class="sponsor-item"><span class="sp-name">6games6points</span><span class="sp-val" data-val="160">160 PLN</span></div>
+                        <div class="sponsor-item"><span class="sp-name">YBK</span><span class="sp-val" data-val="150">150 PLN</span></div>
+                        <div class="sponsor-item"><span class="sp-name">Perła Gaming</span><span class="sp-val" data-val="125">125 PLN</span></div> 
+                        <div class="sponsor-item"><span class="sp-name">Noob Busters</span><span class="sp-val" data-val="100">100 PLN</span></div>
+                        <div class="sponsor-item"><span class="sp-name">Hot sukkubus</span><span class="sp-val" data-val="100">100 PLN</span></div>
+                        <div class="sponsor-item"><span class="sp-name">ICC</span><span class="sp-val" data-val="100">100 PLN</span></div>
+                        <div class="sponsor-item"><span class="sp-name">MorderczeJajo</span><span class="sp-val" data-val="100">100 PLN</span></div>
+                        <div class="sponsor-item"><span class="sp-name">B-Unit</span><span class="sp-val" data-val="100">100 PLN</span></div>
+                        <div class="sponsor-item"><span class="sp-name">2IQ</span><span class="sp-val" data-val="100">100 PLN</span></div>
+                        <div class="sponsor-item"><span class="sp-name">UFO Porno</span><span class="sp-val" data-val="100">100 PLN</span></div>
+                        <div class="sponsor-item"><span class="sp-name">ARMIA</span><span class="sp-val" data-val="100">100 PLN</span></div>
+                        <div class="sponsor-item"><span class="sp-name">FoodMarketAcademy</span><span class="sp-val" data-val="100">100 PLN</span></div>
+                        <div class="sponsor-item"><span class="sp-name">John Abruzzi</span><span class="sp-val" data-val="50">50 PLN</span></div>
+                        <div class="sponsor-item"><span class="sp-name">Najcik</span><span class="sp-val" data-val="50">50 PLN</span></div>                                       
+                        <div class="sponsor-item"><span class="sp-name">Pufax</span><span class="sp-val" data-val="50">50 PLN</span></div>                                       
+                        <div class="sponsor-item"><span class="sp-name">Cykusss</span><span class="sp-val" data-val="30">30 PLN</span></div>
+                    </div>
+                </div>
+
+                <div class="section-box">
+                    <h3 style="margin-bottom:20px;">KONTAKT</h3>
+                    <div style="background:var(--bg-card); padding:20px; border:1px solid var(--border-color);">
+                        <p style="color:var(--text-gray); font-size:0.9em; margin-bottom:10px;">Organizatorzy:</p>
+                        <div style="font-weight:bold; font-family:'Oswald'; color:var(--accent);">
+                            <i class="fab fa-discord"></i> Złoty<br>
+                            <i class="fas fa-wrench"></i> KAROL3K
+                        </div>
+                    </div>
+                </div>
+
+            </aside>
+
+        </div>
+
+        <footer>
+            &copy; 2025 PUBG POLSKA. Strona nie jest powiązana z KRAFTON, Inc.
+        </footer>
     </div>
 
-    <footer>
-        © 2025 PUBG POLSKA. Strona nie jest powiązana z KRAFTON, Inc.
-    </footer>
-</div>
+    <script>
+        // === KONFIGURACJA NAZW (Skopiowane z oryginału) ===
+        const TEAM_NAME_MAPPING = {
+            "batalion zaska": "Batalion Zoska",
+            "perla gaming": "PERLA GAMING",
+            "calkowity potencjal nieuwolniony": "Calkowity Potencjal NieUwolniony",
+            "hot sukkubus": "Hot Sukkubus",
+            "foodmarketacademy": "FoodMarketAcademy",
+            "noob busters": "Noob Busters",
+            "2iq team": "2IQ Team",
+            "6games6points": "6games6points",
+            "ufo porno": "UFO Porno",
+            "essa": "ESSA",
+            "say-10": "SAY-10",
+            "armia": "ARMIA",
+            "green8": "Green8",
+            "zerohaha": "ZeroHahe",
+            "zero hahe": "ZeroHahe",
+            "ruthlesscrew": "RuthlessCrew",
+            "ybk": "YBK",
+            "kwadratowe bambusy": "Kwadratowe Bambusy",
+            "icc": "ICC"
+        };
 
-<script>
-    // ==========================================
-    // KONFIGURACJA: SŁOWNIK POPRAWEK NAZW DRUŻYN
-    // ==========================================
-    // Tutaj wpisujemy błędne nazwy (z lewej, małymi literami) i poprawne (z prawej).
-    const TEAM_NAME_MAPPING = {
-        "batalion zaska": "Batalion Zoska",   // Poprawa literówki
-        "perla gaming": "PERLA GAMING",       // Poprawa L na Ł
-        "calkowity potencjal nieuwolniony": "Calkowity Potencjal NieUwolniony", // Polskie znaki
-        "hot sukkubus": "Hot Sukkubus",       // Wielka litera
-        "foodmarketacademy": "FoodMarketAcademy", // Brak spacji
-        "noob busters": "Noob Busters",
-        "2iq team": "2IQ Team",
-        "6games6points": "6games6points",
-        "ufo porno": "UFO Porno",
-        "essa": "ESSA",
-        "say-10": "SAY-10",
-        "armia": "ARMIA",
-        "green8": "Green8",
-        "zerohaha": "ZeroHahe",
-	"zero hahe": "ZeroHahe",
-        "ruthlesscrew": "RuthlessCrew",
-        "ybk": "YBK",
-        "kwadratowe bambusy": "Kwadratowe Bambusy",
-        "icc": "ICC"
-    };
-
-    // ==========================================
-    // 1. OBLICZANIE SUMY WPŁAT
-    // ==========================================
-    function calculateTotalDonations() {
-        let total = 0;
-        document.querySelectorAll('.sponsor-amount').forEach(element => {
-            let cleanText = element.textContent.toLowerCase().replace(/[^0-9,.]/g, '').replace(',', '.');
-            let val = parseFloat(cleanText);
-            if (!isNaN(val)) total += val;
-        });
-        const totalDisplay = document.querySelector('.collapsible-content strong[style="color:#ffc107"]');
-        if (totalDisplay) totalDisplay.textContent = total.toFixed(2) + ' PLN';
-    }
-    calculateTotalDonations();
-
-    // ==========================================
-    // 2. POZOSTAŁE FUNKCJE UI
-    // ==========================================
-    function sortSponsors() {
-        const grid = document.querySelector('.sponsor-grid');
-        if(!grid) return;
-        const cards = Array.from(grid.querySelectorAll('.sponsor-card'));
-        cards.sort((a, b) => {
-            const getAmount = (el) => parseFloat(el.querySelector('.sponsor-amount').textContent.replace(/[^0-9,.]/g, '').replace(',', '.')) || 0;
-            return getAmount(b) - getAmount(a);
-        });
-        grid.innerHTML = '';
-        cards.forEach(card => grid.appendChild(card));
-    }
-    sortSponsors();
-
-    document.querySelectorAll('.collapsible-trigger').forEach(header => {
-        header.addEventListener('click', () => {
-            const content = header.nextElementSibling;
-            if (content) content.classList.toggle('expanded');
-        });
-    });
-
-    function parseCSVRow(row) {
-        const columns = [];
-        let current = '';
-        let inQuotes = false;
-        for(let i=0; i<row.length; i++){
-            if(row[i] === '"') { inQuotes = !inQuotes; }
-            else if(row[i] === ',' && !inQuotes) { columns.push(current); current = ''; }
-            else { current += row[i]; }
+        // === 1. ZLICZANIE SUMY WPŁAT ===
+        function calculateTotal() {
+            let total = 0;
+            // Pobierz wszystkie elementy z klasą .sp-val (zarówno Top 3 jak i lista)
+            document.querySelectorAll('.sp-val').forEach(el => {
+                const val = parseFloat(el.getAttribute('data-val'));
+                if(!isNaN(val)) total += val;
+            });
+            // Wyświetl sformatowaną sumę
+            const sumEl = document.getElementById('total-sum');
+            if(sumEl) sumEl.textContent = total.toLocaleString('pl-PL', { minimumFractionDigits: 2 }) + ' PLN';
         }
-        columns.push(current);
-        return columns.map(c => c.trim().replace(/^"|"$/g, ''));
-    }
+        calculateTotal();
 
-    // ==========================================
-    // 3. POBIERANIE SKŁADÓW
-    // ==========================================
-    const TEAMS_SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vScvP0CCSXI2M-iz8wNoASNqPNFCWTUFrRBRzyqdQgjo8hPLdYha-rLV35rmAk3OUbzhnGKjVJpkIIK/pub?output=csv';
-
-    async function loadTeams() {
-        const list = document.getElementById('team-list-dynamic');
-        try {
-            const response = await fetch(TEAMS_SHEET_URL);
-            if(!response.ok) throw new Error("Błąd sieci");
-            const rows = (await response.text()).split(/\r?\n/).slice(1);
-            
-            list.innerHTML = '';
-            let count = 0;
-
-            rows.forEach(row => {
-                if(!row.trim()) return;
-                const cols = parseCSVRow(row);
-                const teamName = cols[12]; 
-                if(!teamName) return; 
-
-                count++;
-                const card = document.createElement('div');
-                card.className = 'team-card';
-                card.innerHTML = `
-                    <div class="team-card-header">
-                        <span class="team-number">${count}.</span>
-                        <span class="team-name">${teamName}</span>
-                    </div>
-                    <ul class="player-sublist">
-                        ${cols[2] ? `<li class="captain">${cols[2]} (C)</li>` : ''}
-                        ${cols[4] ? `<li>${cols[4]}</li>` : ''}
-                        ${cols[6] ? `<li>${cols[6]}</li>` : ''}
-                        ${cols[8] ? `<li>${cols[8]}</li>` : ''}
-                        ${cols[10] ? `<li>${cols[10]} (Rez)</li>` : ''}
-                    </ul>`;
-                card.querySelector('.team-card-header').addEventListener('click', function() { this.nextElementSibling.classList.toggle('expanded'); });
-                list.appendChild(card);
-            });
-            if(count === 0) list.innerHTML = '<p style="padding:10px; color:#bbb;">Brak drużyn.</p>';
-        } catch(e) { console.log(e); }
-    }
-    loadTeams();
-
-    // ==========================================
-    // 4. POBIERANIE WYNIKÓW (Z NORMALIZACJĄ NAZW)
-    // ==========================================
-    const RESULTS_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTJI2BqSXSxXyCvWvXEwgHC-kaH7ijYdTY30IDcdYa-JA_YlBL8NoIblDmOFduSwWAr3CrJ4MvNStRD/pub?gid=0&single=true&output=csv';
-
-    async function loadTournamentResults() {
-        try {
-            const response = await fetch(RESULTS_CSV_URL);
-            const rows = (await response.text()).split(/\r?\n/);
-
-            const matchesData = { 1: [], 2: [], 3: [], 4: [], 5: [], 6: [] };
-            const generalStandings = new Map(); 
-
-            let currentMatch = 0;
-
-            rows.forEach((row, index) => {
-                if(!row.trim()) return;
-                const cols = parseCSVRow(row);
-                
-                // Wykrywanie numeru meczu
-                const rowString = row.toUpperCase();
-                if (rowString.includes("MECZ 1") || (cols[0] && cols[0].includes("1") && cols[0].length < 5)) currentMatch = 1;
-                else if (rowString.includes("MECZ 2") || (cols[0] && cols[0].includes("2") && cols[0].length < 5)) currentMatch = 2;
-                else if (rowString.includes("MECZ 3") || (cols[0] && cols[0].includes("3") && cols[0].length < 5)) currentMatch = 3;
-                else if (rowString.includes("MECZ 4") || (cols[0] && cols[0].includes("4") && cols[0].length < 5)) currentMatch = 4;
-                else if (rowString.includes("MECZ 5") || (cols[0] && cols[0].includes("5") && cols[0].length < 5)) currentMatch = 5;
-                else if (rowString.includes("MECZ 6") || (cols[0] && cols[0].includes("6") && cols[0].length < 5)) currentMatch = 6;
-
-                // Pomijanie nagłówków
-                if (currentMatch === 0 || rowString.includes("MIEJSCE") || rowString.includes("RANK")) return;
-
-                // Pobranie surowej nazwy
-                let rawTeamName = cols[2];
-                if (!rawTeamName) return; 
-
-                // --- NORMALIZACJA NAZWY (NAPRAWA DUPLIKATÓW) ---
-                let cleanName = rawTeamName.trim(); // Usuń spacje z przodu/tyłu
-                let lookupKey = cleanName.toLowerCase(); // Zamień na małe litery do szukania w słowniku
-
-                // Jeśli nazwa jest w słowniku poprawek, użyj poprawnej wersji
-                // Jeśli nie, użyj oryginalnej (ale bez spacji na końcach)
-                let finalTeamName = TEAM_NAME_MAPPING[lookupKey] || cleanName;
-
-                // Klucz do mapy generalnej (lowercase)
-                const mapKey = finalTeamName.toLowerCase();
-
-                // Parsowanie liczb
-                const killPts = parseFloat((cols[4] || "0").replace(',', '.')) || 0;
-                const rankPts = parseFloat((cols[5] || "0").replace(',', '.')) || 0;
-                const totalPts = parseFloat((cols[6] || "0").replace(',', '.')) || 0;
-
-                // Dodaj do meczu (używając już POPRAWIONEJ nazwy)
-                matchesData[currentMatch].push({ team: finalTeamName, killPts, rankPts, totalPts });
-
-                // Dodaj do generalki (używając POPRAWIONEJ nazwy)
-                if (!generalStandings.has(mapKey)) {
-                    generalStandings.set(mapKey, { team: finalTeamName, killPts: 0, rankPts: 0, totalPts: 0 });
-                }
-                const currentStats = generalStandings.get(mapKey);
-                currentStats.killPts += killPts;
-                currentStats.rankPts += rankPts;
-                currentStats.totalPts += totalPts;
-            });
-
-            // Renderowanie Generalnej
-            const generalArray = Array.from(generalStandings.values());
-            generalArray.sort((a, b) => b.totalPts - a.totalPts);
-            renderTable('tab-generalna', generalArray);
-
-            // Renderowanie Meczów
-            for (let i = 1; i <= 6; i++) {
-                if (matchesData[i].length > 0) {
-                    matchesData[i].sort((a, b) => b.totalPts - a.totalPts);
-                    renderTable(`tab-gra${i}`, matchesData[i]);
-                } else {
-                    const tbody = document.querySelector(`#tab-gra${i} tbody`);
-                    if(tbody) tbody.innerHTML = '<tr><td colspan="5" style="padding:20px; color:#777;">Brak wyników. Sprawdź format arkusza.</td></tr>';
-                }
-            }
-
-        } catch (e) { console.error("Błąd skryptu:", e); }
-    }
-
-    function renderTable(tabId, data) {
-        const tbody = document.querySelector(`#${tabId} tbody`);
-        if (!tbody) return;
-        tbody.innerHTML = '';
-        data.forEach((row, index) => {
-            const tr = document.createElement('tr');
-            let color = '#ccc';
-            if(index===0) color='#ffd700'; else if(index===1) color='#c0c0c0'; else if(index===2) color='#cd7f32';
-            
-            const fmt = (n) => n % 1 === 0 ? n : n.toFixed(1);
-            tr.innerHTML = `
-                <td style="color:${color}; font-weight:bold;">${index + 1}.</td>
-                <td style="color:${index < 3 ? '#fff' : '#ccc'}; font-weight:${index < 3 ? 'bold' : 'normal'}">${row.team}</td>
-                <td>${fmt(row.rankPts)}</td>
-                <td>${fmt(row.killPts)}</td>
-                <td style="color:var(--primary); font-weight:bold; font-size:1.1em;">${fmt(row.totalPts)}</td>
-            `;
-            tbody.appendChild(tr);
-        });
-    }
-
-    // Uruchomienie zakładek
-    document.querySelectorAll('.tab-link').forEach(btn => {
-        btn.addEventListener('click', () => {
-            document.querySelectorAll('.tab-link').forEach(b => b.classList.remove('active'));
+        // === 2. ZAKŁADKI (TABS) ===
+        function openTab(tabName) {
             document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-            btn.classList.add('active');
-            const target = document.getElementById('tab-' + btn.dataset.tab);
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            
+            const target = document.getElementById('tab-' + tabName);
             if(target) target.classList.add('active');
-        });
-    });
+            
+            // Dodaj active do klikniętego przycisku
+            // (wyszukiwanie po tekście lub prościej - obsługa eventu)
+            const clickedBtn = Array.from(document.querySelectorAll('.tab-btn')).find(b => b.getAttribute('onclick').includes(tabName));
+            if(clickedBtn) clickedBtn.classList.add('active');
+        }
 
-    loadTournamentResults();
-</script>
+        // === 3. PARSER CSV ===
+        function parseCSVRow(row) {
+            const columns = [];
+            let current = '';
+            let inQuotes = false;
+            for(let i=0; i<row.length; i++){
+                if(row[i] === '"') { inQuotes = !inQuotes; }
+                else if(row[i] === ',' && !inQuotes) { columns.push(current); current = ''; }
+                else { current += row[i]; }
+            }
+            columns.push(current);
+            return columns.map(c => c.trim().replace(/^"|"$/g, ''));
+        }
+
+        // === 4. POBIERANIE SKŁADÓW (TEAMS) ===
+        const TEAMS_SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vScvP0CCSXI2M-iz8wNoASNqPNFCWTUFrRBRzyqdQgjo8hPLdYha-rLV35rmAk3OUbzhnGKjVJpkIIK/pub?output=csv';
+
+        async function loadTeams() {
+            const list = document.getElementById('team-list-dynamic');
+            try {
+                const response = await fetch(TEAMS_SHEET_URL);
+                if(!response.ok) throw new Error("Błąd sieci");
+                const rows = (await response.text()).split(/\r?\n/).slice(1);
+                
+                list.innerHTML = '';
+                let count = 0;
+
+                rows.forEach(row => {
+                    if(!row.trim()) return;
+                    const cols = parseCSVRow(row);
+                    const teamName = cols[12]; // Kolumna z nazwą teamu
+                    if(!teamName) return; 
+
+                    count++;
+                    const card = document.createElement('div');
+                    card.className = 'team-card';
+                    
+                    let playersHtml = `<ul class="team-players">`;
+                    if(cols[2]) playersHtml += `<li class="captain"><i class="fas fa-star" style="font-size:0.8em"></i> ${cols[2]}</li>`;
+                    if(cols[4]) playersHtml += `<li>${cols[4]}</li>`;
+                    if(cols[6]) playersHtml += `<li>${cols[6]}</li>`;
+                    if(cols[8]) playersHtml += `<li>${cols[8]}</li>`;
+                    if(cols[10]) playersHtml += `<li>${cols[10]} (Rez)</li>`;
+                    playersHtml += `</ul>`;
+
+                    card.innerHTML = `
+                        <div class="team-header">
+                            <div><span class="team-rank">#${count}</span> ${teamName}</div>
+                            <i class="fas fa-chevron-down" style="font-size:0.8em; color:var(--accent)"></i>
+                        </div>
+                        ${playersHtml}
+                    `;
+                    
+                    // Obsługa rozwijania
+                    card.querySelector('.team-header').addEventListener('click', function() {
+                        const ul = this.nextElementSibling;
+                        ul.classList.toggle('expanded');
+                        const icon = this.querySelector('.fa-chevron-down');
+                        icon.style.transform = ul.classList.contains('expanded') ? 'rotate(180deg)' : 'rotate(0)';
+                    });
+                    
+                    list.appendChild(card);
+                });
+                
+                if(count === 0) list.innerHTML = '<p style="padding:10px; color:#bbb;">Brak drużyn.</p>';
+
+            } catch(e) { console.error(e); list.innerHTML = '<p>Błąd wczytywania.</p>'; }
+        }
+        loadTeams();
+
+        // === 5. POBIERANIE WYNIKÓW (RESULTS) ===
+        const RESULTS_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTJI2BqSXSxXyCvWvXEwgHC-kaH7ijYdTY30IDcdYa-JA_YlBL8NoIblDmOFduSwWAr3CrJ4MvNStRD/pub?gid=0&single=true&output=csv';
+
+        async function loadTournamentResults() {
+            try {
+                const response = await fetch(RESULTS_CSV_URL);
+                const rows = (await response.text()).split(/\r?\n/);
+
+                const matchesData = { 1: [], 2: [], 3: [], 4: [], 5: [], 6: [] };
+                const generalStandings = new Map(); 
+
+                let currentMatch = 0;
+
+                rows.forEach((row, index) => {
+                    if(!row.trim()) return;
+                    const cols = parseCSVRow(row);
+                    const rowString = row.toUpperCase();
+
+                    // Wykrywanie numeru meczu
+                    if (rowString.includes("MECZ 1") || (cols[0] && cols[0].includes("1") && cols[0].length < 5)) currentMatch = 1;
+                    else if (rowString.includes("MECZ 2") || (cols[0] && cols[0].includes("2") && cols[0].length < 5)) currentMatch = 2;
+                    else if (rowString.includes("MECZ 3") || (cols[0] && cols[0].includes("3") && cols[0].length < 5)) currentMatch = 3;
+                    else if (rowString.includes("MECZ 4") || (cols[0] && cols[0].includes("4") && cols[0].length < 5)) currentMatch = 4;
+                    else if (rowString.includes("MECZ 5") || (cols[0] && cols[0].includes("5") && cols[0].length < 5)) currentMatch = 5;
+                    else if (rowString.includes("MECZ 6") || (cols[0] && cols[0].includes("6") && cols[0].length < 5)) currentMatch = 6;
+
+                    // Pomijanie nagłówków
+                    if (currentMatch === 0 || rowString.includes("MIEJSCE") || rowString.includes("RANK")) return;
+
+                    let rawTeamName = cols[2];
+                    if (!rawTeamName) return; 
+
+                    // Normalizacja nazwy
+                    let cleanName = rawTeamName.trim();
+                    let lookupKey = cleanName.toLowerCase();
+                    let finalTeamName = TEAM_NAME_MAPPING[lookupKey] || cleanName;
+                    const mapKey = finalTeamName.toLowerCase();
+
+                    const killPts = parseFloat((cols[4] || "0").replace(',', '.')) || 0;
+                    const rankPts = parseFloat((cols[5] || "0").replace(',', '.')) || 0;
+                    const totalPts = parseFloat((cols[6] || "0").replace(',', '.')) || 0;
+
+                    // Dodaj do meczu
+                    matchesData[currentMatch].push({ team: finalTeamName, killPts, rankPts, totalPts });
+
+                    // Dodaj do generalki
+                    if (!generalStandings.has(mapKey)) {
+                        generalStandings.set(mapKey, { team: finalTeamName, killPts: 0, rankPts: 0, totalPts: 0 });
+                    }
+                    const currentStats = generalStandings.get(mapKey);
+                    currentStats.killPts += killPts;
+                    currentStats.rankPts += rankPts;
+                    currentStats.totalPts += totalPts;
+                });
+
+                // Renderowanie Generalnej
+                const generalArray = Array.from(generalStandings.values());
+                generalArray.sort((a, b) => b.totalPts - a.totalPts);
+                renderTable('table-generalna', generalArray);
+
+                // Renderowanie Meczów 1-6
+                for (let i = 1; i <= 6; i++) {
+                    // Znajdź tabelę wewnątrz diva tab-graX
+                    const tableId = `tab-gra${i}`; 
+                    // Ponieważ renderTable szuka ID tabeli, a my mamy ID diva, musimy lekko zmodyfikować selektor w funkcji renderTable
+                    // LUB przekazać kontener.
+                    // Zmodyfikujmy wywołanie, żeby pasowało do struktury
+                    
+                    if (matchesData[i].length > 0) {
+                        matchesData[i].sort((a, b) => b.totalPts - a.totalPts);
+                        renderTableInDiv(tableId, matchesData[i]);
+                    } else {
+                        const div = document.getElementById(tableId);
+                        if(div) {
+                            const tbody = div.querySelector('tbody');
+                            if(tbody) tbody.innerHTML = '<tr><td colspan="5" style="padding:20px; color:#555;">Brak wyników.</td></tr>';
+                        }
+                    }
+                }
+
+            } catch (e) { console.error("Błąd skryptu:", e); }
+        }
+
+        // Funkcja renderująca dla tabeli generalnej (ma ID na tabeli)
+        function renderTable(tableId, data) {
+            const table = document.getElementById(tableId);
+            if (!table) return;
+            const tbody = table.querySelector('tbody');
+            if (!tbody) return;
+            
+            fillBody(tbody, data);
+        }
+
+        // Funkcja renderująca dla zakładek gier (mają ID na divie nadrzędnym)
+        function renderTableInDiv(divId, data) {
+            const div = document.getElementById(divId);
+            if (!div) return;
+            const tbody = div.querySelector('tbody');
+            if (!tbody) return;
+
+            fillBody(tbody, data);
+        }
+
+        // Wspólna funkcja wypełniająca TBODY
+        function fillBody(tbody, data) {
+            tbody.innerHTML = '';
+            data.forEach((row, index) => {
+                const tr = document.createElement('tr');
+                
+                // Kolory podium (opcjonalne, subtelne)
+                let rankStyle = "color:var(--text-gray)";
+                if(index === 0) rankStyle = "color:#ffd700; font-weight:bold;"; // Złoto
+                if(index === 1) rankStyle = "color:#c0c0c0; font-weight:bold;"; // Srebro
+                if(index === 2) rankStyle = "color:#cd7f32; font-weight:bold;"; // Brąz
+
+                const fmt = (n) => n % 1 === 0 ? n : n.toFixed(1);
+                
+                tr.innerHTML = `
+                    <td style="${rankStyle}">${index + 1}.</td>
+                    <td>${row.team}</td>
+                    <td>${fmt(row.rankPts)}</td>
+                    <td>${fmt(row.killPts)}</td>
+                    <td style="color:var(--accent); font-weight:bold;">${fmt(row.totalPts)}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        loadTournamentResults();
+    </script>
 
 </body>
 </html>

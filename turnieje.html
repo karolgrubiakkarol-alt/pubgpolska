@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PUBG POLSKA - Lista Turniejów</title>
+    <link rel="icon" href="https://i.imgur.com/HcTRskR.png" type="image/png">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;700&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        /* === RESET & PODSTAWY (Skopiowane z indexx.html dla spójności) === */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --bg-body: #050505;
+            --bg-card: #0f0f0f;
+            --bg-card-hover: #141414;
+            --accent: #ff0019;
+            --accent-dark: #cc0014;
+            --text-main: #ffffff;
+            --text-gray: #888888;
+            --border-color: #1f1f1f;
+            --success: #22c55e; /* Kolor dla charytatywnych/zrealizowanych */
+        }
+
+        body {
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            font-family: 'Rajdhani', sans-serif;
+            line-height: 1.5;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, .btn { font-family: 'Oswald', sans-serif; text-transform: uppercase; }
+
+        .container { max-width: 1600px; margin: 0 auto; padding: 0 40px; }
+
+        /* === NAV (Identyczne jak na stronie głównej) === */
+        .top-nav {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 30px 0; border-bottom: 1px solid var(--border-color); margin-bottom: 60px;
+        }
+        .logo img { height: 50px; filter: grayscale(1) brightness(2); transition: 0.3s; }
+        .logo:hover img { filter: none; }
+        .nav-links { display: flex; gap: 40px; }
+        .nav-links a {
+            color: var(--text-main); text-decoration: none; font-family: 'Oswald';
+            font-size: 14px; font-weight: 700; letter-spacing: 2px; transition: 0.3s;
+        }
+        .nav-links a:hover, .nav-links a.active { color: var(--accent); }
+        .btn-cta {
+            background-color: var(--accent); color: #fff; padding: 12px 30px;
+            text-decoration: none; font-weight: bold; font-size: 14px; letter-spacing: 1px;
+            border: none; cursor: pointer; transition: 0.3s; border-radius: 0;
+        }
+        .btn-cta:hover { background-color: var(--accent-dark); }
+
+        /* === PAGE HEADER === */
+        .page-header { margin-bottom: 60px; }
+        .page-header h1 { font-size: 4em; letter-spacing: -1px; margin-bottom: 10px; }
+        .page-header p { color: var(--text-gray); max-width: 600px; font-size: 1.1em; }
+        
+        /* === LISTA TURNIEJÓW (Nowy Styl Poziomy) === */
+        .tournaments-list { display: flex; flex-direction: column; gap: 30px; padding-bottom: 100px; }
+
+        .t-row {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            padding: 30px 40px;
+            display: grid;
+            /* Grid: Ikona/Tytuł | Szczegóły (4 kolumny) | Przycisk */
+            grid-template-columns: 2.5fr 4fr 1fr; 
+            align-items: center;
+            gap: 30px;
+            transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+            position: relative;
+        }
+
+        .t-row:hover {
+            border-color: var(--accent);
+            transform: translateX(10px); /* Lekkie przesunięcie w prawo */
+            background-color: var(--bg-card-hover);
+        }
+
+        /* Sekcja Lewa: Tytuł i status */
+        .t-head { display: flex; align-items: flex-start; gap: 20px; }
+        .t-icon-box {
+            font-size: 2em; color: var(--accent);
+            min-width: 50px; text-align: center;
+        }
+        .t-title-group h3 { font-size: 2em; line-height: 1.1; margin-bottom: 5px; }
+        .t-status { 
+            font-size: 0.85em; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--text-gray); 
+        }
+
+        /* Sekcja Środkowa: Metadane w siatce */
+        .t-meta-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            border-left: 1px solid #222;
+            border-right: 1px solid #222;
+            padding: 0 30px;
+        }
+        .meta-item { display: flex; flex-direction: column; gap: 5px; }
+        .meta-label { font-size: 0.75em; color: var(--text-gray); text-transform: uppercase; letter-spacing: 1px; }
+        .meta-value { font-weight: 700; font-size: 1.1em; color: #fff; font-family: 'Oswald'; }
+
+        /* Sekcja Prawa: Przycisk */
+        .t-action { text-align: right; }
+        .btn-details {
+            display: inline-flex; align-items: center; gap: 10px;
+            color: #fff; text-decoration: none; font-weight: bold;
+            font-family: 'Oswald'; letter-spacing: 1px;
+            border: 1px solid var(--border-color);
+            padding: 15px 30px;
+            transition: 0.3s;
+            white-space: nowrap;
+        }
+        .btn-details:hover {
+            background: var(--accent); border-color: var(--accent);
+        }
+
+        /* Warianty kolorystyczne (np. dla Charytatywnego) */
+        .t-row.charity:hover { border-color: var(--success); }
+        .t-row.charity .t-icon-box { color: var(--success); }
+        .t-row.charity .btn-details:hover { background: var(--success); border-color: var(--success); }
+        .text-green { color: var(--success) !important; }
+
+        /* Wariant dla minionych (przygaszony) */
+        .t-row.past { opacity: 0.8; }
+        .t-row.past .t-icon-box { color: var(--text-gray); }
+        .t-row.past:hover { opacity: 1; border-color: var(--text-gray); }
+        .t-row.past .btn-details:hover { background: #333; border-color: #333; }
+
+        /* RESPONSYWNOŚĆ */
+        @media (max-width: 1100px) {
+            .t-row { grid-template-columns: 1fr; gap: 20px; padding: 30px; }
+            .t-meta-grid { 
+                grid-template-columns: repeat(2, 1fr); 
+                border: none; padding: 20px 0; border-top: 1px solid #222; border-bottom: 1px solid #222;
+            }
+            .t-action { text-align: left; }
+            .btn-details { width: 100%; justify-content: center; }
+        }
+
+        @media (max-width: 600px) {
+            .top-nav { flex-direction: column; gap: 20px; text-align: center; }
+            .nav-links { flex-direction: column; gap: 15px; }
+            .page-header h1 { font-size: 3em; }
+            .t-head { flex-direction: column; gap: 10px; }
+            .t-icon-box { text-align: left; }
+        }
+
+        footer {
+            border-top: 1px solid var(--border-color); padding: 40px; text-align: center;
+            color: var(--text-gray); font-size: 0.8em; text-transform: uppercase; letter-spacing: 1px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <nav class="top-nav">
+            <a href="https://www.pubgpolska.pl" class="logo">
+                <img src="https://i.imgur.com/O50RI1X.png" alt="PUBG POLSKA">
+            </a>
+            <div class="nav-links">
+                <a href="https://www.pubgpolska.pl">HOME</a>
+                <a href="turnieje.html" class="active">TURNIEJE</a>
+                <a href="ranking.html">RANKINGI</a>
+                <a href="partnerzy.html">PARTNERZY</a>
+            </div>
+            <button class="btn-cta">ZALOGUJ SIĘ</button>
+        </nav>
+
+        <header class="page-header">
+            <h1>KALENDARZ <span style="color:var(--accent)">ROZGRYWEK</span></h1>
+            <p>Sprawdź nadchodzące wydarzenia, zapisz swoją drużynę lub zobacz wyniki zakończonych turniejów.</p>
+        </header>
+
+        <div class="tournaments-list">
+
+            <div class="t-row">
+                <div class="t-head">
+                    <div class="t-icon-box"><i class="fas fa-crown"></i></div>
+                    <div class="t-title-group">
+                        <div class="t-status" style="color:var(--accent)">Rejestracja Otwarta</div>
+                        <h3>TRIUMFATOR S6</h3>
+                    </div>
+                </div>
+                
+                <div class="t-meta-grid">
+                    <div class="meta-item">
+                        <span class="meta-label">Data Startu</span>
+                        <span class="meta-value">TBA</span>
+                    </div>
+                    <div class="meta-item">
+                        <span class="meta-label">Tryb</span>
+                        <span class="meta-value">SQUAD FPP</span>
+                    </div>
+                    <div class="meta-item">
+                        <span class="meta-label">Pula Nagród</span>
+                        <span class="meta-value">3 000 PLN</span>
+                    </div>
+                    <div class="meta-item">
+                        <span class="meta-label">Format</span>
+                        <span class="meta-value">GSL + Finał</span>
+                    </div>
+                </div>
+
+                <div class="t-action">
+                    <a href="triumfator6.html" class="btn-details">
+                        SZCZEGÓŁY <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+
+            <div class="t-row charity">
+                <div class="t-head">
+                    <div class="t-icon-box"><i class="fas fa-heart"></i></div>
+                    <div class="t-title-group">
+                        <div class="t-status text-green">Zakończony / Charytatywny</div>
+                        <h3>GRAMY DLA BORYSA</h3>
+                    </div>
+                </div>
+                
+                <div class="t-meta-grid">
+                    <div class="meta-item">
+                        <span class="meta-label">Data</span>
+                        <span class="meta-value">13.12.2025</span>
+                    </div>
+                    <div class="meta-item">
+                        <span class="meta-label">Tryb</span>
+                        <span class="meta-value">DUO FPP</span>
+                    </div>
+                    <div class="meta-item">
+                        <span class="meta-label">Zebrano</span>
+                        <span class="meta-value text-green">12 450 PLN</span>
+                    </div>
+                    <div class="meta-item">
+                        <span class="meta-label">Format</span>
+                        <span class="meta-value">Fun Cup (5 map)</span>
+                    </div>
+                </div>
+
+                <div class="t-action">
+                    <a href="turniej-charytatywny.html" class="btn-details">
+                        ZOBACZ WYNIKI <i class="fas fa-chart-bar"></i>
+                    </a>
+                </div>
+            </div>
+
+            <div class="t-row past">
+                <div class="t-head">
+                    <div class="t-icon-box"><i class="fas fa-trophy"></i></div>
+                    <div class="t-title-group">
+                        <div class="t-status">Zakończony</div>
+                        <h3>PUBG POLSKA CUP 2025</h3>
+                    </div>
+                </div>
+                
+                <div class="t-meta-grid">
+                    <div class="meta-item">
+                        <span class="meta-label">Data Finału</span>
+                        <span class="meta-value">29.11.2025</span>
+                    </div>
+                    <div class="meta-item">
+                        <span class="meta-label">Tryb</span>
+                        <span class="meta-value">SQUAD FPP</span>
+                    </div>
+                    <div class="meta-item">
+                        <span class="meta-label">Pula Nagród</span>
+                        <span class="meta-value">5 000 PLN</span>
+                    </div>
+                    <div class="meta-item">
+                        <span class="meta-label">Format</span>
+                        <span class="meta-value">Eliminacje + Finał</span>
+                    </div>
+                </div>
+
+                <div class="t-action">
+                    <a href="pubg-polska-cup.html" class="btn-details">
+                        WYNIKI <i class="fas fa-chart-bar"></i>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <footer>
+        &copy; 2025 PUBG POLSKA. Strona nie jest powiązana z KRAFTON, Inc.
+    </footer>
+
+</body>
+</html>

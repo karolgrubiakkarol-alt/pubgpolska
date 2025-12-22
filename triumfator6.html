@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TRIUMFATOR VI - Turniej DUO TPP</title>
+    <link rel="icon" href="https://i.imgur.com/HcTRskR.png" type="image/png">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;700&family=Rajdhani:wght@500;600;700&family=Roboto+Mono&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        /* === RESET & VARIABLES === */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --bg-body: #050505;
+            --bg-card: #0f0f0f;
+            --bg-card-hover: #141414;
+            --accent: #ff0019;
+            --accent-dark: #cc0014;
+            --text-main: #ffffff;
+            --text-gray: #888888;
+            --border-color: #1f1f1f;
+        }
+
+        body {
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            font-family: 'Rajdhani', sans-serif;
+            line-height: 1.5;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, .btn { font-family: 'Oswald', sans-serif; text-transform: uppercase; }
+        a { text-decoration: none; color: inherit; transition: 0.3s; }
+        ul { list-style: none; }
+
+        .container { max-width: 1600px; margin: 0 auto; padding: 0 40px; }
+
+        /* === NAV === */
+        .top-nav {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 30px 0; border-bottom: 1px solid var(--border-color); margin-bottom: 40px;
+        }
+        .logo img { height: 50px; filter: grayscale(1) brightness(2); transition: 0.3s; }
+        .logo:hover img { filter: none; }
+        .nav-links { display: flex; gap: 40px; }
+        .nav-links a {
+            color: var(--text-main); font-family: 'Oswald'; font-size: 14px;
+            font-weight: 700; letter-spacing: 2px;
+        }
+        .nav-links a:hover, .nav-links a.active { color: var(--accent); }
+        .btn-cta {
+            background-color: var(--accent); color: #fff; padding: 12px 30px;
+            font-weight: bold; font-size: 14px; letter-spacing: 1px; border: none; cursor: pointer;
+            border-radius: 0; 
+        }
+        .btn-cta:hover { background-color: var(--accent-dark); }
+
+        /* === HEADER TURNIEJU === */
+        .t-header { margin-bottom: 50px; border-bottom: 1px solid var(--border-color); padding-bottom: 30px; }
+        .t-header h1 { font-size: 4em; margin-bottom: 10px; line-height: 1; }
+        .t-breadcrumbs { color: var(--text-gray); font-size: 0.9em; text-transform: uppercase; letter-spacing: 1px; }
+        .t-breadcrumbs span { color: var(--accent); }
+
+        /* === LAYOUT GRID === */
+        .tournament-layout {
+            display: grid;
+            grid-template-columns: 2fr 1fr; /* 66% Treść / 33% Sidebar */
+            gap: 50px;
+            padding-bottom: 100px;
+        }
+
+        /* === SEKCJE === */
+        .section-box { margin-bottom: 50px; }
+        .section-title {
+            font-size: 1.8em; margin-bottom: 25px; border-left: 4px solid var(--accent); padding-left: 15px;
+        }
+
+        /* === ZAKŁADKI === */
+        .tabs-nav { margin-bottom: 20px; display: flex; gap: 5px; }
+        .tab-btn {
+            background: var(--bg-card); border: 1px solid var(--border-color); color: var(--text-gray);
+            padding: 10px 20px; font-family: 'Oswald'; cursor: pointer; text-transform: uppercase;
+            font-weight: bold; letter-spacing: 1px; flex-grow: 1; text-align: center;
+        }
+        .tab-btn.active, .tab-btn:hover { background: var(--accent); color: #fff; border-color: var(--accent); }
+        
+        .tab-content { display: none; padding: 30px; background: var(--bg-card); border: 1px solid var(--border-color); }
+        .tab-content.active { display: block; animation: fadeIn 0.3s; }
+        
+        /* INFO STYLES */
+        .info-list li { margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid #222; }
+        .info-list li:last-child { border:none; }
+        .schedule-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #222; }
+        .schedule-time { color: var(--accent); font-weight: bold; font-family: 'Roboto Mono'; width: 80px; }
+        .points-table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+        .points-table td { padding: 8px; border-bottom: 1px solid #222; font-family: 'Roboto Mono'; }
+        .points-table tr:first-child { color: var(--accent); font-weight: bold; }
+
+        /* === DRUŻYNY GRID === */
+        .teams-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
+        .team-card {
+            background: #111; border: 1px solid var(--border-color); padding: 20px;
+            display: flex; flex-direction: column; gap: 10px; transition: 0.3s;
+        }
+        .team-card:hover { border-color: var(--accent); transform: translateY(-3px); }
+        .tc-name { font-family: 'Oswald'; font-size: 1.2em; color: #fff; border-bottom: 1px solid #222; padding-bottom: 10px; margin-bottom: 5px; }
+        .tc-players { color: var(--text-gray); font-size: 0.9em; display: flex; flex-direction: column; gap: 5px; }
+        .tc-players span i { color: var(--accent); width: 20px; text-align: center; }
+
+        /* === SIDEBAR (Info) === */
+        .info-grid { display: grid; grid-template-columns: 1fr; gap: 1px; background: #222; border: 1px solid var(--border-color); }
+        .info-item { background: var(--bg-card); padding: 20px; display: flex; flex-direction: column; }
+        .info-label { font-size: 0.8em; color: var(--text-gray); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; }
+        .info-val { font-family: 'Oswald'; font-size: 1.2em; font-weight: 500; }
+        .info-val a { color: var(--accent); border-bottom: 1px solid var(--accent); }
+
+        /* PRZYCISKI */
+        .btn-big-action {
+            display: flex; align-items: center; justify-content: center; gap: 15px;
+            background: #1a1a1a; border: 1px solid var(--border-color); color: #fff;
+            padding: 30px; text-align: center; font-size: 1.2em; font-weight: bold;
+            transition: 0.3s; text-transform: uppercase;
+        }
+        .btn-big-action:hover { border-color: var(--accent); color: var(--accent); background: #0f0f0f; }
+        /* Styl dla głównego przycisku zapisu */
+        .btn-big-action.primary { background: var(--accent); border: none; }
+        .btn-big-action.primary:hover { background: var(--accent-dark); color: #fff; }
+
+        @media (max-width: 1000px) {
+            .tournament-layout { grid-template-columns: 1fr; }
+            .t-header h1 { font-size: 3em; }
+            .teams-grid { grid-template-columns: 1fr; }
+            .top-nav { flex-direction: column; gap: 20px; text-align: center; }
+            .nav-links { flex-direction: column; gap: 15px; }
+        }
+
+        footer {
+            border-top: 1px solid var(--border-color); padding: 40px; text-align: center;
+            color: var(--text-gray); font-size: 0.8em; text-transform: uppercase; letter-spacing: 1px; margin-top: 50px;
+        }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <nav class="top-nav">
+            <a href="https://www.pubgpolska.pl" class="logo">
+                <img src="https://i.imgur.com/O50RI1X.png" alt="PUBG POLSKA">
+            </a>
+            <div class="nav-links">
+                <a href="https://www.pubgpolska.pl">HOME</a>
+                <a href="turnieje.html" class="active">TURNIEJE</a>
+                <a href="ranking.html">RANKINGI</a>
+                <a href="partnerzy.html">PARTNERZY</a>
+            </div>
+            <button class="btn-cta">ZALOGUJ SIĘ</button>
+        </nav>
+
+        <header class="t-header">
+            <div class="t-breadcrumbs">TURNIEJE / NADCHODZĄCE</div>
+            <h1>TRIUMFATOR <span style="color:var(--accent)">VI</span></h1>
+            <p style="color:var(--text-gray); max-width: 800px; font-size: 1.2em;">
+                Największy turniej PUBG TPP w Polsce powraca! Format DUO, 50 drużyn i transmisja na żywo.
+            </p>
+        </header>
+
+        <div class="tournament-layout">
+            
+            <main>
+                <div style="width:100%; height:300px; background: radial-gradient(circle, #1a1a1a 0%, #050505 100%); display:flex; align-items:center; justify-content:center; border:1px solid var(--border-color); margin-bottom:40px;">
+                    <h2 style="color:#222; font-size:3em; text-align:center;">
+                        <i class="fab fa-twitch"></i> LIVE: ZlotyKat<br>
+                        <span style="font-size:0.4em; color:var(--text-gray)">27.12.2025 GODZ: 18:00</span>
+                    </h2>
+                </div>
+
+                <section class="section-box">
+                    <h2 class="section-title">DOŁĄCZ DO GRY</h2>
+                    <p style="margin-bottom:20px; color:var(--text-gray);">
+                        Zapisy trwają do piątku <strong>26.12.2025 (18:00)</strong>. Priorytet dla drużyn z dobrowolną wpłatą oraz pełnych składów DUO.
+                    </p>
+                    <a href="https://docs.google.com/forms/d/e/1FAIpQLSfQv1NARHmy47DnscbLggwhuh068zkxZErJu_lIM3-WMXD0Xw/viewform?usp=publish-editor" target="_blank" class="btn-big-action primary">
+                        <i class="fas fa-pen-square"></i> FORMULARZ ZGŁOSZENIOWY
+                    </a>
+                </section>
+
+                <section class="section-box" id="info-hub">
+                    <h2 class="section-title">CENTRUM TURNIEJOWE</h2>
+                    
+                    <div class="tabs-nav">
+                        <button class="tab-btn active" onclick="openTab('info')">INFO & ZASADY</button>
+                        <button class="tab-btn" onclick="openTab('teamy')">UCZESTNICY</button>
+                        <button class="tab-btn" onclick="openTab('wyniki-tab')">WYNIKI</button>
+                    </div>
+
+                    <div id="tab-info" class="tab-content active">
+                        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:40px;">
+                            <div>
+                                <h3 style="margin-bottom:20px; border-bottom:2px solid var(--accent); display:inline-block;">HARMONOGRAM (27.12)</h3>
+                                <div class="schedule-row"><span class="schedule-time">18:00</span><span class="schedule-map">Mecz 1: MIRAMAR</span></div>
+                                <div class="schedule-row"><span class="schedule-time">18:45</span><span class="schedule-map">Mecz 2: TAEGO</span></div>
+                                <div class="schedule-row"><span class="schedule-time">19:30</span><span class="schedule-map">Mecz 3: VIKENDI</span></div>
+                                <div class="schedule-row"><span class="schedule-time">20:15</span><span class="schedule-map">Mecz 4: ERANGEL</span></div>
+                                <div class="schedule-row"><span class="schedule-time">21:00</span><span class="schedule-map">Mecz 5: RONDO</span></div>
+                            </div>
+                            <div>
+                                <h3 style="margin-bottom:20px; border-bottom:2px solid var(--accent); display:inline-block;">PUNKTACJA</h3>
+                                <table class="points-table">
+                                    <tr><td>1. Miejsce</td><td>10 pkt</td></tr>
+                                    <tr><td>2. Miejsce</td><td>6 pkt</td></tr>
+                                    <tr><td>3. Miejsce</td><td>5 pkt</td></tr>
+                                    <tr><td>4. Miejsce</td><td>4 pkt</td></tr>
+                                    <tr><td>5. Miejsce</td><td>3 pkt</td></tr>
+                                    <tr><td>7-8. Miejsce</td><td>1 pkt</td></tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="tab-teamy" class="tab-content">
+                        <div id="teams-container" class="teams-grid">
+                            <p>Ładowanie listy drużyn...</p>
+                        </div>
+                    </div>
+
+                    <div id="tab-wyniki-tab" class="tab-content" style="text-align:center;">
+                        <i class="fas fa-trophy" style="font-size:3em; color:#333; margin-bottom:15px;"></i>
+                        <h3>Turniej startuje 27.12.2025</h3>
+                        <p style="color:var(--text-gray);">Tabele wyników będą aktualizowane na żywo po każdym meczu.</p>
+                    </div>
+                </section>
+
+                <section class="section-box" id="regulamin">
+                    <h2 class="section-title">DOKUMENTACJA</h2>
+                    <a href="regulamin-triumfator6.pdf" target="_blank" class="btn-big-action" style="font-size:1em; padding:20px;">
+                        <i class="fas fa-file-pdf"></i>
+                        POBIERZ PEŁNY REGULAMIN TRIUMFATOR VI (PDF)
+                    </a>
+                </section>
+            </main>
+
+            <aside>
+                
+                <div class="section-box">
+                    <div style="background:var(--accent); color:#fff; padding:15px; text-align:center; font-weight:bold; font-family:'Oswald'; letter-spacing:1px; margin-bottom:1px;">
+                        STATUS: REJESTRACJA
+                    </div>
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <span class="info-label">Data Finału</span>
+                            <span class="info-val">27.12.2025</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Start</span>
+                            <span class="info-val">18:00</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Format</span>
+                            <span class="info-val">DUO TPP</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Sloty</span>
+                            <span class="info-val">50 DRUŻYN</span>
+                        </div>
+                    </div>
+                    </div>
+
+                <div class="section-box">
+                    <h3 style="margin-bottom:20px;">ORGANIZATORZY</h3>
+                    <div style="background:var(--bg-card); padding:20px; border:1px solid var(--border-color);">
+                        <ul class="info-list" style="color:var(--text-gray); font-size:0.9em;">
+                            <li><i class="fas fa-user-shield" style="color:var(--accent)"></i> <strong>PUBG Polska</strong></li>
+                            <li><i class="fas fa-user-tag" style="color:var(--accent)"></i> <strong>Akerman88</strong></li>
+                        </ul>
+                        <hr style="border:0; border-top:1px solid #222; margin:15px 0;">
+                        <p style="margin-bottom:10px; font-weight:bold; color:#fff;">TRANSMISJA:</p>
+                        <a href="https://twitch.tv/zlotykat" target="_blank" style="color:#fff; display:flex; align-items:center; gap:10px; font-family:'Oswald'; font-size:1.1em;">
+                            <i class="fab fa-twitch" style="color:#9146FF"></i> ZlotyKat
+                        </a>
+                    </div>
+                </div>
+
+            </aside>
+
+        </div>
+
+        <footer>
+            &copy; 2025 PUBG POLSKA. Strona nie jest powiązana z KRAFTON, Inc.
+        </footer>
+    </div>
+
+    <script>
+        // === ZAKŁADKI ===
+        function openTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById('tab-' + tabName).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        // === PARSER CSV ===
+        function parseCSVRow(row) {
+            const columns = [];
+            let current = '';
+            let inQuotes = false;
+            for(let i=0; i<row.length; i++){
+                if(row[i] === '"') { inQuotes = !inQuotes; }
+                else if(row[i] === ',' && !inQuotes) { columns.push(current); current = ''; }
+                else { current += row[i]; }
+            }
+            columns.push(current);
+            return columns.map(c => c.trim().replace(/^"|"$/g, ''));
+        }
+
+        // === POBIERANIE DRUŻYN LIVE ===
+        const TEAMS_SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQv5gZoWCeLlicqhyjJqjl8keuSAG7hDfEz-9kpDI5zSZEUYpmD0tcUj0pkY4sKdcJ5Nk-DXKYGwCxK/pub?output=csv';
+
+        async function loadTeams() {
+            const container = document.getElementById('teams-container');
+            try {
+                const response = await fetch(TEAMS_SHEET_URL);
+                if(!response.ok) throw new Error("Błąd pobierania");
+                
+                const text = await response.text();
+                const rows = text.split(/\r?\n/);
+                
+                container.innerHTML = ''; 
+                let count = 0;
+
+                // Pomijamy nagłówek (row 0)
+                rows.slice(1).forEach(row => {
+                    if(!row.trim()) return;
+                    
+                    const cols = parseCSVRow(row);
+                    
+                    // INDEKSY (0-based):
+                    // C (Nazwa drużyny) = 2
+                    // D (Gracz 1) = 3
+                    // F (Gracz 2) = 5
+                    
+                    const teamName = cols[2]; 
+                    const player1 = cols[3];
+                    const player2 = cols[5];
+
+                    if(!teamName) return; 
+
+                    count++;
+                    const card = document.createElement('div');
+                    card.className = 'team-card';
+                    card.innerHTML = `
+                        <div class="tc-name"><span style="color:var(--accent); font-size:0.8em; margin-right:5px;">#${count}</span> ${teamName}</div>
+                        <div class="tc-players">
+                            <span><i class="fas fa-user"></i> ${player1}</span>
+                            <span><i class="fas fa-user"></i> ${player2 ? player2 : '<em style="opacity:0.5">TBA</em>'}</span>
+                        </div>
+                    `;
+                    container.appendChild(card);
+                });
+
+                if(count === 0) {
+                    container.innerHTML = '<p style="grid-column: 1/-1; text-align:center; padding:20px;">Brak zgłoszonych drużyn.</p>';
+                }
+
+            } catch(e) {
+                console.error(e);
+                container.innerHTML = '<p style="color:var(--accent); padding:20px;">Wystąpił błąd podczas ładowania listy drużyn.</p>';
+            }
+        }
+
+        // Uruchomienie pobierania
+        loadTeams();
+    </script>
+</body>
+</html>

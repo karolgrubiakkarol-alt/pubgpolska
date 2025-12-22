@@ -3,140 +3,386 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PUBG POLSKA - Strona Główna</title>
+    <title>PUBG POLSKA - Esports Edition</title>
     <link rel="icon" href="https://i.imgur.com/HcTRskR.png" type="image/png">
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&family=Rajdhani:wght@500;600;700&family=Roboto:wght@400;500&family=Roboto+Mono&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;700&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
     <style>
-        /* ========================================= */
-        /* PUBG POLSKA - GAMING THEME 2025      */
-        /* ========================================= */
+        /* === RESET === */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
 
         :root {
-            --primary: #ffc107;       /* PUBG Gold */
-            --dark-bg: #0b0c10;       /* Głęboka czerń */
-            --panel-bg: rgba(20, 22, 25, 0.95); /* Ciemny panel */
-            --text-main: #c5c6c7;     /* Szary tekst */
-            --text-white: #ffffff;
+            /* KOLORY Z REFERENCJI (Image based) */
+            --bg-body: #050505;       /* Głęboka czerń */
+            --bg-card: #0f0f0f;       /* Ciemny grafit kart */
+            --bg-card-hover: #141414;
+            
+            --accent: #ff0019;        /* Agresywna czerwień */
+            --accent-dark: #cc0014;
+            
+            --text-main: #ffffff;
+            --text-gray: #888888;
+            --border-color: #1f1f1f;
         }
 
         body {
-            background-color: var(--dark-bg);
-            background: radial-gradient(circle at center, #1a1a1d 0%, #000000 100%);
+            background-color: var(--bg-body);
             color: var(--text-main);
-            font-family: 'Roboto', sans-serif;
-            margin: 0;
-            padding: 0;
-            line-height: 1.6;
+            font-family: 'Rajdhani', sans-serif;
+            line-height: 1.5;
+            overflow-x: hidden;
         }
 
-        .page-wrapper {
-            width: 95%;
-            max-width: 1240px;
-            margin: 40px auto;
-            background-color: var(--panel-bg);
-            border: 1px solid #333;
-            border-top: 4px solid var(--primary);
-            box-shadow: 0 0 50px rgba(0,0,0,0.9);
-            min-height: 100vh;
+        /* TYPOGRAFIA W STYLU ESPORTS */
+        h1, h2, h3, .btn {
+            font-family: 'Oswald', sans-serif;
+            text-transform: uppercase;
+        }
+
+        /* LAYOUT */
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 0 40px;
+        }
+
+        /* HEADER - Pasek nawigacji */
+        .top-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 30px 0;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 60px;
+        }
+
+        .logo img {
+            height: 50px;
+            filter: grayscale(1) brightness(2); /* Białe logo */
+            transition: 0.3s;
+        }
+        .logo:hover img { filter: none; }
+
+        .nav-links {
+            display: flex; gap: 40px;
+        }
+        .nav-links a {
+            color: var(--text-main);
+            text-decoration: none;
+            font-family: 'Oswald';
+            font-size: 14px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            transition: 0.3s;
+        }
+        .nav-links a:hover { color: var(--accent); }
+
+        .btn-cta {
+            background-color: var(--accent);
+            color: #fff;
+            padding: 12px 30px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 14px;
+            letter-spacing: 1px;
+            border: none;
+            cursor: pointer;
+            transition: 0.3s;
+            /* ZERO RADIUS - STYL ZE ZDJĘCIA */
+            border-radius: 0; 
+        }
+        .btn-cta:hover { background-color: var(--accent-dark); }
+
+        /* HERO SECTION */
+        .hero {
+            margin-bottom: 80px;
+        }
+        .hero h1 {
+            font-size: 5em;
+            line-height: 1;
+            letter-spacing: -2px;
+            margin-bottom: 20px;
+        }
+        .hero p {
+            color: var(--text-gray);
+            font-size: 1.2em;
+            max-width: 600px;
+        }
+
+        /* GŁÓWNY GRID */
+        .main-grid {
+            display: grid;
+            grid-template-columns: 3fr 1fr; /* Podział 75% / 25% */
+            gap: 50px;
+            padding-bottom: 100px;
+        }
+
+        /* SEKCJE NAGŁÓWKI */
+        .section-title {
+            font-size: 2.5em;
+            margin-bottom: 40px;
+            position: relative;
+            padding-left: 20px;
+        }
+        /* Czerwony prostokąt obok nagłówka */
+        .section-title::before {
+            content: '';
+            position: absolute;
+            left: 0; top: 10px; bottom: 10px;
+            width: 6px;
+            background-color: var(--accent);
+        }
+
+        /* KARTY TURNIEJÓW (Grid 2 kolumny) */
+        .tournaments-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+        }
+
+        .t-card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            padding: 40px;
+            transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+            position: relative;
             display: flex;
             flex-direction: column;
-            backdrop-filter: blur(5px);
+            justify-content: space-between;
+            min-height: 300px;
+            /* Ostre krawędzie */
+            border-radius: 0;
+            
+            /* ZMIANA: Aby cały kafel był linkiem */
+            text-decoration: none;
+            color: inherit;
         }
-
-        .main-header {
-            background: linear-gradient(180deg, #181818 0%, #121212 100%);
-            padding: 25px;
-            text-align: center;
-            border-bottom: 1px solid #333;
-            position: relative;
-            cursor: pointer;
-        }
-        .main-header::after {
-            content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 1px;
-            background: linear-gradient(90deg, transparent, var(--primary), transparent);
-        }
-        .header-logo {
-            max-width: 280px; height: auto; display: block; margin: 0 auto;
-            transition: transform 0.3s; filter: drop-shadow(0 0 10px rgba(255,193,7,0.1));
-        }
-        .main-header:hover .header-logo { transform: scale(1.05); filter: drop-shadow(0 0 20px rgba(255,193,7,0.4)); }
-
-        .main-navbar {
-            background-color: #0f0f0f; padding: 0; display: flex; justify-content: center; flex-wrap: wrap;
-            border-bottom: 1px solid #333; position: sticky; top: 0; z-index: 1000;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
-        }
-        .main-navbar a {
-            color: #888; text-decoration: none; font-family: 'Rajdhani', sans-serif;
-            font-size: 1.2em; font-weight: 700; text-transform: uppercase; padding: 18px 25px;
-            transition: 0.3s; position: relative; letter-spacing: 1px;
-        }
-        .main-navbar a:hover, .main-navbar a.active {
-            color: var(--primary); background: rgba(255, 193, 7, 0.05);
-            text-shadow: 0 0 8px rgba(255, 193, 7, 0.6);
-        }
-        .main-navbar a.active::after {
-            content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 3px;
-            background: var(--primary); box-shadow: 0 -2px 10px var(--primary);
-        }
-
-        .content-padding { padding: 60px 20px; flex-grow: 1; text-align: center; }
         
-        h1 { font-family: 'Oswald', sans-serif; color: var(--primary); font-size: 2.5em; text-transform: uppercase; margin-bottom: 20px; }
-        p { font-size: 1.2em; color: #ccc; max-width: 800px; margin: 0 auto 20px auto; }
-
-        /* Welcome Box stylizowany na kartę teamu */
-        .welcome-box { 
-            background: linear-gradient(135deg, #222 0%, #1a1a1a 100%);
-            padding: 30px; 
-            border: 1px solid #333;
-            border-left: 4px solid var(--primary); 
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-            display: inline-block; 
-            margin-top: 40px; 
-            border-radius: 4px;
-            min-width: 300px;
-        }
-        .welcome-box h3 {
-            font-family: 'Rajdhani', sans-serif; font-size: 1.5em; margin-top: 0; color: var(--primary); text-transform: uppercase;
+        /* Obrazek w tle karty (opcjonalny, tutaj symulowany gradientem) */
+        .t-card::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at top right, rgba(30,30,30,1) 0%, transparent 60%);
+            z-index: 0;
         }
 
-        footer { text-align: center; padding: 30px; border-top: 1px solid #333; margin-top: auto; color: #555; font-size: 0.9em; }
+        .t-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-5px);
+        }
+
+        .t-content { position: relative; z-index: 1; }
+        
+        .t-icon {
+            font-size: 2em; color: var(--accent); margin-bottom: 20px;
+        }
+
+        .t-card h3 {
+            font-size: 2em; margin-bottom: 10px; line-height: 1;
+        }
+        .t-status {
+            color: var(--text-gray); font-size: 0.9em; font-weight: 700; letter-spacing: 1px; text-transform: uppercase;
+        }
+
+        .t-details {
+            margin-top: 30px;
+            border-top: 1px solid #222;
+            padding-top: 20px;
+            display: flex; justify-content: space-between;
+            color: var(--text-gray); font-size: 0.9em;
+        }
+        .t-details span { color: #fff; font-weight: bold; }
+
+        .btn-card {
+            margin-top: 20px;
+            display: inline-block;
+            color: #fff;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 0.9em;
+            letter-spacing: 1px;
+            border-bottom: 2px solid var(--accent);
+            padding-bottom: 5px;
+            transition: 0.3s;
+        }
+        .t-card:hover .btn-card { color: var(--accent); }
+
+        /* SIDEBAR - STYL "TEAM" ZE ZDJĘCIA */
+        .sidebar { display: flex; flex-direction: column; gap: 40px; }
+
+        .widget-box {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            padding: 0; /* Padding usunięty dla efektu full-img */
+        }
+        
+        /* Widget Fantasy - zmodyfikowany pod obrazek */
+        .fantasy-img {
+            width: 100%; height: 200px;
+            background-color: #1a1a1a;
+            /* Ustawienie obrazka tła */
+            background-position: center;
+            background-size: cover;
+            background-repeat: no-repeat;
+            
+            display: flex; align-items: center; justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .fantasy-content { padding: 30px; text-align: center; }
+        
+        .fantasy-content h3 { font-size: 1.5em; margin-bottom: 10px; }
+        .fantasy-content p { color: var(--text-gray); font-size: 0.9em; margin-bottom: 20px; }
+
+        .btn-full {
+            display: block; width: 100%;
+            background: var(--accent); color: #fff;
+            padding: 15px 0; text-align: center; text-decoration: none;
+            font-weight: bold; text-transform: uppercase; letter-spacing: 1px;
+            transition: 0.3s;
+        }
+        .btn-full:hover { background: #fff; color: #000; }
+
+        /* Social List - Surowa lista */
+        .social-list { list-style: none; }
+        .social-item {
+            display: flex; align-items: center;
+            padding: 20px;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-gray);
+            text-decoration: none;
+            transition: 0.3s;
+            font-weight: 600;
+        }
+        .social-item:hover { background: #111; color: #fff; padding-left: 25px; }
+        .social-item i { width: 30px; color: var(--accent); }
+
+        @media (max-width: 1000px) {
+            .main-grid { grid-template-columns: 1fr; }
+            .tournaments-grid { grid-template-columns: 1fr; }
+            .hero h1 { font-size: 3em; }
+            .top-nav { flex-direction: column; gap: 20px; text-align: center; }
+            .nav-links { flex-direction: column; gap: 15px; }
+        }
+
+        footer {
+            border-top: 1px solid var(--border-color);
+            padding: 40px; text-align: center;
+            color: var(--text-gray); font-size: 0.8em;
+            text-transform: uppercase; letter-spacing: 1px;
+        }
     </style>
 </head>
 <body>
 
-<div class="page-wrapper">
-    <header class="main-header" onclick="window.location.href='https://www.pubgpolska.pl/'">
-        <img src="https://i.imgur.com/O50RI1X.png" alt="PUBG POLSKA" class="header-logo">
-    </header>
+    <div class="container">
+        <nav class="top-nav">
+            <a href="https://pubgpolska.pl" class="logo">
+                <img src="https://i.imgur.com/O50RI1X.png" alt="PUBG POLSKA">
+            </a>
+            <div class="nav-links">
+                <a href="https://pubgpolska.pl">HOME</a>
+                <a href="turnieje.html">TURNIEJE</a>
+                <a href="ranking.html">RANKINGI</a>
+                <a href="partnerzy.html">PARTNERZY</a>
+            </div>
+            <button class="btn-cta">ZALOGUJ SIĘ</button>
+        </nav>
 
-    <nav class="main-navbar">
-        <a href="https://www.pubgpolska.pl/" class="active">Strona Główna</a>
-        <a href="turniej-charytatywny.html">Turniej Charytatywny 2025</a>
-        <a href="pubg-polska-cup.html">PUBG POLSKA CUP 2025</a>
-        <a href="fantasycoach.html">Fantasy Coach</a>
-    </nav>
+        <header class="hero">
+            <h1>CENTRUM <span style="color:var(--accent)">ROZGRYWEK</span></h1>
+            <p>Dołącz do elity polskiej sceny PUBG. Walcz o nagrody, buduj reputację i wspinaj się w rankingach.</p>
+        </header>
 
-    <div class="content-padding">
-        <h1>Witamy na oficjalnej stronie PUBG POLSKA</h1>
-        <p>Centrum polskich turniejów PUBG. Wybierz interesujące Cię wydarzenie z menu powyżej, aby sprawdzić szczegóły, wyniki oraz składy drużyn.</p>
-        
-        <div class="welcome-box">
-            <h3>AKTUALNE WYDARZENIA</h3>
-            <p style="margin-bottom:5px; color:#fff;">Zobacz wyniki: <strong style="color:var(--primary)">Turnieju Charytatywnego 2025</strong></p>
-            <p style="margin-top:5px; color:#aaa;">Zobacz wyniki: <strong>PUBG POLSKA CUP 2025</strong></p>
+        <div class="main-grid">
+            
+            <section>
+                <h2 class="section-title">NADCHODZĄCE WYDARZENIA</h2>
+                
+                <div class="tournaments-grid">
+                    
+                    <a href="triumfator6.html" class="t-card">
+                        <div class="t-content">
+                            <i class="fas fa-crown t-icon"></i>
+                            <div class="t-status">Rejestracja Otwarta</div>
+                            <h3>TRIUMFATOR S6</h3>
+                        </div>
+                        <div class="t-details">
+                            <div>START: <span>27.12.2025</span></div>
+                            <span class="btn-card">DOŁĄCZ <i class="fas fa-arrow-right"></i></span>
+                        </div>
+                    </a>
+
+                    <a href="turniej-charytatywny.html" class="t-card" style="border-top: 4px solid #22c55e;">
+                        <div class="t-content">
+                            <i class="fas fa-heart t-icon" style="color:#22c55e;"></i>
+                            <div class="t-status" style="color:#22c55e;">Charytatywny</div>
+                            <h3>GRAMY DLA BORYSA</h3>
+                        </div>
+                        <div class="t-details">
+                            <div>DATA: <span>13.12.2025</span></div>
+                            <span class="btn-card">SZCZEGÓŁY <i class="fas fa-arrow-right"></i></span>
+                        </div>
+                    </a>
+
+                    <a href="pubg-polska-cup.html" class="t-card">
+                        <div class="t-content">
+                            <i class="fas fa-trophy t-icon"></i>
+                            <div class="t-status">Eliminacje</div>
+                            <h3>PUBG POLSKA CUP 2025</h3>
+                        </div>
+                        <div class="t-details">
+                            <div>DATA: <span>29.11.2025</span></div>
+                            <span class="btn-card">WIĘCEJ <i class="fas fa-arrow-right"></i></span>
+                        </div>
+                    </a>
+
+                </div>
+            </section>
+
+            <aside class="sidebar">
+                
+                <div class="widget-box">
+                    <div class="fantasy-img" style="background-image: url('https://i.imgur.com/nKnCX2W.png');">
+                        <div style="position:absolute; bottom:0; left:0; background:var(--accent); color:#fff; padding: 5px 15px; font-weight:bold; font-size: 12px; font-family:'Oswald'">HOT</div>
+                    </div>
+                    <div class="fantasy-content">
+                        <h3>FANTASY COACH</h3>
+                        <p>Zbuduj swój dream team i wygrywaj nagrody.</p>
+                        <a href="https://fantasycoach.web.app/fantasy.html" class="btn-full">ZAGRAJ TERAZ</a>
+                    </div>
+                </div>
+
+                <div class="widget-box">
+                    <div style="padding: 20px; border-bottom:1px solid #222;">
+                        <h3 style="margin:0; font-size:1.2em;">FOLLOW US</h3>
+                    </div>
+                    <div class="social-list">
+                        <a href="https://discord.com/invite/pubgpolska" target="_blank" class="social-item">
+                            <i class="fab fa-discord"></i> DISCORD
+                        </a>
+                        <a href="https://x.com/PUBG_PolskaPL" target="_blank" class="social-item">
+                            <i class="fab fa-x-twitter"></i> TWITTER / X
+                        </a>
+                        <a href="https://www.youtube.com/@pubgpolskapl" target="_blank" class="social-item">
+                            <i class="fab fa-youtube"></i> YOUTUBE
+                        </a>
+                    </div>
+                </div>
+
+            </aside>
+
         </div>
     </div>
 
     <footer>
         &copy; 2025 PUBG POLSKA. Strona nie jest powiązana z KRAFTON, Inc.
     </footer>
-</div>
 
 </body>
 </html>

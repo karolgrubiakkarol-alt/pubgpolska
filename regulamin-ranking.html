@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Regulamin Rankingów - PUBG POLSKA</title>
+    <link rel="icon" href="https://i.imgur.com/HcTRskR.png" type="image/png">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;700&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        /* === IMPORT STYLE Z INDEXX.HTML (ZACHOWANIE SPÓJNOŚCI) === */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --bg-body: #050505;
+            --bg-card: #0f0f0f;
+            --bg-card-hover: #141414;
+            --accent: #ff0019;
+            --accent-dark: #cc0014;
+            --text-main: #ffffff;
+            --text-gray: #888888;
+            --border-color: #1f1f1f;
+        }
+
+        body {
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            font-family: 'Rajdhani', sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, .btn, .rule-number {
+            font-family: 'Oswald', sans-serif;
+            text-transform: uppercase;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 40px;
+        }
+
+        /* NAVBAR */
+        .top-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 30px 0;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 60px;
+        }
+        .logo img { height: 50px; filter: grayscale(1) brightness(2); transition: 0.3s; }
+        .logo:hover img { filter: none; }
+        
+        .nav-links { display: flex; gap: 40px; }
+        .nav-links a {
+            color: var(--text-main); text-decoration: none; font-family: 'Oswald';
+            font-size: 14px; font-weight: 700; letter-spacing: 2px; transition: 0.3s;
+        }
+        .nav-links a:hover { color: var(--accent); }
+
+        .btn-cta {
+            background-color: var(--accent); color: #fff; padding: 12px 30px;
+            text-decoration: none; font-weight: bold; font-size: 14px; letter-spacing: 1px;
+            border: none; cursor: pointer; transition: 0.3s; border-radius: 0;
+        }
+        .btn-cta:hover { background-color: var(--accent-dark); }
+
+        /* HEADER PODSTRONY */
+        .page-header { margin-bottom: 60px; border-left: 6px solid var(--accent); padding-left: 30px; }
+        .page-header h1 { font-size: 3.5em; line-height: 1; margin-bottom: 10px; }
+        .page-header p { color: var(--text-gray); font-size: 1.2em; }
+
+        /* === SEKCJE REGULAMINU === */
+        
+        .rules-wrapper {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 40px;
+            margin-bottom: 100px;
+        }
+
+        .rule-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            padding: 40px;
+            position: relative;
+        }
+        .rule-card::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 4px; height: 100%;
+            background: #222; transition: 0.3s;
+        }
+        .rule-card:hover::before { background: var(--accent); }
+
+        .rule-title {
+            font-size: 1.8em; margin-bottom: 25px; color: #fff; border-bottom: 1px solid #222; padding-bottom: 15px;
+            display: flex; align-items: center; gap: 15px;
+        }
+        .rule-title i { color: var(--accent); }
+
+        .rule-content { color: #bbb; font-size: 1.1em; }
+        
+        .rule-list { list-style: none; counter-reset: rule-counter; }
+        .rule-list li {
+            position: relative;
+            margin-bottom: 20px;
+            padding-left: 40px;
+        }
+        .rule-list li::before {
+            counter-increment: rule-counter;
+            content: counter(rule-counter) ".";
+            position: absolute; left: 0; top: 0;
+            font-family: 'Oswald'; font-weight: bold; color: var(--accent); font-size: 1.2em;
+        }
+
+        /* Wzory matematyczne i wyróżnienia */
+        .formula-box {
+            background: #141414;
+            border-left: 4px solid var(--accent);
+            padding: 20px;
+            margin: 20px 0;
+            font-family: 'Oswald';
+            font-size: 1.2em;
+            color: #fff;
+            text-align: center;
+        }
+        .highlight { color: #fff; font-weight: bold; }
+        .status-danger { color: #ff4444; font-weight: bold; }
+        .status-success { color: #22c55e; font-weight: bold; }
+
+        /* Example cases box */
+        .cases-box {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-top: 20px;
+        }
+        .case-item {
+            background: #000; padding: 15px; border: 1px solid #222; font-size: 0.9em;
+        }
+        .case-title { font-family: 'Oswald'; font-size: 1.1em; margin-bottom: 5px; display: block; }
+
+        @media (max-width: 800px) {
+            .top-nav { flex-direction: column; gap: 20px; }
+            .nav-links { flex-direction: column; text-align: center; }
+            .page-header h1 { font-size: 2.5em; }
+            .cases-box { grid-template-columns: 1fr; }
+        }
+
+        footer {
+            border-top: 1px solid var(--border-color);
+            padding: 40px; text-align: center;
+            color: var(--text-gray); font-size: 0.8em;
+            text-transform: uppercase; letter-spacing: 1px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <nav class="top-nav">
+            <a href="https://www.pubgpolska.pl" class="logo">
+                <img src="https://i.imgur.com/O50RI1X.png" alt="PUBG POLSKA">
+            </a>
+            <div class="nav-links">
+                <a href="https://www.pubgpolska.pl">HOME</a>
+                <a href="turnieje.html">TURNIEJE</a>
+                <a href="ranking.html">RANKINGI</a>
+                <a href="partnerzy.html">PARTNERZY</a>
+            </div>
+            <button class="btn-cta">ZALOGUJ SIĘ</button>
+        </nav>
+
+        <header class="page-header">
+            <h1>REGULAMIN <span style="color:var(--accent)">RANKINGÓW</span></h1>
+            <p>Zasady obliczania punktów, definicje składów oraz wymogi kwalifikacyjne na sezon 2025/2026.</p>
+        </header>
+
+        <div class="rules-wrapper">
+
+            <div class="rule-card">
+                <h2 class="rule-title"><i class="fas fa-calculator"></i> 1. METODOLOGIA PUNKTACJI (DRUŻYNY)</h2>
+                <div class="rule-content">
+                    <p>W rankingu drużynowym o pozycji decyduje wskaźnik średniej punktowej (Average Score). Ma to na celu sprawiedliwe porównanie zespołów biorących udział w różnej liczbie wydarzeń.</p>
+                    
+                    <div class="formula-box">
+                        WYNIK = SUMA ZDOBYTYCH PUNKTÓW / LICZBA ZAGRANYCH TURNIEJÓW
+                    </div>
+
+                    <ul class="rule-list">
+                        <li>Punkty zliczane są wyłącznie z oficjalnych turniejów objętych rangą rankingową PUBG Polska.</li>
+                        <li>W przypadku remisu w średniej punktowej, decyduje większa liczba rozegranych turniejów.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="rule-card">
+                <h2 class="rule-title"><i class="fas fa-stopwatch"></i> 2. WYMÓG AKTYWNOŚCI (51%)</h2>
+                <div class="rule-content">
+                    <p>Aby drużyna lub zawodnik zostali sklasyfikowani w oficjalnym rankingu sezonowym, muszą spełnić warunek minimalnej frekwencji.</p>
+                    <br>
+                    <ul class="rule-list">
+                        <li>Wymagane jest wzięcie udziału w minimum <span class="highlight">51%</span> wszystkich turniejów organizowanych w danym sezonie/cyklu rankingowym.</li>
+                        <li>Uczestnicy z frekwencją poniżej 51% będą widoczni w bazie danych, ale nie będą uwzględniani przy przyznawaniu nagród sezonowych oraz tytułów mistrzowskich.</li>
+                        <li>Przykład: Jeśli w sezonie odbywa się 10 turniejów, wymagany jest udział w co najmniej 6 z nich.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="rule-card">
+                <h2 class="rule-title"><i class="fas fa-users-cog"></i> 3. CIĄGŁOŚĆ DRUŻYNY (ROSTER LOCK)</h2>
+                <div class="rule-content">
+                    <p>Dla zachowania integralności rywalizacji drużynowej, wprowadzamy ścisłe zasady dotyczące zmian w składach (rosterach) pomiędzy turniejami.</p>
+                    <br>
+                    
+                    <h3 style="color:#fff; margin-bottom:10px;">ZASADY ZMIAN:</h3>
+                    <ul class="rule-list">
+                        <li>Dopuszczalna jest <span class="highlight">maksymalnie 1 zmienna osoba</span> (spoza głównego składu) w różnych turniejach, aby drużyna zachowała swoją tożsamość punktową.</li>
+                        <li>Wprowadzenie <span class="status-danger">2 nowych zawodników</span> (niebędących zgłoszonymi rezerwowymi) w stosunku do poprzedniego turnieju skutkuje traktowaniem zespołu jako <span class="status-danger">NOWA DRUŻYNA</span>. Punkty nie przechodzą na nowe konto.</li>
+                        <li><strong>Wyjątek - Rezerwowi:</strong> Zmiana zawodnika z głównego składu na zgłoszonego wcześniej zawodnika rezerwowego (Sub) <span class="status-success">NIE JEST</span> traktowana jako naruszenie ciągłości składu.</li>
+                    </ul>
+
+                    <div class="cases-box">
+                        <div class="case-item" style="border-top: 3px solid #22c55e;">
+                            <span class="case-title" style="color:#22c55e">SYTUACJA A (DOZWOLONE)</span>
+                            Skład: 3 graczy z bazy + 1 nowy gracz (stand-in).<br>
+                            <strong>Werdykt:</strong> Punkty są zliczane dla tej samej drużyny.
+                        </div>
+                        <div class="case-item" style="border-top: 3px solid #22c55e;">
+                            <span class="case-title" style="color:#22c55e">SYTUACJA B (DOZWOLONE)</span>
+                            Skład: 2 graczy z bazy + 2 rezerwowych zgłoszonych w profilu teamu.<br>
+                            <strong>Werdykt:</strong> Punkty są zliczane (rezerwowi są częścią teamu).
+                        </div>
+                        <div class="case-item" style="border-top: 3px solid #ff0019;">
+                            <span class="case-title" style="color:var(--accent)">SYTUACJA C (RESET)</span>
+                            Skład: 2 graczy z bazy + 2 losowych graczy (niezgłoszonych).<br>
+                            <strong>Werdykt:</strong> Drużyna traktowana jako nowy byt. Punkty liczone od zera.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="rule-card">
+                <h2 class="rule-title"><i class="fas fa-user-tag"></i> 4. RANKING INDYWIDUALNY</h2>
+                <div class="rule-content">
+                    <p>Klasyfikacja indywidualna opiera się na zewnętrznym systemie oceny umiejętności i skuteczności gracza.</p>
+                    
+                    <div class="formula-box">
+                        WYNIK = ŚREDNIA PUNKTÓW Z APLIKACJI "FANTASY COACH"
+                    </div>
+
+                    <ul class="rule-list">
+                        <li>O miejscu w rankingu decyduje średnia liczba punktów zdobyta przez zawodnika w aplikacji <strong>Fantasy Coach</strong>.</li>
+                        <li>Punkty są naliczane zgodnie z algorytmem zaszytym w aplikacji Fantasy Coach.</li>
+                        <li>Aby zostać sklasyfikowanym w oficjalnym rankingu sezonowym, zawodnik nadal musi spełnić wymóg <span class="highlight">51% frekwencji</span> w turniejach (patrz pkt. 2).</li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+        
+        <div style="text-align:center; margin-bottom: 80px;">
+            <a href="ranking.html" class="btn-cta"><i class="fas fa-arrow-left"></i> POWRÓT DO RANKINGÓW</a>
+        </div>
+
+    </div>
+
+    <footer>
+        &copy; 2025 PUBG POLSKA. Strona nie jest powiązana z KRAFTON, Inc.
+    </footer>
+
+</body>
+</html>
